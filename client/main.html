@@ -1,25 +1,45 @@
 <head>
-  <title>islamiccharities_code</title>
+    <meta charset="utf-8">
+    <title>Slideout Demo</title>
+    <meta http-equiv="cleartype" content="on">
+    <meta name="MobileOptimized" content="320">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/picnicss/6.1.2/picnic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.11/slideout.min.js"></script>
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+    <nav id="menu">
+        <h2>Menu</h2>
+        <ul>
+          <li>one</li>
+          <li>two</li>
+          <li>three</li>
+          <li>four</li>
+        </ul>
+    </nav>
+    <main id="panel">
+        <header>
+            <button class="toggle-button">☰</button>
+            <h2>Panel</h2>
+            <p>Hello my name is imran
+            i'm testing the picnic css</p>
+        </header>
+    </main>
+    <script src="dist/slideout.min.js"></script>
+    <script>
+    var slideout = new Slideout({
+        'panel': document.getElementById('panel'),
+        'menu': document.getElementById('menu'),
+        'padding': 256,
+        'tolerance': 70
+    });
 
-  {{> hello}}
-  {{> info}}
+    // Toggle button 
+    document.querySelector('.toggle-button').addEventListener('click', function() {
+        slideout.toggle();
+    });
+    </script>
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
-
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
-</template>
