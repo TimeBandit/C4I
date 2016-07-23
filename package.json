@@ -8,7 +8,10 @@
     "meteor-node-stubs": "~0.2.0",
     "picnic": "^6.1.2",
     "react": "^15.2.1",
+    "react-addons-pure-render-mixin": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-router": "^2.6.0",
-    "slideout": "^0.1.12"
+    "slideout": "^0.1.12",
+    "soap": "^0.16.0"
   }
 }
