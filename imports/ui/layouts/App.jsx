@@ -1,19 +1,24 @@
+// libs
 import React from 'react';
-// enables React animations
 import { Meteor } from 'meteor/meteor';
-// import { Session } from 'meteor/session'; // XXX: SESSION
 
-export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-        // bind the events with this
-    }
+// css
+import "picnic/picnic.min.css";
+import './App.less';
 
-    render() {
-        <div>
-            <p>hello</p>
+// components
+import Menu from "../components/Menu";
+
+const App = (props) => (
+    <span>
+        <Menu />
+        <button className="toggle-button">☰</button>
+        <div className="content" id="panel">
+            <header>                
+                <h2>Panel</h2>
+            </header>
         </div>
-    }
-}
+    </span>
+)
+
+export default App;

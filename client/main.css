@@ -33,15 +33,3 @@ body {
 .slideout-open .slideout-menu {
     display: block;
 }
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-    list-style: none;
-}
-
-
-header {
-	margin: 50px auto;
-}
