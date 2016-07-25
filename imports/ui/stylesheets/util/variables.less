@@ -1,6 +1,7 @@
 /* defaults */
 
 @screen-width: 800px;
+@base-font-size: 16px;
 
 /* colors */
 
@@ -15,13 +16,24 @@
 
 
 // media queries
+
+@media only screen and (min-width: 801px) {
+    body {
+        font-size: 100%;
+    }
+
+    .heading {
+    	font-size: 300%
+    }
+}
+
 @media only screen and (max-width: 800px) {
     body {
         font-size: 100%;
     }
 
     .heading {
-    	font-size: 200%
+    	font-size: 300%
     }
 }
 
