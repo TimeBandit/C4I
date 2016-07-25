@@ -1,0 +1,44 @@
+@import "/imports/ui/stylesheets/util/variables.less";
+
+.slideout-menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    width: 256px;
+    // overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+}
+
+.slideout-panel {
+    position: relative;
+    z-index: 1;
+    will-change: transform;
+    background-color: white;
+    height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+	background-color: @darkPrimaryColor;
+	height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .button {
+    	background-color: @darkPrimaryColor;
+	    padding: 10px 10px;
+	    cursor: pointer;
+    	i {
+    		color: @textPrimaryColor;
+    	}
+    }
+}

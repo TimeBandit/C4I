@@ -1,8 +1,38 @@
+@import "/imports/ui/stylesheets/util/variables.less";
 
-@screen-width: 960px;
+* {
+	color: @primaryTextColor
+}
 
 .content {
-	max-width: @screen-width;
+	max-width: 100%-256;
 	border: solid 1px red;
 	margin: 0px auto;
+}
+
+
+.title {
+	text-align: center;
+	padding-top: 30%;
+}
+
+.heading{
+	color: @primaryColor;
+}
+
+.slogan {
+	color: @secondaryTextColor
+}
+
+.top-bar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0px 10px;
+	.toggle-button {
+		background-color: @darkPrimaryColor;
+	}
+	.updated {
+		color: @secondaryTextColor;
+	}
 }
