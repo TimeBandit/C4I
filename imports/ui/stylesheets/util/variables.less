@@ -13,27 +13,23 @@
 @primaryTextColor: #212121;
 @secondaryTextColor: #727272;
 @dividerColor: #B6B6B6;
-
-
+// 
 // media queries
-
-@media only screen and (min-width: 801px) {
+@media only screen and (min-width: 780px) {
     body {
         font-size: 100%;
     }
-
     .heading {
-    	font-size: 300%
+        font-size: 300%
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 779px) {
     body {
         font-size: 100%;
     }
-
     .heading {
-    	font-size: 300%
+        font-size: 300%
     }
 }
 
@@ -41,10 +37,20 @@
     body {
         font-size: 90%;
     }
-
     .heading {
-    	font-size: 180%
+        font-size: 180%
+    }
+    .slogan {
+        display: none;
+    }
+    nav {
+        background-color: @darkPrimaryColor;
+        button {
+            background-color: @primaryColor;
+            margin-left: 10px;
+        }
+		div {
+			color: @textPrimaryColor;
+		}
     }
 }
-
-

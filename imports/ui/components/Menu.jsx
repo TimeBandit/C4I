@@ -31,7 +31,7 @@ export default class Menu extends React.Component {
 					  <label className="stack">
 					    <input name="stack" type="radio"/>
 					    <span className="button toggle">
-					      <i className="fa fa-star" aria-hidden="true"></i>&nbsp; Favourites
+					      <i className="fa fa-star" aria-hidden="true"></i>&nbsp; My Favourites
 					    </span>
 					  </label>
 					  <label className="stack">
@@ -54,13 +54,19 @@ export default class Menu extends React.Component {
 					    <span className="button toggle">
 					      <i className="fa fa-facebook-official" aria-hidden="true"></i>&nbsp; Facebook
 					    </span>
-					  </label>
-					  <label className="stack">
+					</label>
+					<label className="stack">
 					    <input name="stack" type="radio"/>
 					    <span className="button toggle">
 					      <i className="fa fa-twitter" aria-hidden="true"></i>&nbsp; Twitter
 					    </span>
-					  </label>
+					</label>
+					<label className="stack">
+					    <input name="stack" type="radio"/>
+					    <span className="button toggle">
+					      Legal
+					    </span>
+					</label>
 				</div>
 		    </nav>
         );

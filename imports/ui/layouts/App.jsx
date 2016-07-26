@@ -14,12 +14,17 @@ const App = (props) => (
         <Menu />
         <div id="panel">
             <header>
-                <div className="top-bar">
-                    <button className="toggle-button">☰</button>
-                    <div className="updated">updated: yesterday</div>
-                </div>
+                {/*<div className="top-bar">
+                                    <button className="toggle-button tooltip-right" data-tooltip="Press for Menu">☰</button>
+                                    <div className="updated">updated: yesterday</div>
+                                </div>*/}
+                <nav className="nav">
+                    
+                        <button className="toggle-button tooltip-right" data-tooltip="Press for Menu">☰</button>
+                        <span>IslamicCharities.org</span>
+                </nav>
                 <div className="title">
-                    <div className="heading">islamiccharities.org</div>
+                    <div className="heading"><span>IslamicCharities.org</span></div>
                     <div className="slogan">Bringing clarity to patrons of UK based Islamic charities</div>
                 </div>  
             </header>
