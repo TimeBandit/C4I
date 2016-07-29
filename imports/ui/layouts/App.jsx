@@ -18,8 +18,7 @@ const App = (props) => (
                                     <button className="toggle-button tooltip-right" data-tooltip="Press for Menu">☰</button>
                                     <div className="updated">updated: yesterday</div>
                                 </div>*/}
-                <nav className="nav">
-                    
+                <nav id="fixed-header" className="nav">                    
                         <button className="toggle-button tooltip-right" data-tooltip="Press for Menu">☰</button>
                         <span>IslamicCharities.org</span>
                 </nav>

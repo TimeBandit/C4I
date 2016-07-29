@@ -43,3 +43,20 @@
 		color: @secondaryTextColor;
 	}
 }
+
+#fixed-header {
+	display: flex;
+	button {
+		width: 45px;
+	}
+	span {
+		// using flex box to centre align on x,y axis
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: @textPrimaryColor;
+		font-weight: bold;
+		width: calc(100% - 20px);
+	}
+}
