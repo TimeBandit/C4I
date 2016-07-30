@@ -14,32 +14,40 @@
 @secondaryTextColor: #727272;
 @dividerColor: #B6B6B6;
 // 
-// media queries
-@media only screen and (min-width: 780px) {
-    body {
-        font-size: 100%;
-    }
-    .heading {
-        font-size: 300%
-    }
+// parametrix mixins
+.flex() {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
 }
 
-@media only screen and (max-width: 779px) {
-    body {
-        font-size: 100%;
-    }
-    nav {
-        button {
-                background-color: @primaryColor;
-                margin-left: 10px;
-            }        
-    }
-    .heading {
-        font-size: 300%
-    }
+.justify-content(@type) {
+    -webkit-justify-content: @type;
+    -o-justify-content: @type;
+    -moz-justify-content: @type;
+    -ms-justify-content: @type;
+    justify-content: @type;
 }
 
-@media only screen and (max-width: 400px) {
+.flex-direction(@type) {
+    -webkit-flex-direction: @type;
+    -o-flex-direction: @type;
+    -moz-flex-direction: @type;
+    -ms-flex-direction: @type;
+    flex-direction: @type;
+}
+
+.align-items(@type) {
+    -webkit-align-items: @type;
+    -o-align-items: @type;
+    -moz-align-items: @type;
+    -ms-align-items: @type;
+    align-items: @type;
+}
+
+@media (min-width:320px) {
+    /* smartphones, iPhone, portrait 480x320 phones */
     body {
         font-size: 90%;
     }
@@ -52,11 +60,44 @@
     nav {
         background-color: @darkPrimaryColor;
         button {
-            background-color: @primaryColor;
+            background-color: @accentColor;
             margin-left: 10px;
         }
-		div {
-			color: @textPrimaryColor;
-		}
+        div {
+            color: @textPrimaryColor;
+        }
     }
+}
+
+@media (min-width:481px) {
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width:641px) {
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .heading {
+        .flex();
+        .justify-content(center);
+        h1 {
+            width: 66%;
+        }
+    }
+    .slogan {
+        display: block;
+    }
+    nav {
+        background-color: white;
+    }
+}
+
+@media (min-width:961px) {
+    /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+
+@media (min-width:1025px) {
+    /* big landscape tablets, laptops, and desktops */
+}
+
+@media (min-width:1281px) {
+    /* hi-res laptops and desktops */
 }

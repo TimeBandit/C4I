@@ -1,62 +1,62 @@
 @import "/imports/ui/stylesheets/util/variables.less";
-
 * {
-	color: @primaryTextColor
+    color: @primaryTextColor
 }
 
 #panel {
-	max-width: 100%-256;
+    max-width: 100%-256;
 }
 
 .content {
-	width: 66%;
-	margin: 0px auto;
+    width: 66%;
+    margin: 0px auto;
 }
 
 .title {
-	text-align: center;
-	padding-top: 10%;
+    text-align: center;
+    padding-top: 10%;
 }
 
-.heading{
-	span {
-		background-color: @primaryColor;		
-		color: @textPrimaryColor;
-		padding: 10px;
-		border-radius: 5px;
-	}
+.heading {
+    h1 {
+        background-color: @primaryColor;
+        color: @textPrimaryColor;
+        padding: 10px;
+        border-radius: 5px;
+    }
 }
 
 .slogan {
-	color: @secondaryTextColor
+    color: @secondaryTextColor
 }
 
 .top-bar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0px 10px;
-	.toggle-button {
-		background-color: @primaryColor;
-	}
-	.updated {
-		color: @secondaryTextColor;
-	}
+    .flex();
+    .justify-content(space-between);
+    .align-items(center);
+    padding: 0px 10px;
+    .toggle-button {
+        background-color: @primaryColor;
+    }
+    .updated {
+        color: @secondaryTextColor;
+    }
 }
 
 #fixed-header {
-	display: flex;
-	button {
-		width: 45px;
-	}
-	span {
-		// using flex box to centre align on x,y axis
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		color: @textPrimaryColor;
-		font-weight: bold;
-		width: calc(100% - 20px);
-	}
+    .flex();
+    button {
+        width: 57px;
+    }
+    span {
+    	.flex();
+        // using flex box to centre align on x,y axis
+        .flex-direction(column);
+        .align-items(center);
+        .justify-content(center);
+        color: @textPrimaryColor;
+        font-size: 22px;
+        font-weight: bold;
+        width: calc(100% - 20px);
+    }
 }
