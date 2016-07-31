@@ -20,16 +20,16 @@ const App = (props) => (
                 </nav>
                 <div className="title">
                     <div className="heading"><h1>charities4islam.co.uk</h1></div>
-                    <h3 className="slogan">Bringing clarity to patrons of UK based Islamic charities</h3>
+                    <p className="slogan">Bringing clarity to the ummah</p>
                 </div>  
             </header>
-            <section className="content">
-                <article class="card">
-                  <header>
-                    <button>Love</button>
-                    <button class="dangerous">Hate</button>
-                  </header>
-                </article>
+            <section className="content flex three">
+                <div><span>1</span></div>
+                <div><span>2</span></div>
+                <div><span>3</span></div>
+                <div><span>4</span></div>
+                <div><span>5</span></div>
+                <div><span>6</span></div>
             </section>
         </div>
     </span>
