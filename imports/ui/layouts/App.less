@@ -1,80 +1,136 @@
 @import "/imports/ui/stylesheets/util/variables.less";
-* {
-    color: @primaryTextColor
-}
+
+/* panel styles */
 
 #panel {
-    max-width: 100%-256;
+    max-width: 100% - 256px;
 }
 
-.content {
-    border: 1px solid black;
-    margin: 0px auto;
-    width: 90%;
-    max-width: 960px;
-}
 
-.content > div {
-    box-sizing: border-box;
-    background-color: aqua;
-    flex: 1 1 auto;
-    padding-left: .6em;
-    padding-bottom: .6em;
-}
-
-.title {
-    text-align: center;
-    padding-top: 10%;
-}
-
-.heading {
-    h1 {
-        text-shadow: 1px 1px 1px @darkPrimaryColor;
-        ;
-        border-bottom: 1px solid @lightPrimaryColor;
-        font-family: 'BebasNeue Regular';
-        color: @primaryColor;
-        letter-spacing: 0.3rem;
-        border-radius: 5px;
-        font-size: 3em;
-        padding: 10px;
-    }
-}
-
-.slogan {
-    color: @secondaryTextColor;
-    font-size: 1.3em;
-    margin: 0 auto;
-    width: 300px;
-}
-
-.top-bar {
-    .toggle-button {
-        background-color: @primaryColor;
-    }
-    .justify-content(space-between);
-    .updated {
-        color: @secondaryTextColor;
-    }
-    .align-items(center);
-    padding: 0px 10px;
-    .flex();
-}
+/* header styles */
 
 #fixed-header {
     .flex();
     button {
-        width: 57px;
+        width: 57/@rem;
     }
     span {
         // using flex box to centre align on x,y axis
         color: @textPrimaryColor;
         .flex-direction(column);
         .justify-content(center);
-        width: calc(100% - 20px);
+        width: calc(100% - 20/@rem);
         .align-items(center);
         font-weight: bold;
-        font-size: 22px;
+        font-size: 22/@em;
         .flex();
     }
+}
+
+#panel header article {
+    text-align: center;
+    padding-top: 3.6em;
+}
+
+.page-title {
+    text-shadow: 1px 1px 1px @darkPrimaryColor;
+    border-bottom: 1px solid @lightPrimaryColor;
+    font-family: 'BebasNeue Regular';
+    color: @primaryColor;
+    letter-spacing: 0.3rem;
+    border-radius: 5px;
+    font-size: 3em;
+    padding: 10px;
+}
+
+.page-slogan {
+    color: @secondaryTextColor;
+    font-size: 1.3em;
+    margin: 0 auto;
+    width: 300px;
+}
+
+
+/*  section styles */
+
+main {
+    position: relative;
+    top: 54/@rem + 150/@rem;
+    background-image: url("/img/bgrd/noun_409266_cc.svg");
+}
+
+.content {
+    width: 90%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.hero {
+    display: none;
+}
+
+.wrapper {
+    position: relative;
+    top: -75/@rem;
+}
+
+/* nav styles */
+
+nav {
+    background-color: @darkPrimaryColor;
+    button {
+        margin-left: 10px;
+    }
+    div {
+        color: @textPrimaryColor;
+    }
+}
+
+
+/* card styles */
+
+.card {
+    color: @darkPrimaryColor;
+    height: 250px;
+}
+
+.intro > p {
+    padding: .6em .8em;
+}
+
+
+/* media queries styles */
+
+@media (min-width:320px) {
+    /* smartphones, iPhone, portrait 480x320 phones */
+}
+
+@media (min-width:481px) {
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width:641px) {
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    //     #panel article {
+    //     .flex();
+    //     .justify-content(center);
+    // }
+    // .slogan {
+    //     display: block;
+    // }
+    // nav {
+    //     background-color: white;
+    // }
+}
+
+@media (min-width:961px) {
+    /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+
+@media (min-width:1025px) {
+    /* big landscape tablets, laptops, and desktops */
+}
+
+@media (min-width:1281px) {
+    /* hi-res laptops and desktops */
 }
