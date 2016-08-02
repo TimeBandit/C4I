@@ -3,17 +3,21 @@
 /* panel styles */
 
 #panel {
+    // subtracts the width of the menu
     max-width: 100% - 256px;
 }
 
 
 /* header styles */
 
+
+/* nav styles */
+
 #fixed-header {
     .flex();
-    button {
-        width: 57/@rem;
-    }
+    background-color: @darkPrimaryColor;
+    // bring the button back on top
+    z-index: -1;
     span {
         // using flex box to centre align on x,y axis
         color: @textPrimaryColor;
@@ -22,41 +26,57 @@
         width: calc(100% - 20/@rem);
         .align-items(center);
         font-weight: bold;
-        font-size: 22/@em;
+        font-size: 20/@em;
         .flex();
     }
 }
 
-#panel header article {
+
+/*  menu button */
+
+.toggle-button {
+    width: 57/@rem;
+    margin-left: 5px;
+}
+
+// 
+.hero {
     text-align: center;
-    padding-top: 3.6em;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    .page-title {
+        // remove the defaule h1 margin & padding
+        background: fadeout(@darkPrimaryColor, 30%);
+        font-family: 'BebasNeue Regular';
+        color: @textPrimaryColor;
+        letter-spacing: 0.3rem;
+        font-size: 3em;
+        margin: 0 auto;
+        width: 550px;
+    }
+    .page-slogan {
+        background: fadeout(@darkPrimaryColor, 40%);
+        margin: 2.5rem auto 0 auto;
+        color: @textPrimaryColor;
+        font-size: 1.3em;
+        width: 300px;
+    }
 }
 
-.page-title {
-    text-shadow: 1px 1px 1px @darkPrimaryColor;
-    border-bottom: 1px solid @lightPrimaryColor;
-    font-family: 'BebasNeue Regular';
-    color: @primaryColor;
-    letter-spacing: 0.3rem;
-    border-radius: 5px;
-    font-size: 3em;
-    padding: 10px;
-}
-
-.page-slogan {
-    color: @secondaryTextColor;
-    font-size: 1.3em;
-    margin: 0 auto;
-    width: 300px;
-}
 
 
-/*  section styles */
-
-main {
-    position: relative;
-    top: 54/@rem + 150/@rem;
+// section styles 
+#content {
+    // position: relative;
+    // topbar heigh plus extra
+    // top: 54/@rem + 150/@rem;
     background-image: url("/img/bgrd/noun_409266_cc.svg");
+}
+
+.wrapper {
+    position: relative;
+    // overlap the cards onto the hero
+    top: -75/@rem;
 }
 
 .content {
@@ -66,24 +86,10 @@ main {
 }
 
 .hero {
-    display: none;
-}
-
-.wrapper {
-    position: relative;
-    top: -75/@rem;
-}
-
-/* nav styles */
-
-nav {
-    background-color: @darkPrimaryColor;
-    button {
-        margin-left: 10px;
-    }
-    div {
-        color: @textPrimaryColor;
-    }
+    background-image: url("/img/bgrd/hero.jpeg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
@@ -109,18 +115,12 @@ nav {
     /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
 }
 
-@media (min-width:641px) {
+// @media (min-width:641px) 
+@media (min-width:600px) {
     /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-    //     #panel article {
-    //     .flex();
-    //     .justify-content(center);
-    // }
-    // .slogan {
-    //     display: block;
-    // }
-    // nav {
-    //     background-color: white;
-    // }
+    #fixed-header {
+        opacity: 0;
+    }
 }
 
 @media (min-width:961px) {

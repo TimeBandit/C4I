@@ -13,20 +13,24 @@ const App = (props) => (
     <span>
         <Menu />
         <div id="panel">
-            <header>
-                <nav id="fixed-header">                    
-                        <button className="toggle-button">☰</button>
-                        <span>charities4islam.co.uk</span>
-                </nav>
-                <article className="hero">
-                    <h1 className="page-title">charities4islam.co.uk</h1>
-                    <p className="page-slogan">Bringing clarity to the ummah</p>
-                </article>                
-            </header>
-            <main>
+            <section id="banner">
                 <div className="wrapper">
-                    <section className="content flex one three-500">
-                        <div className="full two-third-500">
+                    <header>
+                        <nav id="fixed-header">                    
+                                <span>charities4islam.co.uk</span>
+                        </nav>
+                        <button className="toggle-button">☰</button>
+                        <article className="hero">
+                            <h1 className="page-title">charities4islam.co.uk</h1>
+                            <p className="page-slogan">Bringing clarity to the ummah</p>
+                        </article>                
+                    </header>
+                </div>
+            </section>
+            <main id="content">
+                <div className="wrapper">
+                    <section className="content flex one three-600">
+                        <div className="full two-third-600">
                             <article className="card intro">
                                 <p>
                                     The aim of this site is to bring clarity to the UK 
@@ -37,7 +41,7 @@ const App = (props) => (
                                 </p>
                             </article>
                         </div>
-                        <div className="full third-500">
+                        <div className="full third-600">
                             <article className="card info">
                                 <header></header>
                                 <footer>
@@ -46,7 +50,7 @@ const App = (props) => (
                                 </footer>
                             </article>
                         </div>
-                        <div className="full third-500">
+                        <div className="full third-600">
                             <article className="card info">
                                 <img src="/web/img/forest.jpg"/>
                                 <footer>
@@ -58,7 +62,11 @@ const App = (props) => (
                     </section>                
                 </div>
             </main>
-            <footer></footer>
+            <footer id="footer">
+                <div className="wrapper">
+                    footer will go here
+                </div>
+            </footer>
         </div>
     </span>
 )
