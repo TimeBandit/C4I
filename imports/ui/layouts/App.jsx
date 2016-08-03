@@ -21,8 +21,14 @@ const App = (props) => (
                         </nav>
                         <button className="toggle-button">☰</button>
                         <article className="hero">
-                            <h1 className="page-title">charities4islam.co.uk</h1>
-                            <p className="page-slogan">Bringing clarity to the ummah</p>
+                            <h1 className="page-title">
+                                charities4islam.co.uk
+                                <p className="page-slogan">Bringing clarity to the ummah</p>
+                            </h1>
+                            
+                            <p className="page-purpose">
+                                Discover 
+                            </p>
                         </article>                
                     </header>
                 </div>
@@ -32,13 +38,11 @@ const App = (props) => (
                     <section className="content flex one three-600">
                         <div className="full two-third-600">
                             <article className="card intro">
-                                <p>
-                                    The aim of this site is to bring clarity to the UK 
-                                    ummah by showing visitors how charitable donations are 
-                                    collected and spent at Islamic charities across the country. 
-                                    To find a charoty click 'Search' from the menu. 
-                                    All data is provided by the charities commission.
-                                </p>
+                                <header></header>
+                                <footer>
+                                    <h3>Misty Forest</h3>
+                                    <button>Like</button>
+                                </footer>
                             </article>
                         </div>
                         <div className="full third-600">

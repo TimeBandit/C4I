@@ -13,21 +13,25 @@
 
 /* nav styles */
 
-#fixed-header {
-    .flex();
-    background-color: @darkPrimaryColor;
-    // bring the button back on top
-    z-index: -1;
-    span {
-        // using flex box to centre align on x,y axis
-        color: @textPrimaryColor;
-        .flex-direction(column);
-        .justify-content(center);
-        width: calc(100% - 20/@rem);
-        .align-items(center);
-        font-weight: bold;
-        font-size: 20/@em;
-        .flex();
+#banner {
+    .wrapper {
+        #fixed-header {
+            .flex();
+            background-color: @darkPrimaryColor;
+            // bring the button back on top
+            z-index: -1;
+            span {
+                // using flex box to centre align on x,y axis
+                color: @textPrimaryColor;
+                .flex-direction(column);
+                .justify-content(center);
+                width: calc(100% - 20/@rem);
+                .align-items(center);
+                font-weight: bold;
+                font-size: 20/@em;
+                .flex();
+            }
+        }
     }
 }
 
@@ -41,55 +45,52 @@
 
 // 
 .hero {
+    background-image: url("/img/bgrd/hero.jpeg");
+    background-position: center center;
+    font-family: 'BebasNeue Regular';
+    background-repeat: no-repeat;
+    background-size: cover;
     text-align: center;
-    padding: 0.2rem;
-    border-radius: 0.5rem;
+    padding: 108/@rem 0 108/@rem 0;
     .page-title {
         // remove the defaule h1 margin & padding
         background: fadeout(@darkPrimaryColor, 30%);
-        font-family: 'BebasNeue Regular';
         color: @textPrimaryColor;
         letter-spacing: 0.3rem;
+        border-radius: @borderRadius;
         font-size: 3em;
         margin: 0 auto;
-        width: 550px;
+        width: 550/@rem;
     }
     .page-slogan {
-        background: fadeout(@darkPrimaryColor, 40%);
-        margin: 2.5rem auto 0 auto;
+        // background: fadeout(@darkPrimaryColor, 40%);
+        // margin: 2.5rem auto 2.5rem auto;
+        margin: 0 auto;
         color: @textPrimaryColor;
-        font-size: 1.3em;
-        width: 300px;
+        border-radius: @borderRadius;
+        font-size: 0.4em;
+        width: 450/@rem;
+    }
+    .page-purpose {
+        // background: fadeout(@darkPrimaryColor, 40%);
+        margin: 2.5rem auto 2.5rem auto;
+        color: @textPrimaryColor;
+        border-radius: @borderRadius;
+        font-size: 1.0em;
+        width: 350/@rem;
     }
 }
 
-
-
 // section styles 
-#content {
-    // position: relative;
-    // topbar heigh plus extra
-    // top: 54/@rem + 150/@rem;
-    background-image: url("/img/bgrd/noun_409266_cc.svg");
-}
-
 .wrapper {
-    position: relative;
-    // overlap the cards onto the hero
-    top: -75/@rem;
+    margin-top: -100/@rem;
 }
 
 .content {
-    width: 90%;
-    max-width: 960px;
+    max-width: 960/@rem;
     margin: 0 auto;
-}
-
-.hero {
-    background-image: url("/img/bgrd/hero.jpeg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    width: 90%;
+    font-family: lato;
 }
 
 
@@ -97,13 +98,11 @@
 
 .card {
     color: @darkPrimaryColor;
-    height: 250px;
 }
 
-.intro > p {
-    padding: .6em .8em;
-}
-
+// .intro > p {
+//     padding: .6em .8em;
+// }
 
 /* media queries styles */
 
