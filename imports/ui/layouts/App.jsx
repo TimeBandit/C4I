@@ -27,7 +27,9 @@ const App = (props) => (
                             </h1>
                             
                             <p className="page-purpose">
-                                Discover 
+                                Find out all there is to know about your local 
+                                Islamic charity. From accounts, to trustees to 
+                                contact details, you'll find it all here.
                             </p>
                         </article>                
                     </header>
@@ -36,7 +38,7 @@ const App = (props) => (
             <main id="content">
                 <div className="wrapper">
                     <section className="content flex one three-600">
-                        <div className="full two-third-600">
+                        <div className="full third-600">
                             <article className="card intro">
                                 <header></header>
                                 <footer>
