@@ -93,28 +93,50 @@
     font-family: lato;
 }
 
+#footer {
+    background-color: @lightPrimaryColor;
+}
+
 
 /* card styles */
 
 .card {
     color: @darkPrimaryColor;
+    position: relative;
+    .stat {
+        .flex();
+        .flex-direction(column);
+        .justify-content(center);
+        position: absolute;
+        text-align: center;
+        height: 280/@rem;
+        width: 100%;
+        top: 0%;
+        .value {
+            font-size: 48/@em;
+            line-height: 0.75em;
+        }
+        .text {
+            font-size: 16/@em;
+        }
+    }
     img {
         padding: 25/@rem;
+        z-index: -1;
+        opacity: 0.5;
     }
     footer {
         background-color: @primaryColor;
         color: @textPrimaryColor;
+        position: relative;
         .more-btn {
             position: absolute;
-            right: 10/@rem;
-            top: 220/@rem;
+            top: -17/@rem;
+            right: 15/@rem;
         }
     }
 }
 
-// .intro > p {
-//     padding: .6em .8em;
-// }
 
 /* media queries styles */
 
