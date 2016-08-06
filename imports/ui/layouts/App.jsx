@@ -29,7 +29,7 @@ const App = (props) => (
                             <p className="page-purpose">
                                 Find out all there is to know about your local 
                                 Islamic charity. From accounts, to trustees to 
-                                contact details, you'll find it all here.
+                                contact details, you'll find it here.
                             </p>
                         </article>                
                     </header>
@@ -40,39 +40,43 @@ const App = (props) => (
                     <section className="content flex one three-600">
                         <div className="full third-600">
                             <article className="card intro">
-                                <header></header>
+                                <div className="stat">
+                                    <div className="value"></div>
+                                    <div className="label"></div>
+                                </div>
+                                <img src="/img/svgicons/dollar-symbol.svg"/>
                                 <footer>
-                                    <h3>Misty Forest</h3>
-                                    <button>Like</button>
+                                    <h3>Islamic Relief</h3>
+                                    <button className="more-btn">See More</button>
                                 </footer>
                             </article>
                         </div>
                         <div className="full third-600">
                             <article className="card info">
-                                <header></header>
+                                <img src="/img/svgicons/thumbs-up-hand-symbol.svg"/>
                                 <footer>
-                                    <h3>Misty Forest</h3>
-                                    <button>Like</button>
+                                    <h3>Islamic Relief</h3>
+                                    <button className="more-btn">See More</button>
                                 </footer>
                             </article>
                         </div>
                         <div className="full third-600">
                             <article className="card info">
-                                <img src="/web/img/forest.jpg"/>
+                                <img src="/img/svgicons/eye-open.svg"/>
                                 <footer>
-                                    <h3>Misty Forest</h3>
-                                    <button>Like</button>
+                                    <h3>Islamic Relief</h3>
+                                    <button className="more-btn">See More</button>
                                 </footer>
                             </article>
                         </div>
                     </section>                
                 </div>
+                <footer id="footer">
+                    <div className="wrapper">
+                        footer will go here
+                    </div>
+                </footer>
             </main>
-            <footer id="footer">
-                <div className="wrapper">
-                    footer will go here
-                </div>
-            </footer>
         </div>
     </span>
 )
