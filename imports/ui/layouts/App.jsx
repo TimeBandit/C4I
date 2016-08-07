@@ -1,6 +1,7 @@
 // libs
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
+import "prefixfree/prefixfree.min.js"; 
 
 // css
 import "picnic/picnic.min.css";
@@ -17,9 +18,9 @@ const App = (props) => (
                 <div className="wrapper">
                     <header>
                         <nav id="fixed-header">                    
-                                <span>charities4islam.co.uk</span>
+                            <button className="toggle-button">☰</button>
+                            <span>charities4islam.co.uk</span>
                         </nav>
-                        <button className="toggle-button">☰</button>
                         <article className="hero">
                             <h1 className="page-title">
                                 charities4islam.co.uk
@@ -59,7 +60,7 @@ const App = (props) => (
                                     <div className="text">Most Favourite</div>
                                 </div>
                                 <footer>
-                                    <h3>Islamic Relief</h3>
+                                    <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
                                     <button className="more-btn">See More</button>
                                 </footer>
                             </article>
@@ -98,7 +99,7 @@ const App = (props) => (
                                     <div className="text">Most Employees</div>
                                 </div>
                                 <footer>
-                                    <h3>Islamic Relief</h3>
+                                    <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
                                     <button className="more-btn">See More</button>
                                 </footer>
                             </article>

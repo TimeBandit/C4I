@@ -5,8 +5,11 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "masonry": "0.0.2",
+    "masonry-layout": "^4.1.0",
     "meteor-node-stubs": "~0.2.0",
     "picnic": "^6.1.2",
+    "prefixfree": "^1.0.0",
     "react": "^15.2.1",
     "react-addons-pure-render-mixin": "^15.2.1",
     "react-dom": "^15.2.1",
