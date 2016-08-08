@@ -1,7 +1,6 @@
 // libs
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import "prefixfree/prefixfree.min.js"; 
 
 // css
 import "picnic/picnic.min.css";
@@ -38,8 +37,8 @@ const App = (props) => (
             </section>
             <main id="content">
                 <div className="wrapper">
-                    <section className="content flex one three-600 four-1000">
-                        <div className="full third-600 fourth-1000">
+                    <section className="content flex two three-600 four-1000">
+                        <div className="half third-600 fourth-1000">
                             <article className="card">
                                 <img src="/img/svgicons/dollar-symbol.svg"/>
                                 <div className="stat">
@@ -52,7 +51,7 @@ const App = (props) => (
                                 </footer>
                             </article>
                         </div>
-                        <div className="full third-600 fourth-1000">
+                        <div className="half third-600 fourth-1000">
                             <article className="card">
                                 <img src="/img/svgicons/thumbs-up-hand-symbol.svg"/>
                                 <div className="stat">
@@ -65,7 +64,7 @@ const App = (props) => (
                                 </footer>
                             </article>
                         </div>
-                        <div className="full third-600 fourth-1000">
+                        <div className="half third-600 fourth-1000">
                             <article className="card">
                                 <img src="/img/svgicons/eye-open.svg"/>
                                 <div className="stat">
@@ -78,7 +77,7 @@ const App = (props) => (
                                 </footer>
                             </article>
                         </div>
-                        <div className="full third-600 fourth-1000">
+                        <div className="half third-600 fourth-1000">
                             <article className="card">
                                 <img src="/img/svgicons/tint-drop.svg"/>
                                 <div className="stat">
@@ -91,7 +90,7 @@ const App = (props) => (
                                 </footer>
                             </article>
                         </div>
-                        <div className="full third-600 fourth-1000">
+                        <div className="half third-600 fourth-1000">
                             <article className="card">
                                 <img src="/img/svgicons/user-shape.svg"/>
                                 <div className="stat">

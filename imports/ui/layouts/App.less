@@ -10,17 +10,16 @@
 
 /* header styles */
 
+
 /* nav styles */
 
 #banner {
     .wrapper {
         #fixed-header {
             .flex();
-            background: rgba(93, 64, 55, 1);
             // bring the button back on top
             span {
                 // using flex box to centre align on x,y axis
-                color: @textPrimaryColor;
                 .flex-direction(column);
                 .justify-content(center);
                 width: calc(100% - 20/@rem);
@@ -144,6 +143,10 @@
 
 @media (min-width:320px) {
     /* smartphones, iPhone, portrait 480x320 phones */
+    #fixed-header {
+        background-color: @darkPrimaryColor;
+        color: @textPrimaryColor;
+    }
     .hero {
         .page-title {
             display: none;
