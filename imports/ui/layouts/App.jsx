@@ -6,7 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import "picnic/picnic.min.css";
 import './App.less';
 
-// components.
+// components..
 import Menu from "../components/Menu.jsx";
 
 const App = (props) => (
