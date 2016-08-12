@@ -1,6 +1,7 @@
 // modules
 import React from 'react';
 import { $ } from 'meteor/jquery';
+import { Link } from 'react-router';
 import slideOut from "/imports/ui/helpers/slideOut.js";
 
 // css
@@ -16,12 +17,14 @@ export default class Menu extends React.Component {
             <nav id="menu" className="sideBar">
 				<div className="sideBar__section">
 					<div>
-					  <label className="stack">
-					    <input name="stack" type="radio"/>
-					    <span className="button toggle">
-					      <i className="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home
-					    </span>
-					  </label>
+						<Link to="/">
+						  <label className="stack">
+						    <input name="stack" type="radio"/>
+						    <span className="button toggle">
+						      <i className="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home
+						    </span>
+						  </label>
+						</Link>
 					  <label className="stack">
 					    <input name="stack" type="radio"/>
 					    <span className="button toggle">
@@ -72,5 +75,3 @@ export default class Menu extends React.Component {
         );
     }
 }
-
-export default Menu;

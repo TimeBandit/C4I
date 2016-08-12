@@ -16,7 +16,7 @@ import MyFavouritesPage from '/imports/ui/pages/MyFavouritesPage.jsx';
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-    	<IndexRoute component={HomePage}/>
+    	<IndexRoute component={HomePage} />
     	<Route path="/about" component={AboutPage} />
     	<Route path="/search" component={SearchPage} />
     	<Route path="/contact" component={ContactPage} />
