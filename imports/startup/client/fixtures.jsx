@@ -1,4 +1,4 @@
-import Masonry from 'masonry-layout';
+// import Masonry from 'masonry-layout';
 
 Meteor.startup(function() {
     // you can init client side code here such as GA

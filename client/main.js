@@ -5,4 +5,5 @@ import '../imports/startup/client/fixtures.jsx';
 
 Meteor.startup(() => {
   render(renderRoutes(), document.getElementById('app'));
+  console.log('rendering routers');
 });

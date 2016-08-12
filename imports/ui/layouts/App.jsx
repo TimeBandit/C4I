@@ -9,7 +9,7 @@ import './App.less';
 // components..
 import Menu from "../components/Menu.jsx";
 
-const App = (props) => (
+const App = (child) => (
     <span>
         <Menu />
         <div id="panel">
@@ -37,75 +37,10 @@ const App = (props) => (
             </section>
             <main id="content">
                 <div className="wrapper">
-                    <section className="content flex two three-600 four-1000">
-                        <div className="half third-600 fourth-1000">
-                            <article className="card">
-                                <img src="/img/svgicons/dollar-symbol.svg"/>
-                                <div className="stat">
-                                    <div className="value">1.2 M</div>
-                                    <div className="text">Riches Charity</div>
-                                </div>
-                                <footer>
-                                    <h3>Islamic Relief</h3>
-                                    <button className="more-btn">See More</button>
-                                </footer>
-                            </article>
-                        </div>
-                        <div className="half third-600 fourth-1000">
-                            <article className="card">
-                                <img src="/img/svgicons/thumbs-up-hand-symbol.svg"/>
-                                <div className="stat">
-                                    <div className="value">600</div>
-                                    <div className="text">Most Favourite</div>
-                                </div>
-                                <footer>
-                                    <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
-                                    <button className="more-btn">See More</button>
-                                </footer>
-                            </article>
-                        </div>
-                        <div className="half third-600 fourth-1000">
-                            <article className="card">
-                                <img src="/img/svgicons/eye-open.svg"/>
-                                <div className="stat">
-                                    <div className="value">24 K</div>
-                                    <div className="text">Most Page View</div>
-                                </div>
-                                <footer>
-                                    <h3>Islamic Relief</h3>
-                                    <button className="more-btn">See More</button>
-                                </footer>
-                            </article>
-                        </div>
-                        <div className="half third-600 fourth-1000">
-                            <article className="card">
-                                <img src="/img/svgicons/tint-drop.svg"/>
-                                <div className="stat">
-                                    <div className="value">70p/1£</div>
-                                    <div className="text">Most Efficient</div>
-                                </div>
-                                <footer>
-                                    <h3>Islamic Relief</h3>
-                                    <button className="more-btn">See More</button>
-                                </footer>
-                            </article>
-                        </div>
-                        <div className="half third-600 fourth-1000">
-                            <article className="card">
-                                <img src="/img/svgicons/user-shape.svg"/>
-                                <div className="stat">
-                                    <div className="value">196</div>
-                                    <div className="text">Most Employees</div>
-                                </div>
-                                <footer>
-                                    <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
-                                    <button className="more-btn">See More</button>
-                                </footer>
-                            </article>
-                        </div>
-                    </section>
+                    
                     <section className="content flex one">
                         <div className="full">
+                            {child}
                             <article className="card">
                                 <footer id="footer">
                                         This website and its content is copyright of CHARITIES4ISLAM.org 2016. All rights reserved.
