@@ -11,6 +11,7 @@ import HomePage from '/imports/ui/pages/HomePage.jsx';
 import AboutPage from '/imports/ui/pages/AboutPage.jsx';
 import SearchPage from '/imports/ui/pages/SearchPage.jsx';
 import ContactPage from '/imports/ui/pages/ContactPage.jsx';
+import LegalPage from '/imports/ui/pages/LegalPage.jsx';
 import MyFavouritesPage from '/imports/ui/pages/MyFavouritesPage.jsx';
 
 export const renderRoutes = () => (
@@ -21,6 +22,7 @@ export const renderRoutes = () => (
     	<Route path="/search" component={SearchPage} />
     	<Route path="/contact" component={ContactPage} />
     	<Route path="/myfavourites" component={MyFavouritesPage} />
+    	<Route path="/legal" component={LegalPage} />
     </Route>
   </Router>
 );
