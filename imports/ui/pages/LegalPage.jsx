@@ -8,15 +8,15 @@ const LegalPage = () => (
 					<h3>Copyright</h3>		
 				</header>
 				<p>
-					This website and its content is copyright of Opening Times 
-					ltd 2016. All rights reserved. Any redistribution or 
-					reproduction of part or all of the contents in any form is 
-					prohibited other than the following:
+					This website and its content is copyright of 
+					charities4islam.co.uk. All rights reserved. Any 
+					redistribution or reproduction of part or all of the 
+					contents in any form is prohibited other than the following:
 					<ul>
 						<li>
 							You may print or download to a local hard disk 
 							extracts for your personal and non-commercial use 
-							only you may copy the content to individual third 
+							only and you may copy the contents to individual third 
 							parties for their personal use, but only if you 
 							acknowledge the website as the source of the material.
 						</li>
@@ -40,10 +40,10 @@ const LegalPage = () => (
 					If you continue to browse and use this website you are 
 					agreeing to comply with and be bound by the following terms 
 					and conditions of use, which together with our privacy policy 
-					govern Opening Times Ltd's relationship with you in relation 
+					govern charities4islam.co.uk's relationship with you in relation 
 					to this website.
 
-					The term Opening Times or or "I" or "us" or "we" refers to 
+					The term charities4islam.co.uk or or "I" or "us" or "we" refers to 
 					the owner of the website. The term "you" refers to the user 
 					or viewer of our website.
 

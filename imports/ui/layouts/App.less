@@ -100,14 +100,21 @@
     color: @darkPrimaryColor;
     position: relative;
     .stat {
+        // set background image
+        background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("/img/svgicons/dollar-symbol.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 50%;
+        -o-background-size: 50%;
+        -moz-background-size: 50%;
+        -webkit-background-size: 50%;
+        // center stats
         .flex();
         .flex-direction(column);
         .justify-content(center);
-        position: absolute;
-        text-align: center;
+        align-items: center;
+        min-height: 150/@rem;
         max-height: 280/@rem;
-        width: 100%;
-        top: 0%;
         .value {
             font-size: 48/@em;
             line-height: 0.75em;
@@ -115,11 +122,6 @@
         .text {
             font-size: 16/@em;
         }
-    }
-    img {
-        padding: 25/@rem;
-        z-index: -1;
-        opacity: 0.5;
     }
     footer {
         background-color: @primaryColor;
@@ -155,13 +157,14 @@
             display: none;
         }
     }
-      .content {
+    .content {
         // max-width: 960/@rem;
         margin: 0 auto;
         width: 95%;
-        padding-left: 0;
+        .full {
+            padding-left: 0;
+        }
     }
-    
 }
 
 @media (min-width:481px) {
@@ -189,7 +192,6 @@
             display: block;
         }
     }
-   
     .content {
         max-width: 960/@rem;
         margin: 0 auto;

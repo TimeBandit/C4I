@@ -18,7 +18,6 @@ export default class App extends React.Component {
 
         };
     }
-
     render() {
         return (
             <span>
@@ -48,10 +47,9 @@ export default class App extends React.Component {
                     </section>
                     <main id="content">
                         <div className="wrapper">
-                            
+                            {this.props.children}
                             <section className="content flex one">
                                 <div className="full">
-                                    {this.props.children}
                                     <article className="card">
                                         <footer id="footer">
                                                 This website and its content is copyright of CHARITIES4ISLAM.org 2016. All rights reserved.
