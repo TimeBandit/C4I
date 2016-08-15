@@ -116,7 +116,7 @@
         min-height: 150/@rem;
         max-height: 280/@rem;
         .value {
-            font-size: 48/@em;
+            font-size: 24/@em;
             line-height: 0.75em;
         }
         .text {
@@ -129,10 +129,11 @@
         text-transform: capitalize;
         color: @textPrimaryColor;
         position: relative;
+        text-align: center;
         .more-btn {
             position: absolute;
             top: -17/@rem;
-            right: 15/@rem;
+            right: 1.3rem;
         }
     }
 }
@@ -196,6 +197,23 @@
         max-width: 960/@rem;
         margin: 0 auto;
         width: 90%;
+    }
+    .card {
+        .stat {
+            .value {
+                font-size: 48/@em;
+                line-height: 0.75em;
+            }
+            .text {
+                font-size: 16/@em;
+            }
+        }
+        footer {
+            text-align: left;
+            .more-btn {
+                right: 15/@rem
+            }
+        }
     }
 }
 
