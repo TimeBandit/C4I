@@ -4,7 +4,6 @@ const HomePage = () => (
     <section className="content flex two three-600 four-1000">
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
-	            <img src="/img/svgicons/dollar-symbol.svg"/>
 	            <div className="stat">
 	                <div className="value">1.2 M</div>
 	                <div className="text">Riches Charity</div>
@@ -17,7 +16,6 @@ const HomePage = () => (
 	    </div>
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
-	            <img src="/img/svgicons/thumbs-up-hand-symbol.svg"/>
 	            <div className="stat">
 	                <div className="value">600</div>
 	                <div className="text">Most Favourite</div>
@@ -30,7 +28,6 @@ const HomePage = () => (
 	    </div>
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
-	            <img src="/img/svgicons/eye-open.svg"/>
 	            <div className="stat">
 	                <div className="value">24 K</div>
 	                <div className="text">Most Page View</div>
@@ -43,7 +40,6 @@ const HomePage = () => (
 	    </div>
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
-	            <img src="/img/svgicons/tint-drop.svg"/>
 	            <div className="stat">
 	                <div className="value">70p/1£</div>
 	                <div className="text">Most Efficient</div>
@@ -56,7 +52,6 @@ const HomePage = () => (
 	    </div>
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
-	            <img src="/img/svgicons/user-shape.svg"/>
 	            <div className="stat">
 	                <div className="value">196</div>
 	                <div className="text">Most Employees</div>

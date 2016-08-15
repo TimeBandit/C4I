@@ -85,9 +85,6 @@
 }
 
 .content {
-    max-width: 960/@rem;
-    margin: 0 auto;
-    width: 90%;
     font-family: lato;
 }
 
@@ -103,26 +100,28 @@
     color: @darkPrimaryColor;
     position: relative;
     .stat {
+        // set background image
+        background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("/img/svgicons/dollar-symbol.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 50%;
+        -o-background-size: 50%;
+        -moz-background-size: 50%;
+        -webkit-background-size: 50%;
+        // center stats
         .flex();
         .flex-direction(column);
         .justify-content(center);
-        position: absolute;
-        text-align: center;
+        align-items: center;
+        min-height: 150/@rem;
         max-height: 280/@rem;
-        width: 100%;
-        top: 0%;
         .value {
-            font-size: 48/@em;
+            font-size: 24/@em;
             line-height: 0.75em;
         }
         .text {
             font-size: 16/@em;
         }
-    }
-    img {
-        padding: 25/@rem;
-        z-index: -1;
-        opacity: 0.5;
     }
     footer {
         background-color: @primaryColor;
@@ -130,10 +129,11 @@
         text-transform: capitalize;
         color: @textPrimaryColor;
         position: relative;
+        text-align: center;
         .more-btn {
             position: absolute;
             top: -17/@rem;
-            right: 15/@rem;
+            right: 1.3rem;
         }
     }
 }
@@ -156,6 +156,14 @@
         }
         .page-purpose {
             display: none;
+        }
+    }
+    .content {
+        // max-width: 960/@rem;
+        margin: 0 auto;
+        width: 95%;
+        .full {
+            padding-left: 0;
         }
     }
 }
@@ -183,6 +191,28 @@
         }
         .page-purpose {
             display: block;
+        }
+    }
+    .content {
+        max-width: 960/@rem;
+        margin: 0 auto;
+        width: 90%;
+    }
+    .card {
+        .stat {
+            .value {
+                font-size: 48/@em;
+                line-height: 0.75em;
+            }
+            .text {
+                font-size: 16/@em;
+            }
+        }
+        footer {
+            text-align: left;
+            .more-btn {
+                right: 15/@rem
+            }
         }
     }
 }
