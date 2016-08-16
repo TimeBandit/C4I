@@ -22,3 +22,4 @@ react-meteor-data
 fortawesome:fontawesome
 less
 seba:minifiers-autoprefixer
+aldeed:simple-schema
