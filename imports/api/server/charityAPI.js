@@ -14,3 +14,5 @@ export function GetCharitiesByKeyword(args, url = default_url) {
 
     return res;
 }
+
+// alternative implementation using promises
