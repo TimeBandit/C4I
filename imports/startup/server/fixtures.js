@@ -16,6 +16,6 @@ Meteor.startup(function () {
 		console.log(GetCharitiesByKeyword(args));
 
 		// run a reactive function to fetch induvidual charity info
-		// calculate the derived data
+		// calculate the derived data.
 	}
 });
