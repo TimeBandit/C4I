@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 // collection holding charity commission data
 // server only, no client side cache needed
 import { Mongo } from 'meteor/mongo';
