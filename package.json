@@ -5,6 +5,7 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "charity-commission-api": "^1.11.0",
     "masonry": "0.0.2",
     "masonry-layout": "^4.1.0",
     "meteor-node-stubs": "~0.2.0",
