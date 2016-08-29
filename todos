@@ -1,9 +1,10 @@
 Islamic Charies Project
 Today:
  ✔ plaintasks tutorial @done (16-08-29 13:20)
- ☐ create test branch
- ☐ install charity npm module
- ☐ test package
+ ✔ create test branch for charity-api module @done (16-08-29 13:31)
+ ✔ install charity npm module @done (16-08-29 13:32)
+ ✔ test package @done (16-08-29 13:59)
+   ☐ merge into deve branch if working
  ☐ write initial queries to db
  ☐ install admin plugin and view db entries
  ☐ delete & write to be again
