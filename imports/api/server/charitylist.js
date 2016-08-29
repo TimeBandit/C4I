@@ -24,13 +24,18 @@ CharityList.schema = new SimpleSchema({
         type: String
     },
     PublicEmailAddress: {
-        type: String
+        type: String,
+        optional: true,
     },
     MainPhoneNumber: {
-        type: String
+        type: String,
+        optional: true,
     },
     createdAt: {
-        type: Date
+        type: Date,
+        autoValue: function() {
+            return new Date();
+        }
     }
 });
 
