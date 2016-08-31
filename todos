@@ -1,36 +1,11 @@
 'CH' === Charity
 C4I Project:
- ✔ plaintasks tutorial @done (16-08-29 13:20)
- ✔ create test branch for charity-api module @done (16-08-29 13:31)
- ✔ install charity npm module @done (16-08-29 13:32)
- ✔ test package @done (16-08-29 13:59)
-   ✔ merge into deve branch if working @done (16-08-29 14:08)
  Setup DB:
- ✔ write initial queries to db @done (16-08-29 16:57)
- ✔ delete & write to do again @done (16-08-29 17:46)
- ✘ install admin plugin and view db entries @cancelled (16-08-29 17:10)
  DB work:
-   ✔ identify calculations needed @done (16-08-30 11:36)
-   ✔ prioritise calculations @done (16-08-30 11:36)
-   ✔ identify collections needed @done (16-08-30 11:46)
-     charity collection
-   ✔ decide on data to store apart from default @done (16-08-30 11:49)
-   ✔ total funds, efficiency, employees, volunteers, likes, pageviews @done (16-08-30 16:15)
-   ✔ fetch above data points using API @done (16-08-30 16:18)
-   ✔ find how sort db according to higest value @done (16-08-30 16:52)
-     db.collection.find().sort({_id:-1}).limit(1).pretty()
-   ☐ create the db+schema needed
    ☐ can upsert be used to prevent duplicates?
-   ☐ fetch data at console
-   ✘ writes queries from p1 below @cancelled (16-08-30 12:25)
+   ☐ should i have seperate dbs to store extra info on charities or all in one
+   ☐ chain of activities for constructing stats and updating the db
    Homepage:
-   ✔ richest - by total funds present @done (16-08-30 12:23) GetCharityAnnualReturns 
-   ✔ mostEfficient - calculated @done (16-08-30 12:23)
-   ✔ leastEfficient - calculated @done (16-08-30 12:23)
-   ✔ mostEmployees - from submitted docs @done (16-08-30 12:23)
-   ✔ mostVolunteers - from submitted docs @done (16-08-30 12:23)
-   ✔ mostLikes @done (16-08-30 12:23)
-   ✔ mostPageViews @done (16-08-30 12:23)
    Charity Page:
    get mosque info from desigs
    CH efficiency, default none
@@ -52,13 +27,46 @@ C4I Project:
    ☐ update sendaspatula
    ☐ write sendaspatula report
    Home:
-   ✔ post packages @today @high @done (16-08-30 17:01)
    ☐ fix window @today @low
    ☐ cut grass @low
    ☐ put grass on JP @high
    Shopping:
-     ✔ ice-cream @today @low @done (16-08-30 17:01)
-     ✔ greens @today @high @done (16-08-30 17:01)
-     ✔ greese proof paper @today @done (16-08-30 17:01)
-     ✔ butter @done (16-08-30 17:01)
-     ✔ self-raising flower @done (16-08-30 17:01)
+
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ plaintasks tutorial @done (16-08-29 13:20) @project(C4I Project)
+ ✔ create test branch for charity-api module @done (16-08-29 13:31) @project(C4I Project)
+ ✔ install charity npm module @done (16-08-29 13:32) @project(C4I Project)
+ ✔ test package @done (16-08-29 13:59) @project(C4I Project)
+ ✔ merge into deve branch if working @done (16-08-29 14:08) @project(C4I Project)
+ ✔ write initial queries to db @done (16-08-29 16:57) @project(C4I Project)
+ ✔ delete & write to do again @done (16-08-29 17:46) @project(C4I Project)
+ ✘ install admin plugin and view db entries @cancelled (16-08-29 17:10) @project(C4I Project)
+ ✔ identify calculations needed @done (16-08-30 11:36) @project(C4I Project / DB work)
+ ✔ prioritise calculations @done (16-08-30 11:36) @project(C4I Project / DB work)
+ ✔ identify collections needed @done (16-08-30 11:46) @project(C4I Project / DB work)
+  charity collection
+ ✔ decide on data to store apart from default @done (16-08-30 11:49) @project(C4I Project / DB work)
+ ✔ total funds, efficiency, employees, volunteers, likes, pageviews @done (16-08-30 16:15) @project(C4I Project / DB work)
+ ✔ fetch above data points using API @done (16-08-30 16:18) @project(C4I Project / DB work)
+ ✔ find how sort db according to higest value @done (16-08-30 16:52) @project(C4I Project / DB work)
+  db.collection.find().sort({_id:-1}).limit(1).pretty()
+ ✘ create the db+schema needed @cancelled (16-08-31 11:15) @project(C4I Project / DB work)
+ ✔ how do update specific db value @done (16-08-31 17:21) @project(C4I Project / DB work)
+  use Collection.Update + mongo modifier
+ ✔ fetch data at console @done (16-08-31 11:43) @project(C4I Project / DB work)
+ ✘ writes queries from p1 below @cancelled (16-08-30 12:25) @project(C4I Project / DB work)
+ ✔ richest - by total funds present @done (16-08-30 12:23) GetCharityAnnualReturns  @project(C4I Project / DB work)
+ ✔ mostEfficient - calculated @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ leastEfficient - calculated @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ mostEmployees - from submitted docs @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ mostVolunteers - from submitted docs @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ mostLikes @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ mostPageViews @done (16-08-30 12:23) @project(C4I Project / DB work)
+ ✔ post packages @today @high @done (16-08-30 17:01) @project(Other)
+ ✔ ice-cream @today @low @done (16-08-30 17:01) @project(Other / Shopping)
+ ✔ greens @today @high @done (16-08-30 17:01) @project(Other / Shopping)
+ ✔ greese proof paper @today @done (16-08-30 17:01) @project(Other / Shopping)
+ ✔ butter @done (16-08-30 17:01) @project(Other / Shopping)
+ ✔ self-raising flower @done (16-08-30 17:01) @project(Other / Shopping)

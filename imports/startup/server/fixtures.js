@@ -11,6 +11,7 @@ Meteor.startup(function() {
     // init the db here
     if (Charities.find().count() === 0) {
         
+        
         console.log('Charities is empty :)');
 
         // run the api funtion and store the result in a collection
@@ -31,3 +32,41 @@ Meteor.startup(function() {
         });
     }
 });
+
+/*
+on startup
+    db is empty?
+        take first seach term
+            query for charitiesby keyword
+            upsert results into db (select on charity id)
+        get next keyword and repeat
+        calculate homepage data
+            take each charity id in charity list
+                use GetCharityAnnualReturns to fetch data
+                extract key data (totalFunds, employees, volunteers, 
+                    charitableActivities totalIncomingResources)
+                store key data
+                calculate efficiency
+                store
+            take next charity id & repeat
+end startup
+
+on cron activation
+    take first seach term
+        query for charitiesby keyword
+        upsert results into db (select on charity id)
+            Two cases 
+                1. the doc exists then overwite the values
+                2. the doc doesnt exist, add it
+        update updatedAt
+    get next keyword and repeat
+    calculate homepage data
+        take each charity id in charity list
+            use GetCharityAnnualReturns to fetch data
+            extract key data (totalFunds, employees, volunteers, 
+                charitableActivities totalIncomingResources)
+            store key data
+            calculate efficiency
+            store
+        take next charity id & repeat
+*/
