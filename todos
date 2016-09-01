@@ -1,26 +1,17 @@
 'CH' === Charity
 C4I Project:
  Setup DB:
- DB work:
-   ☐ can upsert be used to prevent duplicates?
-   ☐ should i have seperate dbs to store extra info on charities or all in one
-   ☐ chain of activities for constructing stats and updating the db
    Homepage:
+     DB work:
+       ✔ can upsert be used to prevent duplicates? - yes @done (16-09-01 10:54)
+       ☐ write pseudo code
+       ☐ should i have seperate dbs to store extra info on charities or all in one
+       ☐ chain of activities for constructing stats and updating the db
+
    Charity Page:
-   get mosque info from desigs
-   CH efficiency, default none
-   CH page views, default 0
-   CH likes, default 0, one potential vote/unvote per account holder
-   CH trustees
-   purpose
-   address
-   email
-   #phone
-   total funds
-   total emplyees
-   total volunteers
-   financial stats
+     ☐ identify data points
    Trustees Page:
+     ☐ identify data points
 --- ✄ -----------------------
  Other:
    Work:

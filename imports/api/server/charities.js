@@ -78,3 +78,12 @@ Charities.schema = new SimpleSchema({
 });
 
 Charities.attachSchema(Charities.schema);
+
+// {
+// SubsidiaryNumber:0,
+// CharityName:0,
+// MainCharityNam:0,
+// RegistrationStatus:0,
+// PublicEmailAddress:0,
+// MainPhoneNumber:0
+// }
