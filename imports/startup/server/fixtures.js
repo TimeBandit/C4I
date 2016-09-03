@@ -3,19 +3,20 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Charities } from '../../api/server/charities';
-// import { charComm } from '../../api/server/charityAPI';
+// 
 const ccAPI = require('charity-commission-api');
-
-const args = { APIKey: '755dfeae-434d-4c90-a', strSearch: 'islam' };
-const args3 = { APIKey: '755dfeae-434d-4c90-a', strSearch: 'islamic' };
-const args4 = { APIKey: '755dfeae-434d-4c90-a', strSearch: 'muslim' };
-const args4 = { APIKey: '755dfeae-434d-4c90-a', strSearch: 'jamat' };
-
+const search_terms = Meteor.settings.private.search_terms;
+const api_key = Meteor.settings.private.charity_commission.api_key;
+const temp = search_terms[0];
+const argi = { APIKey: api_key, strSearch: temp};
+// const args = { APIKey, temp };
+// ..
 function filterResults(results) {
     return _.where(results, { "RegistrationStatus": "Registered" });
 }
 
 function writeToDb(value) {
+    console.log(value.RegisteredCharityNumber);
     Charities.insert(value, (err, id) => {
         if (err) {
             Meteor.error(err, `Something went wrong, writing to the db`);
@@ -29,10 +30,12 @@ Meteor.startup(function() {
         console.log('Charities is empty :)');
 
         // run the api funtion and store the result in a collection
-        ccAPI.GetCharitiesByKeyword(args).then(function(value) {
+        ccAPI.GetCharitiesByKeyword(argi).then(function(value) {
+            console.log(value);
             let results = value.GetCharitiesByKeywordResult.CharityList;
             results = filterResults(results);
             _.each(results, function(value, key, list) {
+                console.log(key);
                 writeToDb(value);
             });
         }).catch(function(err) {

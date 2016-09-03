@@ -4,9 +4,13 @@ C4I Project:
    Homepage:
      DB work:
        ✔ can upsert be used to prevent duplicates? - yes @done (16-09-01 10:54)
-       ☐ write pseudo code
-       ☐ should i have seperate dbs to store extra info on charities or all in one
-       ☐ chain of activities for constructing stats and updating the db
+       ✔ write pseudo code @done (16-09-03 14:15)
+       ✔ should i have seperate dbs to store extra info on charities or all in one - no @done (16-09-03 14:15)
+       write sequential promises: 
+        ✔ move search terms in settings file @done (16-09-03 14:36)
+        ✔ move api key into setting file @done (16-09-03 14:36)
+        ☐ conditionally write to db is does not exists
+        ☐ create sequential promises
 
    Charity Page:
      ☐ identify data points
