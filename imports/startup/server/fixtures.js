@@ -7,106 +7,63 @@ import { Charities } from '../../api/server/charities';
 const ccAPI = require('charity-commission-api');
 const searchTerms = Meteor.settings.private.search_terms;
 const api_key = Meteor.settings.private.charity_commission.api_key;
-const argi = { APIKey: api_key, strSearch: searchTerms[0] };
-//.
+//
 function filterResults(results) {
     return _.where(results, { "RegistrationStatus": "Registered" });
 }
 
-/* upsert charities to Charities db */
-function writeToDb(value) {
-    console.log(value.MainCharityName);
-
-    if (Charities.find({ RegisteredCharityNumber: value.RegisteredCharityNumber }).count() > 0) {
-        console.log(`${value.CharityName} found`);
-    }
-
-    Charities.update({ RegisteredCharityNumber: value.RegisteredCharityNumber }, {
-            $set: {
-                SubsidiaryNumber: value.SubsidiaryNumber,
-                CharityName: value.CharityName,
-                MainCharityName: value.MainCharityName,
-                RegistrationStatus: value.RegistrationStatus,
-                PublicEmailAddress: value.PublicEmailAddress,
-                MainPhoneNumber: value.MainPhoneNumber,
-                updatedAt: new Date()
+function storeCharityBasicData(charity) {
+    // todo change only to update if upDatedAt is not the same date
+    console.log(charity.CharityName);
+    return new Promise(function(resolve, reject) {
+        Charities.update({ RegisteredCharityNumber: charity.RegisteredCharityNumber }, {
+                $set: {
+                    SubsidiaryNumber: charity.SubsidiaryNumber,
+                    CharityName: charity.CharityName,
+                    MainCharityName: charity.MainCharityName,
+                    RegistrationStatus: charity.RegistrationStatus,
+                    PublicEmailAddress: charity.PublicEmailAddress,
+                    MainPhoneNumber: charity.MainPhoneNumber,
+                    updatedAt: new Date()
+                }
+            }, { upsert: true },
+            (err, numAffected) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(numAffected);
+                }
             }
-        }, { upsert: true },
-        (err, numAffected) => {
-            if (err) {
-                Meteor.error(err, `Something went wrong, writing to the db`);
-            } else {
-                // console.log(`#affected: ${numAffected}`);
-                // 
-            }
-        }
-    );
+        );
+    });
+}
+
+function storeCharityExtraData(charity) {
+    // console.log(charity);
 }
 
 Meteor.startup(function() {
     // init the db here
     if (Charities.find().count() === 0) {
         console.log('Charities is empty :)');
-
-        // run the api funtion and store the result in a collection
-        ccAPI.GetCharitiesByKeyword(argi).then(function(value) {
-            let results = value.GetCharitiesByKeywordResult.CharityList;
-            results = filterResults(results);
-            console.log(`${results.length} registered charities`);
-            _.each(results, function(value, key, list) {
-                // console.log( `***`, value, `***`);
-                writeToDb(value);
+        searchTerms.reduce(function(sequence, term) {
+            console.log(term);
+            return sequence.then(function() {
+                return ccAPI.GetCharitiesByKeyword({ APIKey: api_key, strSearch: term });
+            }).then(function(charitiesArray) {
+                console.log(charitiesArray.GetCharitiesByKeywordResult.CharityList.length);
+                charitiesArray.GetCharitiesByKeywordResult.CharityList.reduce(function(sequence, charity) {
+                    return sequence.then(function() {
+                        return storeCharityBasicData(charity);
+                    }).then(function() {
+                        return ccAPI.GetCharityByRegisteredCharityNumber({ APIKey: api_key, strSearch: charity.RegisteredCharityNumber });
+                    }).then(function(result) {
+                        return storeCharityExtraData(result);
+                    });
+                }, Promise.resolve());
             });
-        }).catch(function(err) {
+        }, Promise.resolve()).catch(function(err) {
             Meteor.error(err, `Something went wrong creating the client`);
         });
     }
 });
-
-
-/*
-on startup
-    db is empty?
-        take first seach term
-            query for charitiesby keyword
-            upsert results into db (select on charity id)
-        get next keyword and repeat
-        calculate homepage data
-            take each charity id in charity list
-                use GetCharityAnnualReturns to fetch data
-                extract key data (totalFunds, employees, volunteers, 
-                    charitableActivities totalIncomingResources)
-                store key data
-                calculate efficiency
-                store
-            take next charity id & repeat
-end startup
-
-on cron activation
-    take first seach term
-        query for charitiesby keyword
-            take first result
-                check registration status
-                    if 'remove'
-
-        upsert results into db (select on charity id)
-
-            Two cases 
-                1. the doc exists then update the values the values, store the id
-                db.chairy.update(
-                    {RegisteredCharityNumber: x},
-                    {$set: }
-                )
-                2. the doc doesnt exist an 
-        update updatedAt
-    get next keyword and repeat
-    calculate homepage data
-        take each charity id in charity list
-            use GetCharityAnnualReturns to fetch data
-            extract key data (totalFunds, employees, volunteers, 
-                charitableActivities totalIncomingResources)
-            store key data
-            calculate efficiency
-            store
-        take next charity id & repeat
-*/
