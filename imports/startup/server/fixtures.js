@@ -5,43 +5,40 @@ import { _ } from 'meteor/underscore';
 import { Charities } from '../../api/server/charities';
 // 
 const ccAPI = require('charity-commission-api');
-const search_terms = Meteor.settings.private.search_terms;
+const searchTerms = Meteor.settings.private.search_terms;
 const api_key = Meteor.settings.private.charity_commission.api_key;
-const argi = { APIKey: api_key, strSearch: search_terms[0] };
+const argi = { APIKey: api_key, strSearch: searchTerms[0] };
 //.
 function filterResults(results) {
     return _.where(results, { "RegistrationStatus": "Registered" });
 }
 
+/* upsert charities to Charities db */
 function writeToDb(value) {
-    console.log(value.SubsidiaryNumber,
-        value.CharityName,
-        value.MainCharityName,
-        value.RegistrationStatus,
-        value.PublicEmailAddress,
-        value.MainPhoneNumber);
+    console.log(value.MainCharityName);
 
     if (Charities.find({ RegisteredCharityNumber: value.RegisteredCharityNumber }).count() > 0) {
         console.log(`${value.CharityName} found`);
     }
 
     Charities.update({ RegisteredCharityNumber: value.RegisteredCharityNumber }, {
-            $currentDate: {
-                updatedAt: { $type: "date" }
-            },
             $set: {
                 SubsidiaryNumber: value.SubsidiaryNumber,
                 CharityName: value.CharityName,
                 MainCharityName: value.MainCharityName,
                 RegistrationStatus: value.RegistrationStatus,
                 PublicEmailAddress: value.PublicEmailAddress,
-                MainPhoneNumber: value.MainPhoneNumber
+                MainPhoneNumber: value.MainPhoneNumber,
+                updatedAt: new Date()
             }
         }, { upsert: true },
         (err, numAffected) => {
             if (err) {
                 Meteor.error(err, `Something went wrong, writing to the db`);
-            } else { console.log(numAffected); }
+            } else {
+                // console.log(`#affected: ${numAffected}`);
+                // 
+            }
         }
     );
 }
@@ -51,26 +48,13 @@ Meteor.startup(function() {
     if (Charities.find().count() === 0) {
         console.log('Charities is empty :)');
 
-
-        var temp = {
-            RegisteredCharityNumber: 292948,
-            SubsidiaryNumber: 0,
-            CharityName: 'AL-HUDA CULTURAL CENTRE & MOSQUE',
-            MainCharityName: 'AL-HUDA CULTURAL CENTRE & MOSQUE',
-            RegistrationStatus: 'Registered',
-            PublicEmailAddress: 'ALHUDACENTRE1@GMAIL.COM',
-            MainPhoneNumber: '0207 780 9495'
-        }
-
         // run the api funtion and store the result in a collection
         ccAPI.GetCharitiesByKeyword(argi).then(function(value) {
             let results = value.GetCharitiesByKeywordResult.CharityList;
-            console.log(results.length);
             results = filterResults(results);
-            console.log(results.length);
-            Charities.insert(temp);
+            console.log(`${results.length} registered charities`);
             _.each(results, function(value, key, list) {
-                console.log(value, `***`);
+                // console.log( `***`, value, `***`);
                 writeToDb(value);
             });
         }).catch(function(err) {
