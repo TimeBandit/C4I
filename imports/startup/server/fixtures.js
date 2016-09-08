@@ -30,17 +30,47 @@ function storeCharityBasicData(charity) {
                 if (err) {
                     reject(err);
                 } else {
-                    console.log(`𖣳 - ${charity.CharityName}`);
+                    // console.log(`𖣳 - ${charity.CharityName}`);
                     resolve(numAffected);
                 }
             }
         );
     });
 }
+let count = 0;
+function storeCharityExtraData(value) {
+        --count;
+        console.log(`${count} objects left`);
+    if (value.GetCharityAnnualReturnsResult !== null) {
 
-function storeCharityExtraData(charity) {
-    // console.log(charity);
-}Mongo.Collection.ObjectID(hexString);
+
+        // total funds
+        var AnnualReturns = value
+            .GetCharityAnnualReturnsResult
+            .AnnualReturns[0];
+
+        var totalFunds = AnnualReturns
+            .AssetsAndLiabilities
+            .Funds
+            .TotalFunds;
+
+        // efficiency
+        var charitableActivities = AnnualReturns.Resources.Expended.CharitableActivities;
+        var totalIncomingResources = AnnualReturns.Resources.Incoming.Total;
+        var efficiency = charitableActivities / totalIncomingResources;
+
+        var numEmployees = AnnualReturns.Employees.NoEmployees;
+        var numVolunteers = AnnualReturns.Employees.NoVolunteers;
+
+        // console.log({
+        //     totalFunds,
+        //     efficiency,
+        //     numVolunteers,
+        //     numEmployees
+        // });
+
+    }
+}
 
 Meteor.startup(function() {
     // init the db here
@@ -53,11 +83,14 @@ Meteor.startup(function() {
                 return ccAPI.GetCharitiesByKeyword({ APIKey: api_key, strSearch: term });
             }).then(function(charitiesArray) {
                 console.log(charitiesArray.GetCharitiesByKeywordResult.CharityList.length);
+                count = count + charitiesArray.GetCharitiesByKeywordResult.CharityList.length;
                 charitiesArray.GetCharitiesByKeywordResult.CharityList.reduce(function(sequence, charity) {
                     return sequence.then(function() {
                         return storeCharityBasicData(charity);
                     }).then(function() {
-                        return ccAPI.GetCharityByRegisteredCharityNumber({ APIKey: api_key, strSearch: charity.RegisteredCharityNumber });
+                        // setTimeout(function() { console.log(`𖢾 ...${charity.RegisteredCharityNumber}`) }, 10);
+                        setTimeout(()=>{},10);
+                        return ccAPI.GetCharityAnnualReturns({ APIKey: api_key, registeredCharityNumber: charity.RegisteredCharityNumber });
                     }).then(function(result) {
                         return storeCharityExtraData(result);
                     });
@@ -65,7 +98,9 @@ Meteor.startup(function() {
                     Meteor.error(err, `Something went wrong creating the client`);
                 });
             });
-        }, Promise.resolve()).catch(function(err) {
+        }, Promise.resolve(function () {
+            console.log(`Done Fetching Data`);
+        })).catch(function(err) {
             Meteor.error(err, `Something went wrong creating the client`);
         });
     }
