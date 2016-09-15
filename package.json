@@ -17,5 +17,8 @@
     "slideout": "^0.1.12",
     "soap": "^0.16.0",
     "when": "^3.7.7"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0"
   }
 }
