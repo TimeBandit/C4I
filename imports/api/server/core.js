@@ -3,6 +3,8 @@ export const truey = function() {
 	return true;
 };
 
-export const searchForCharities = function () {
-	return [];
+export const searchForCharities = function (client, apiKey, searchTerms) {
+	return new Promise(function (resolve, reject) {
+		resolve(true);
+	});
 };
