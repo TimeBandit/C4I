@@ -1,16 +1,19 @@
 /*jshint esversion: 6 */
 
-// const chai = require("chai");
+const chai = require("chai");
 // const chaiAsPromised = require("chai-as-promised");
-import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
+// import * as chai from 'chai';
+// import * as chaiAsPromised from 'chai-as-promised';
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList } from '../imports/api/server/core';
+import { GetCharitiesByOneKeyword } from '../imports/api/server/core';
 import { testData } from './testData';
-chai.use(chaiAsPromised.default);
+// 
+// chai.use(chaiAsPromised.default);
+// chai.use(chaiAsPromised);
 const should = chai.should();
 const expect = chai.expect;
 const assert = chai.assert;
+// 
 // 
 const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
@@ -67,57 +70,85 @@ describe('Core', function() {
                 return GetCharitiesByOneKeyword(client, goodArgs).should.be.fulfilled;
             });
         });
-        it('it shoud return an array', function(done) {
+        it('it shoud return an array', function() {
             ccAPI.createClient(ccAPIUrl).then(function(client) {
-            	return expect(GetCharitiesByOneKeyword(client, goodArgs)).to.eventually.be.instanceof(Array).notify(done);
+                return expect(GetCharitiesByOneKeyword(client, goodArgs)).to.eventually.be.instanceof(Array).notify();
             });
         });
-        // it('expect the first element to be a client', function() {
-        //     return ccAPI.createClient(ccAPIUrl)
-        //         .then(function(client) {
-        //             GetCharitiesByOneKeyword(client, goodArgs)
-        //                 .then(function(val) {
-        //                     // console.log(val);
-        //                     val.should.have.property("wsdl");
-        //                     // return expect(val[0]).to.have.deep.property("wsdl.uri", ccAPIUrl);
-        //                 });
-        //         });
+        it('expect the first object to have a property RegisteredCharityNumber', function() {
+            ccAPI.createClient(ccAPIUrl).then(function(client) {
+                return GetCharitiesByOneKeyword(client, goodArgs).then(function(val) {
+                	console.log(val[0]);
+                    expect(val).to.have.deep.property('[0].RegisteredCharityNumber');
+                });
+            });
+        });
+        // it('expect the first object to have a property SubsidiaryNumber', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].SubsidiaryNumber').notify(done);
+        //     });
         // });
-        it('expect the the second element to have a required keys', function(done) {
-            const allKeys = [
-                'RegisteredCharityNumber',
-                'SubsidiaryNumber',
-                'CharityName',
-                'MainCharityName',
-                'RegistrationStatus',
-                'PublicEmailAddress',
-                'MainPhoneNumber'
-            ];
-            ccAPI.createClient(ccAPIUrl).then(function(client) {
-            	return expect(GetCharitiesByOneKeyword(client, goodArgs)).to.have.all.keys.apply(this, allKeys).notify(done);
-                // GetCharitiesByOneKeyword(client, goodArgs)
-                //     .then(function(val) {
-                //     	console.log(val[0]);
-                //         return expect(val[0]).to.have.all.keys.apply(this, allKeys);
-                //     }).catch(function(err) {
-                //         console.log(err);
-                //     });
-            });
-        });
+        // it('expect the first object to have a property CharityName', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].CharityName').notify(done);
+        //     });
+        // });
+        // it('expect the first object to have a property MainCharityName', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].MainCharityName').notify(done);
+        //     });
+        // });
+        // it('expect the first object to have a property RegistrationStatus', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].RegistrationStatus').notify(done);
+        //     });
+        // });
+        // it('expect the first object to have a property PublicEmailAddress', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].PublicEmailAddress').notify(done);
+        //     });
+        // });
+        // it('expect the first object to have a property MainPhoneNumber', function(done) {
+
+        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
+        //         return expect(GetCharitiesByOneKeyword(client, goodArgs)).to
+        //         	.eventually.have.deep
+        //         	.property('[0].MainPhoneNumber').notify(done);
+        //     });
+        // });
     });
 
     describe('GetCharitiesByKeywordList()', function() {
-        // const goodArgs = { APIKey: "755dfeae-434d-4c90-a", strSearch: 'madrassa' };
+        const goodArgs = { APIKey: "755dfeae-434d-4c90-a", strSearch: 'madrassa' };
 
         // it('should eventually be fullfilled', function() {
         //     ccAPI.createClient(ccAPIUrl).then(function(client) {
         //         return GetCharitiesByKeywordList(client, [], goodArgs).should.be.fulfilled;
         //     });
         // });
-        // it('should return error when empt list passed', function() {
-        //     ccAPI.createClient(ccAPIUrl).then(function(client) {
-        //         return GetCharitiesByKeywordList(client, [], goodArgs).should.be.rejected;
-        //     });
+        // it('should return error when :)', function() {
+        // ccAPI.createClient(ccAPIUrl).then(function(client) {
+        // GetCharitiesByKeywordList(client, goodArgs, []);
+        // return GetCharitiesByKeywordList(client, goodArgs, []).should.eventually.equal(4);
+        // return assert.isRejected(GetCharitiesByKeywordList(client, goodArgs, []));
+        // return expect(GetCharitiesByKeywordList(client, goodArgs, [])).to.be.rejected;
+        // return GetCharitiesByKeywordList(client, goodArgs, []).should.be.rejected;
+        // });        		
         // });
         // it('should return a list of lists', function() {
         //     ccAPI.createClient(ccAPIUrl).then(function(client) {
