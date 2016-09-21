@@ -12,43 +12,40 @@ const test = {
     MainPhoneNumber: '07968 794080'
 };
 
+export const sleep = function(time) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(function() {
+            // process.stdout.write(".");
+            resolve(true);
+        }, time);
+    });
+};
+
 export const GetCharitiesByOneKeyword = function(client, args) {
     return new Promise(function(resolve, reject) {
         client.GetCharitiesByKeyword(args, function(err, result) {
-        	resolve([{}]);
-        	
-        	// console.log(result.GetCharitiesByKeywordResult.CharityList);
-            // if (err) { reject(err); }
-            // if (result) { resolve(result.GetCharitiesByKeywordResult.CharityList); }
-            // if (!result) { reject(Error("Network Error")); }
+            // resolve([2]);
+            // console.log(result.GetCharitiesByKeywordResult.CharityList);
+            if (err) { reject(err); }
+            if (result) { resolve(result.GetCharitiesByKeywordResult.CharityList); }
+            if (!result) { reject(Error("Network Error")); }
         });
     });
 };
 // GetCharitiesByKeywordList
-export const bbb = function(client, args, list) {
-	console.log('**********');
+export const GetCharitiesByKeywordList = function(client, args, list) {
     return new Promise(function(reject, resolve) {
-    	resolve(5);
-    	// reject(Error('errored'));
-        // let res = [];
-        // if (!list) {
-        //     reject(Error('Search list cannot be empty'));
-        // } else {
-        //     list.forEach(function(e, i, list) {
-        //         res.push(
-        //             GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
-        //         );
-        //     });
-        //     // console.log(res);
-        //     Promise.all(res)
-        //         .then(function(value) {
-        //             console.log('the results');
-        //             // console.log(value);
-        //             resolve(value);
-        //         })
-        //         .catch(function(err) {
-        //             console.log(err);
-        //         });
-        // }
+        const res = [];
+
+        if (list.length === 0) {
+            reject(Error('Search list cannot be empty'));
+        } else {
+            list.forEach(function(e, i, list) {
+                res.push(
+                    GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
+                );
+            });
+            resolve(res);
+        }
     });
 };
