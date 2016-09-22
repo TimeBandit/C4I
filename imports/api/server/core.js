@@ -12,6 +12,10 @@ const test = {
     MainPhoneNumber: '07968 794080'
 };
 
+export const choose = function(range) {
+    return Math.floor((Math.random() * range) + 1);
+};
+
 export const sleep = function(time) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
@@ -23,29 +27,55 @@ export const sleep = function(time) {
 
 export const GetCharitiesByOneKeyword = function(client, args) {
     return new Promise(function(resolve, reject) {
-        client.GetCharitiesByKeyword(args, function(err, result) {
-            // resolve([2]);
-            // console.log(result.GetCharitiesByKeywordResult.CharityList);
-            if (err) { reject(err); }
-            if (result) { resolve(result.GetCharitiesByKeywordResult.CharityList); }
-            if (!result) { reject(Error("Network Error")); }
-        });
+        // sleep prevent server hammering
+        sleep(choose(20))
+            .then(function() {
+                client.GetCharitiesByKeyword(args, function(err, result) {
+                    if (err) { reject(err); }
+                    if (result) {
+                        resolve(
+                            result.GetCharitiesByKeywordResult.CharityList
+                        );
+                    }
+                    if (!result) { reject(Error("Network Error")); }
+                });
+            });
     });
 };
 // GetCharitiesByKeywordList
 export const GetCharitiesByKeywordList = function(client, args, list) {
-    return new Promise(function(reject, resolve) {
+    if (list.length === 0) {
+        throw new Error('Cannot have an empty list');
+    }
+    if (list.lenght > 0) {
+    	forEach(function (e, i, l) {
+    		if (typeof e === 'string') {
+    			throw new Error('Search items can only be strings');
+    		}
+    	});
+    }
+    return new Promise(function(resolve, reject) {
         const res = [];
 
-        if (list.length === 0) {
-            reject(Error('Search list cannot be empty'));
-        } else {
-            list.forEach(function(e, i, list) {
-                res.push(
-                    GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
-                );
+        list.forEach(function(e, i, list) {
+            res.push(
+                GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
+            );
+        });
+
+        Promise.all(res)
+            .then(function(val) {
+                resolve(val);
             });
-            resolve(res);
-        }
     });
+};
+
+export const buildCharNumList = function(data){
+	console.log(data);
+	forEach(function (e, i, arr) {
+		forEach(function (el, idx, arr) {
+			console.log(el.RegisteredCharityNumber);
+		});
+	});
+
 };

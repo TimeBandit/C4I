@@ -1,8 +1,8 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList } from '../imports/api/server/core';
-import { testData } from './testData';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList } from '../imports/api/server/core';
+import { testData, listOfList } from './testData';
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -41,7 +41,6 @@ describe('Core', function() {
                 });
         });
     });
-
     describe('createClient():', function() {
         it('should create a valid client', function() {
             return ccAPI.createClient(ccAPIUrl).then(function(client) {
@@ -49,7 +48,11 @@ describe('Core', function() {
             });
         });
     });
-
+    describe('choose():', function () {
+    	it('return a number that is at most 20', function () {
+    		expect(choose(20)).to.be.at.most(20);
+    	});
+    });
     describe('GetCharitiesByOneKeyword():', function() {
         const goodArgs = { APIKey, strSearch: 'madrassa' };
 
@@ -77,8 +80,7 @@ describe('Core', function() {
             });
         });
     });
-
-    describe('GetCharitiesByKeywordList():', function() {
+    describe('GetCh aritiesByKeywordList():', function() {
         const goodArgs = { APIKey, strSearch: 'madrassa' };
         let client;
         before(function() {
@@ -86,21 +88,32 @@ describe('Core', function() {
                 client = val;
             });
         });
-
-        // it('should eventually be fullfilled', function() {
-        //     return GetCharitiesByKeywordList(client, [], goodArgs).should.be.fulfilled;
-        // });
-        // it('should return error when list=[]', function() {
-        //     return GetCharitiesByKeywordList(client, goodArgs, []).then(function(val) {
-        //         expect(val).to.be.instanceof(Error);
-        //     });
-        // });
+        it('should return error when list=[]', function() {
+            expect(function () {
+	            return GetCharitiesByKeywordList(client, goodArgs, []);
+            }).to.throw('Cannot have an empty list');
+        });
         it('should return a list of lists', function() {
-            return GetCharitiesByKeywordList(client, goodArgs, ["madrassa"])
+            return GetCharitiesByKeywordList(client, goodArgs, ["madrassa", "islamic relief"])
                 .then(function(val) {
-                    console.log(val);
+                    // console.log(val);
+                    expect(val[0][0]).to.have.all.keys([
+                        'RegisteredCharityNumber',
+                        'SubsidiaryNumber',
+                        'CharityName',
+                        'MainCharityName',
+                        'RegistrationStatus',
+                        'PublicEmailAddress',
+                        'MainPhoneNumber'
+                    ]);
                 });
         });
+    });
+    describe('buildCharNumList():', function () {
+    	const expected = [];
+    	it('given correct dataset should build a list of unique charity numbers', function () {
+    			expect(buildCharNumList(listOfList)).to.deep.equal(expected);
+    	});
     });
 });
 
