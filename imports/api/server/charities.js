@@ -69,6 +69,12 @@ Charities.schema = new SimpleSchema({
         min: 0,
         defaultValue: 0
     },
+    updatedAt: {
+        type: Date,
+        autoValue: function() {
+            return new Date();
+        }
+    },
     createdAt: {
         type: Date,
         autoValue: function() {
