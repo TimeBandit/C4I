@@ -25,10 +25,10 @@ export const sleep = function(time) {
     });
 };
 
-export const GetCharitiesByOneKeyword = function(client, args) {
+export const GetCharitiesByOneKeyword = function(client, args, slepp = 100) {
     return new Promise(function(resolve, reject) {
-        // sleep prevent server hammering
-        sleep(choose(20))
+        // sleep prevents server hammering
+        sleep(choose(sleep))
             .then(function() {
                 client.GetCharitiesByKeyword(args, function(err, result) {
                     if (err) { reject(err); }
@@ -48,11 +48,11 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
         throw new Error('Cannot have an empty list');
     }
     if (list.lenght > 0) {
-    	forEach(function (e, i, l) {
-    		if (typeof e === 'string') {
-    			throw new Error('Search items can only be strings');
-    		}
-    	});
+        forEach(function(e, i, l) {
+            if (typeof e === 'string') {
+                throw new Error('Search items can only be strings');
+            }
+        });
     }
     return new Promise(function(resolve, reject) {
         const res = [];
@@ -70,12 +70,15 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
     });
 };
 
-export const buildCharNumList = function(data){
-	console.log(data);
-	forEach(function (e, i, arr) {
-		forEach(function (el, idx, arr) {
-			console.log(el.RegisteredCharityNumber);
-		});
-	});
-
+export const buildCharNumList = function(data) {
+    const res = [];
+    data.forEach(function(e, i, arr) {
+        e.forEach(function(el, idx, arr) {
+            if (res.indexOf(el.RegisteredCharityNumber !== -1)) {
+                res.push(el.RegisteredCharityNumber);
+            }
+        });
+    });
+    // console.log(res);
+    return res;
 };

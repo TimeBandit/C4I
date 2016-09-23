@@ -2,7 +2,7 @@
 const chai = require("chai");
 import * as sinon from 'sinon';
 import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList } from '../imports/api/server/core';
-import { testData, listOfList } from './testData';
+import { testData, listOfList, expected } from './testData';
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -48,10 +48,10 @@ describe('Core', function() {
             });
         });
     });
-    describe('choose():', function () {
-    	it('return a number that is at most 20', function () {
-    		expect(choose(20)).to.be.at.most(20);
-    	});
+    describe('choose():', function() {
+        it('return a number that is at most 20', function() {
+            expect(choose(20)).to.be.at.most(20);
+        });
     });
     describe('GetCharitiesByOneKeyword():', function() {
         const goodArgs = { APIKey, strSearch: 'madrassa' };
@@ -80,7 +80,7 @@ describe('Core', function() {
             });
         });
     });
-    describe('GetCh aritiesByKeywordList():', function() {
+    describe('GetCh CharitiesByKeywordList():', function() {
         const goodArgs = { APIKey, strSearch: 'madrassa' };
         let client;
         before(function() {
@@ -89,8 +89,8 @@ describe('Core', function() {
             });
         });
         it('should return error when list=[]', function() {
-            expect(function () {
-	            return GetCharitiesByKeywordList(client, goodArgs, []);
+            expect(function() {
+                return GetCharitiesByKeywordList(client, goodArgs, []);
             }).to.throw('Cannot have an empty list');
         });
         it('should return a list of lists', function() {
@@ -109,11 +109,10 @@ describe('Core', function() {
                 });
         });
     });
-    describe('buildCharNumList():', function () {
-    	const expected = [];
-    	it('given correct dataset should build a list of unique charity numbers', function () {
-    			expect(buildCharNumList(listOfList)).to.deep.equal(expected);
-    	});
+    describe('buildCharNumList():', function() {
+        it('given correct dataset should build a list of unique charity numbers', function() {
+            expect(buildCharNumList(listOfList)).to.deep.equal(expected);
+        });
     });
 });
 
