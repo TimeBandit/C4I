@@ -1,8 +1,10 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList } from '../imports/api/server/core';
-import { testData, listOfList, expected } from './testData';
+import { 
+    GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, 
+    buildCharNumList, sleep, charityDataset } from '../imports/api/server/core';
+import { testData, listOfList, expected } from './testData'
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -112,6 +114,11 @@ describe('Core', function() {
     describe('buildCharNumList():', function() {
         it('given correct dataset should build a list of unique charity numbers', function() {
             expect(buildCharNumList(listOfList)).to.deep.equal(expected);
+        });
+    });
+    describe('charityDataset()', function () {
+        it('should do what...', function () {
+            for (var x of charityDataset(0, 10, 2)) { console.log(x);}
         });
     });
 });

@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
+require("babel-polyfill");
 // 
 const test = {
     RegisteredCharityNumber: 1102307,
@@ -25,10 +26,10 @@ export const sleep = function(time) {
     });
 };
 
-export const GetCharitiesByOneKeyword = function(client, args, slepp = 100) {
+export const GetCharitiesByOneKeyword = function(client, args, delay = 100) {
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
-        sleep(choose(sleep))
+        sleep(choose(delay))
             .then(function() {
                 client.GetCharitiesByKeyword(args, function(err, result) {
                     if (err) { reject(err); }
@@ -42,6 +43,7 @@ export const GetCharitiesByOneKeyword = function(client, args, slepp = 100) {
             });
     });
 };
+
 // GetCharitiesByKeywordList
 export const GetCharitiesByKeywordList = function(client, args, list) {
     if (list.length === 0) {
@@ -81,4 +83,29 @@ export const buildCharNumList = function(data) {
     });
     // console.log(res);
     return res;
+};
+
+// export const charityDataset = function(client, args, patterns, list) {
+//     return function*() {
+//         list.forEach(function(element, index, arr) {
+//             client.GetCharityByRegisteredCharityNumber({ APIKey: args.APIKey, registeredCharityNumber: element },
+//                 function(err, result) {
+//                     if (err) {
+//                         throw new Error(`Could not retrieve data for charity ${registeredCharityNumber}`);
+//                     } else {
+
+//                         yield result;
+//                     }
+//                 });
+
+//         });
+//     };
+// };
+
+
+export const charityDataset = function* (start, end, step) {
+    while (start < end) { 
+        yield start ;
+        start += step; 
+    } 
 };
