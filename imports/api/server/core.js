@@ -85,27 +85,28 @@ export const buildCharNumList = function(data) {
     return res;
 };
 
-// export const charityDataset = function(client, args, patterns, list) {
-//     return function*() {
-//         list.forEach(function(element, index, arr) {
-//             client.GetCharityByRegisteredCharityNumber({ APIKey: args.APIKey, registeredCharityNumber: element },
-//                 function(err, result) {
-//                     if (err) {
-//                         throw new Error(`Could not retrieve data for charity ${registeredCharityNumber}`);
-//                     } else {
-
-//                         yield result;
-//                     }
-//                 });
-
-//         });
-//     };
-// };
-
-
-export const charityDataset = function* (start, end, step) {
-    while (start < end) { 
-        yield start ;
-        start += step; 
-    } 
+export const getCharityByRegisteredCharityNumber = function(client, args, delay = 100) {
+    return new Promise(function(resolve, reject) {
+        // sleep prevents server hammering
+        sleep(choose(delay))
+            .then(function() {
+                client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
+                    if (err) { reject(err); }
+                    if (result) {
+                        resolve(
+                            result
+                        );
+                    }
+                    if (!result) { reject(Error("Network Error")); }
+                });
+            });
+    });
+};
+export const charityGenerator = function* (client, args, charityIds) {
+    while (charityIds.length !== 0) {
+        yield getCharityByRegisteredCharityNumber(
+            client, 
+            { APIKey: args.APIKey, registeredCharityNumber: charityIds.pop() }
+            );
+    }
 };

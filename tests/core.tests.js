@@ -1,9 +1,7 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { 
-    GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, 
-    buildCharNumList, sleep, charityDataset } from '../imports/api/server/core';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator } from '../imports/api/server/core';
 import { testData, listOfList, expected } from './testData'
 // 
 const should = chai.should();
@@ -83,8 +81,9 @@ describe('Core', function() {
         });
     });
     describe('GetCh CharitiesByKeywordList():', function() {
-        const goodArgs = { APIKey, strSearch: 'madrassa' };
         let client;
+        const goodArgs = { APIKey, strSearch: 'madrassa' };
+
         before(function() {
             return ccAPI.createClient(ccAPIUrl).then(function(val) {
                 client = val;
@@ -116,9 +115,21 @@ describe('Core', function() {
             expect(buildCharNumList(listOfList)).to.deep.equal(expected);
         });
     });
-    describe('charityDataset()', function () {
-        it('should do what...', function () {
-            for (var x of charityDataset(0, 10, 2)) { console.log(x);}
+    describe('charityGenerator()', function() {
+        let client;
+        const goodArgs = { APIKey };
+
+        before(function() {
+            return ccAPI.createClient(ccAPIUrl).then(function(val) {
+                client = val;
+            });
+        });
+
+        it('should do what...', function() {
+            let gen = charityGenerator(client, args, [expected]);
+            for (x of gen) {
+                console.log(x);
+            }
         });
     });
 });
