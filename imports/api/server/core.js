@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
+require("babel-polyfill");
 // 
 const test = {
     RegisteredCharityNumber: 1102307,
@@ -25,10 +26,10 @@ export const sleep = function(time) {
     });
 };
 
-export const GetCharitiesByOneKeyword = function(client, args, slepp = 100) {
+export const GetCharitiesByOneKeyword = function(client, args, delay = 100) {
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
-        sleep(choose(sleep))
+        sleep(choose(delay))
             .then(function() {
                 client.GetCharitiesByKeyword(args, function(err, result) {
                     if (err) { reject(err); }
@@ -37,11 +38,12 @@ export const GetCharitiesByOneKeyword = function(client, args, slepp = 100) {
                             result.GetCharitiesByKeywordResult.CharityList
                         );
                     }
-                    if (!result) { reject(Error("Network Error")); }
+                    if (!result) { reject(new Error("Network Error")); }
                 });
             });
     });
 };
+
 // GetCharitiesByKeywordList
 export const GetCharitiesByKeywordList = function(client, args, list) {
     if (list.length === 0) {
@@ -81,4 +83,50 @@ export const buildCharNumList = function(data) {
     });
     // console.log(res);
     return res;
+};
+
+export const getCharityByRegisteredCharityNumber = function(client, args, delay = 100) {
+    return new Promise(function(resolve, reject) {
+        // sleep prevents server hammering
+        sleep(choose(delay))
+            .then(function() {
+                client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
+                    if (err) { reject(err); }
+                    if (result) {
+                        resolve(
+                            result
+                        );
+                    }
+                    if (!result) { reject(new Error("Network Error")); }
+                });
+            });
+    });
+};
+// not using generators until I up my JS game
+export const charityGenerator = function*(client, args, charityIds) {
+    console.log(args, charityIds, charityIds.length);
+    while (charityIds.length !== 0) {
+        yield getCharityByRegisteredCharityNumber(
+            client, { APIKey: args.APIKey, registeredCharityNumber: charityIds.pop() }
+        );
+    }
+};
+
+export const fetchAllCharities = function(client, args, charityIds) {
+    return new Promise(function(resolve, reject) {
+        const res = [];
+
+        charityIds.forEach(function(e, i, list) {
+            res.push(
+                getCharityByRegisteredCharityNumber(
+                    client, { APIKey: args.APIKey, registeredCharityNumber: e }
+                )
+            );
+        });
+
+        Promise.all(res)
+            .then(function(val) {
+                resolve(val);
+            });
+    });
 };

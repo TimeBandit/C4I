@@ -1,8 +1,8 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList } from '../imports/api/server/core';
-import { testData, listOfList, expected } from './testData';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities } from '../imports/api/server/core';
+import { testData, listOfList, expected } from './testData'
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -81,8 +81,9 @@ describe('Core', function() {
         });
     });
     describe('GetCh CharitiesByKeywordList():', function() {
-        const goodArgs = { APIKey, strSearch: 'madrassa' };
         let client;
+        const goodArgs = { APIKey, strSearch: 'madrassa' };
+
         before(function() {
             return ccAPI.createClient(ccAPIUrl).then(function(val) {
                 client = val;
@@ -112,6 +113,25 @@ describe('Core', function() {
     describe('buildCharNumList():', function() {
         it('given correct dataset should build a list of unique charity numbers', function() {
             expect(buildCharNumList(listOfList)).to.deep.equal(expected);
+        });
+    });
+    describe('fetchAllCharities()', function() {
+        let client;
+        const goodArgs = { APIKey };
+
+        before(function() {
+            return ccAPI.createClient(ccAPIUrl).then(function(val) {
+                client = val;
+            });
+        });
+
+        it('fetch a single charity', function() {
+            return fetchAllCharities(client, { APIKey }, [1125833])
+                .then(function(val) {
+                    // console.log(val[0].GetCharityByRegisteredCharityNumberResult.CharityName);
+                    expect(val[0].GetCharityByRegisteredCharityNumberResult.CharityName)
+                        .to.equal("GREEN LANE MASJID AND COMMUNITY CENTRE");
+                });
         });
     });
 });
