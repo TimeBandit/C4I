@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator } from '../imports/api/server/core';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities } from '../imports/api/server/core';
 import { testData, listOfList, expected } from './testData'
 // 
 const should = chai.should();
@@ -115,7 +115,7 @@ describe('Core', function() {
             expect(buildCharNumList(listOfList)).to.deep.equal(expected);
         });
     });
-    describe('charityGenerator()', function() {
+    describe('fetchAllCharities()', function() {
         let client;
         const goodArgs = { APIKey };
 
@@ -125,11 +125,13 @@ describe('Core', function() {
             });
         });
 
-        it('should do what...', function() {
-            let gen = charityGenerator(client, args, [expected]);
-            for (x of gen) {
-                console.log(x);
-            }
+        it('fetch a single charity', function() {
+            return fetchAllCharities(client, { APIKey }, [1125833])
+                .then(function(val) {
+                    // console.log(val[0].GetCharityByRegisteredCharityNumberResult.CharityName);
+                    expect(val[0].GetCharityByRegisteredCharityNumberResult.CharityName)
+                        .to.equal("GREEN LANE MASJID AND COMMUNITY CENTRE");
+                });
         });
     });
 });

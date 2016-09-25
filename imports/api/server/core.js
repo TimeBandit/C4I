@@ -38,7 +38,7 @@ export const GetCharitiesByOneKeyword = function(client, args, delay = 100) {
                             result.GetCharitiesByKeywordResult.CharityList
                         );
                     }
-                    if (!result) { reject(Error("Network Error")); }
+                    if (!result) { reject(new Error("Network Error")); }
                 });
             });
     });
@@ -97,16 +97,36 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
                             result
                         );
                     }
-                    if (!result) { reject(Error("Network Error")); }
+                    if (!result) { reject(new Error("Network Error")); }
                 });
             });
     });
 };
-export const charityGenerator = function* (client, args, charityIds) {
+// not using generators until I up my JS game
+export const charityGenerator = function*(client, args, charityIds) {
+    console.log(args, charityIds, charityIds.length);
     while (charityIds.length !== 0) {
         yield getCharityByRegisteredCharityNumber(
-            client, 
-            { APIKey: args.APIKey, registeredCharityNumber: charityIds.pop() }
-            );
+            client, { APIKey: args.APIKey, registeredCharityNumber: charityIds.pop() }
+        );
     }
+};
+
+export const fetchAllCharities = function(client, args, charityIds) {
+    return new Promise(function(resolve, reject) {
+        const res = [];
+
+        charityIds.forEach(function(e, i, list) {
+            res.push(
+                getCharityByRegisteredCharityNumber(
+                    client, { APIKey: args.APIKey, registeredCharityNumber: e }
+                )
+            );
+        });
+
+        Promise.all(res)
+            .then(function(val) {
+                resolve(val);
+            });
+    });
 };
