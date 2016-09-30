@@ -67,21 +67,21 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
 
         Promise.all(res)
             .then(function(val) {
-                resolve(val);
+                resolve(buildCharNumList(val));
             });
     });
 };
 
 export const buildCharNumList = function(data) {
-    const res = [];
+    let res = [];
     data.forEach(function(e, i, arr) {
         e.forEach(function(el, idx, arr) {
-            if (res.indexOf(el.RegisteredCharityNumber !== -1)) {
-                res.push(el.RegisteredCharityNumber);
+            let charNum = el.RegisteredCharityNumber;
+            if (res.indexOf(charNum) === -1) {
+                res.push(charNum);
             }
         });
     });
-    // console.log(res);
     return res;
 };
 

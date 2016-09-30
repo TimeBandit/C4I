@@ -2,7 +2,7 @@
 const chai = require("chai");
 import * as sinon from 'sinon';
 import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities } from '../imports/api/server/core';
-import { testData, listOfList, expected } from './testData'
+import { testData, listOfList, expected } from './testData';
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -80,7 +80,7 @@ describe('Core', function() {
             });
         });
     });
-    describe('GetCh CharitiesByKeywordList():', function() {
+    describe('GetCharitiesByKeywordList():', function() {
         let client;
         const goodArgs = { APIKey, strSearch: 'madrassa' };
 
@@ -133,13 +133,17 @@ describe('Core', function() {
                         .to.equal("GREEN LANE MASJID AND COMMUNITY CENTRE");
                 });
         });
+        it('fetch two charities', function() {
+            return fetchAllCharities(client, { APIKey }, [1102307, 1143183])
+                .then(function(val) {
+                    // console.log(val[0].GetCharityByRegisteredCharityNumberResult.CharityName);
+                    expect(val[0].GetCharityByRegisteredCharityNumberResult.CharityName)
+                        .to.equal("JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA");
+                    expect(val[1].GetCharityByRegisteredCharityNumberResult.CharityName)
+                        .to.equal("JAMIAT AHL-E-HADITH OLDHAM");
+                });
+        });
     });
 });
 
-// creatClient() //return client & search array
-//   .then(searchForCharities) // returns list of charity numbers & client
-//   .then(fetchCharities) // return list of charity object
-//   .then(storeCharities)
-//    .catch(function(error){
-//     throw error
-// })
+
