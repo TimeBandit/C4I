@@ -26,7 +26,7 @@ export const sleep = function(time) {
     });
 };
 
-export const GetCharitiesByOneKeyword = function(client, args, delay = 100) {
+export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
         sleep(choose(delay))
@@ -46,6 +46,7 @@ export const GetCharitiesByOneKeyword = function(client, args, delay = 100) {
 
 // GetCharitiesByKeywordList
 export const GetCharitiesByKeywordList = function(client, args, list) {
+    // console.log(arguments);
     if (list.length === 0) {
         throw new Error('Cannot have an empty list');
     }
@@ -60,14 +61,21 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
         const res = [];
 
         list.forEach(function(e, i, list) {
+            console.log(`Keyword => ${e}`);
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
+            // setTimeout(function() {
+            // }, 500 * i);
         });
 
         Promise.all(res)
             .then(function(val) {
-                resolve(buildCharNumList(val));
+                // console.log(val);
+                resolve({
+                    client,
+                    res: buildCharNumList(val)
+                });
             });
     });
 };
@@ -85,21 +93,24 @@ export const buildCharNumList = function(data) {
     return res;
 };
 
-export const getCharityByRegisteredCharityNumber = function(client, args, delay = 100) {
+export const getCharityByRegisteredCharityNumber = function(client, args, delay = 2000) {
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
-        sleep(choose(delay))
-            .then(function() {
-                client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
-                    if (err) { reject(err); }
-                    if (result) {
-                        resolve(
-                            result
-                        );
-                    }
-                    if (!result) { reject(new Error("Network Error")); }
-                });
-            });
+        client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
+            if (err) { reject(err); }
+            if (result) {
+                console.log(
+                    `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
+                );
+                resolve(
+                    result
+                );
+            }
+            if (!result) { reject(new Error("Network Error")); }
+        });
+        // sleep(delay)
+        //     .then(function() {
+        //     });
     });
 };
 // not using generators until I up my JS game
@@ -115,18 +126,29 @@ export const charityGenerator = function*(client, args, charityIds) {
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
         const res = [];
+        const delay = 1000;
 
         charityIds.forEach(function(e, i, list) {
-            res.push(
-                getCharityByRegisteredCharityNumber(
-                    client, { APIKey: args.APIKey, registeredCharityNumber: e }
-                )
-            );
+            setTimeout(function() {
+                console.log(`fetching ${e}`);
+                res.push(
+                    getCharityByRegisteredCharityNumber(
+                        client, { APIKey: args.APIKey, registeredCharityNumber: e }
+                    )
+                );
+            }, delay * i);
         });
 
-        Promise.all(res)
-            .then(function(val) {
-                resolve(val);
-            });
+        setTimeout(function() {
+            console.log(res.length);
+            Promise.all(res)
+                .then(function(val) {
+                    resolve(val);
+                })
+                .catch(function(error) {
+                    throw error;
+                });
+
+        }, delay * charityIds.length);
     });
 };
