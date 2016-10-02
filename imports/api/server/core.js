@@ -61,7 +61,7 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
         const res = [];
 
         list.forEach(function(e, i, list) {
-            console.log(`Keyword => ${e}`);
+            // console.log(`Keyword => ${e}`);
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
@@ -99,9 +99,11 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
         client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
             if (err) { reject(err); }
             if (result) {
-                console.log(
-                    `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
-                );
+                process.stdout.clearLine();
+                process.stdout.cursorTo(0);
+                // console.log(
+                //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
+                // );
                 resolve(
                     result
                 );
@@ -126,11 +128,12 @@ export const charityGenerator = function*(client, args, charityIds) {
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
         const res = [];
-        const delay = 1000;
+        const delay = 1500;
 
         charityIds.forEach(function(e, i, list) {
             setTimeout(function() {
-                console.log(`fetching ${e}`);
+                // console.log(`fetching ${e}`);
+                process.stdout.write(`    fetching ${i} of ${list.length}`);
                 res.push(
                     getCharityByRegisteredCharityNumber(
                         client, { APIKey: args.APIKey, registeredCharityNumber: e }
@@ -140,7 +143,7 @@ export const fetchAllCharities = function(client, args, charityIds) {
         });
 
         setTimeout(function() {
-            console.log(res.length);
+            // console.log(res.length);
             Promise.all(res)
                 .then(function(val) {
                     resolve(val);
