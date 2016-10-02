@@ -3,16 +3,6 @@ const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
 require("babel-polyfill");
 // 
-const test = {
-    RegisteredCharityNumber: 1102307,
-    SubsidiaryNumber: 0,
-    CharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
-    MainCharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
-    RegistrationStatus: 'Registered',
-    PublicEmailAddress: 'mr.yasin@aol.co.uk',
-    MainPhoneNumber: '07968 794080'
-};
-
 export const choose = function(range) {
     return Math.floor((Math.random() * range) + 1);
 };
@@ -24,6 +14,19 @@ export const sleep = function(time) {
             resolve(true);
         }, time);
     });
+};
+
+export const defined = function(obj, strNames) {
+    let arrNames = strNames.split('.');
+    let name  = arrNames.shift();
+
+    while (name) {        
+        if (!obj.hasOwnProperty(name)) return false;
+        obj = obj[name];
+        name = arrNames.shift();
+    } 
+
+    return true;
 };
 
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {

@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities } from '../imports/api/server/core';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities, defined } from '../imports/api/server/core';
 import { testData, listOfList, expected } from './testData';
 // 
 const should = chai.should();
@@ -109,66 +109,91 @@ describe('Core', function() {
                         .to.equal("JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA");
                     expect(val[1].GetCharityByRegisteredCharityNumberResult.CharityName)
                         .to.equal("JAMIAT AHL-E-HADITH OLDHAM");
+
+                    console.log(val[1].GetCharityByRegisteredCharityNumberResult);
+                    // .Returns[0].AssetsAndLiabilities.Funds.TotalFunds);
+                    // if (defined(val[0].GetCharityByRegisteredCharityNumberResult.Returns[0], 'AssetsAndLiabilities.Funds.TotalFunds')) {
+                    // }
                 });
         });
 
     });
-    describe('integration tests', function() {
-        const step1 = function step1() {
-            return new Promise(function(resolve, reject) {
-                resolve([true]);
-            });
+    describe('defined()', function() {
+        const obj  = {
+            a: {
+                b :{
+                    c:{
+                        x: 1,
+                        y: 2
+                    }
+                }
+            }
         };
 
-        const step2 = function step2(val) {
-            return new Promise(function(resolve, reject) {
-                resolve(val.concat(true));
-            });
-        };
-
-        const step3 = function step3(val) {
-            return new Promise(function(resolve, reject) {
-                resolve(val.concat(true));
-            });
-        };
-        it('returns eventually return [true, true, true]', function() {
-            return step1()
-                .then(step2)
-                .then(step3)
-                .then(function(res) {
-                    expect(res).to.deep.equal([true, true, true]);
-                });
+        it('return true when a nested object key exists', function() {
+            const res = defined(obj, 'a.b.c.x');
+            expect(res).to.be.ok;
         });
-        it('execute promise stack', function() {
-            this.timeout(30000);
-            return ccAPI.createClient(ccAPIUrl)
-                .then(function(client) {
-                    // console.log(searchTerms);
-                    return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
-                })
-                .then(function(obj) {
-                    const { client, res } = obj;
-                    // console.log(typeof res);
-                    return fetchAllCharities(client, { APIKey }, res);
-                })
-                .then(function(val) {
-                    expect(val[0].GetCharityByRegisteredCharityNumberResult).to.any.keys([
-                        'RegisteredCharityNumber',
-                        'SubsidiaryNumber',
-                        'CharityName',
-                        'MainCharityName',
-                        'RegistrationStatus',
-                        'PublicEmailAddress',
-                        'MainPhoneNumber'
-                    ]);
-                    // val.forEach(function(el, idx, arr) {
-                    //     console.log(el.GetCharityByRegisteredCharityNumberResult.CharityName);
-                    // });
-                })
-                .catch(function(error) {
-                    throw error;
-                });
+        it('return false when a nested object key exists', function() {
+            const res = defined(obj, 'a.b.c.z');
+            expect(res).to.be.not.ok;
         });
     });
+    // describe('integration tests', function() {
+    //     const step1 = function step1() {
+    //         return new Promise(function(resolve, reject) {
+    //             resolve([true]);
+    //         });
+    //     };
 
+    //     const step2 = function step2(val) {
+    //         return new Promise(function(resolve, reject) {
+    //             resolve(val.concat(true));
+    //         });
+    //     };
+
+    //     const step3 = function step3(val) {
+    //         return new Promise(function(resolve, reject) {
+    //             resolve(val.concat(true));
+    //         });
+    //     };
+    //     it('returns eventually return [true, true, true]', function() {
+    //         return step1()
+    //             .then(step2)
+    //             .then(step3)
+    //             .then(function(res) {
+    //                 expect(res).to.deep.equal([true, true, true]);
+    //             });
+    //     });
+    //     it('execute promise stack', function() {
+    //         this.timeout(30000);
+    //         return ccAPI.createClient(ccAPIUrl)
+    //             .then(function(client) {
+    //                 // console.log(searchTerms);
+    //                 return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
+    //             })
+    //             .then(function(obj) {
+    //                 const { client, res } = obj;
+    //                 // console.log(typeof res);
+    //                 return fetchAllCharities(client, { APIKey }, res);
+    //             })
+    //             .then(function(val) {
+    //                 expect(val[0].GetCharityByRegisteredCharityNumberResult).to.have.any.keys([
+    //                     'RegisteredCharityNumber',
+    //                     'SubsidiaryNumber',
+    //                     'CharityName',
+    //                     'MainCharityName',
+    //                     'RegistrationStatus',
+    //                     'PublicEmailAddress',
+    //                     'MainPhoneNumber'
+    //                 ]);
+    //                 val.forEach(function(el, idx, arr) {
+    //                     console.log(el.GetCharityByRegisteredCharityNumberResult.CharityName);
+    //                 });
+    //             })
+    //             .catch(function(error) {
+    //                 throw error;
+    //             });
+    //     });
+    // });
 });
