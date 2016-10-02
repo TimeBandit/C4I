@@ -63,23 +63,7 @@ const d2 = [
     { "RegisteredCharityNumber": 292922, "SubsidiaryNumber": 0, "CharityName": "SOUTH-EAST LONDON BAITUL AZIZ (MASJID AND MADRASSA) ISLAMIC CULTURAL TRUST", "MainCharityName": "SOUTH-EAST LONDON BAITUL AZIZ (MASJID AND MADRASSA) ISLAMIC CULTURAL TRUST", "RegistrationStatus": "Registered", "PublicEmailAddress": "", "MainPhoneNumber": "" }
 ];
 
-export const expected = [1102307,
-    1143183,
-    1000401,
-    1146855,
-    1142656,
-    1076592,
-    1155170,
-    516543,
-    1153959,
-    1097411,
-    1137941,
-    1000204,
-    1139818,
-    518022,
-    1005837,
-    1080843,
-    292922,
+export const expected = [
     1102307,
     1143183,
     1000401,
