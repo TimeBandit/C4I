@@ -84,3 +84,45 @@ export const expected = [
 ];
 
 export const listOfList = [d1, d2];
+
+export const subMissionList = [{
+    MailingCycle: 'AR12',
+    FyStart: '01 May 2011',
+    FyEnd: '30 Apr 2012',
+    AnnualReturnReceivedDate: '26 Feb 2013',
+    AccountsReturnReceivedDate: '26 Feb 2013',
+    GrossIncome: '225816',
+    TotalExpenditure: '35361'
+}, {
+    MailingCycle: 'AR13',
+    FyStart: '01 May 2012',
+    FyEnd: '30 Apr 2013',
+    AnnualReturnReceivedDate: '12 Feb 2014',
+    AccountsReturnReceivedDate: '12 Feb 2014',
+    GrossIncome: '163929',
+    TotalExpenditure: '50462'
+}, {
+    MailingCycle: 'AR14',
+    FyStart: '01 May 2013',
+    FyEnd: '30 Apr 2014',
+    AnnualReturnReceivedDate: '10 Feb 2015',
+    AccountsReturnReceivedDate: '10 Feb 2015',
+    GrossIncome: '137307',
+    TotalExpenditure: '83467'
+}, {
+    MailingCycle: 'AR15',
+    FyStart: '01 May 2014',
+    FyEnd: '30 Apr 2015',
+    AnnualReturnReceivedDate: '29 Feb 2016',
+    AccountsReturnReceivedDate: '29 Feb 2016',
+    GrossIncome: '426527',
+    TotalExpenditure: '412574'
+}, {
+    MailingCycle: 'AR16',
+    FyStart: '01 May 2015(estimated)',
+    FyEnd: '30 Apr 2016(estimated)',
+    AnnualReturnReceivedDate: '',
+    AccountsReturnReceivedDate: '',
+    GrossIncome: '',
+    TotalExpenditure: ''
+}];
