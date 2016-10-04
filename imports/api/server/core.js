@@ -161,11 +161,9 @@ export const fetchAllCharities = function(client, args, charityIds) {
 
 export const extractCurrentSubmission = function (list) {
     let res;
-    // const data = list.reverse();
 
     list.forEach(function (el, idx, arr) {
-        console.log(el.GrossIncome);
-        if (el.GrossIncome !== false) {
+        if (el.GrossIncome !== '') {
             res = el;
         }
     });

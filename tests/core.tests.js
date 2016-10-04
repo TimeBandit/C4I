@@ -142,7 +142,7 @@ describe('Core', function() {
         });
     });
     describe('extractCurrentSubmission', function() {
-        it('should latest valid financial data', function() {
+        it('should extract latest valid financial submission', function() {
             const expected = {
                 MailingCycle: 'AR15',
                 FyStart: '01 May 2014',
@@ -205,16 +205,48 @@ describe('Core', function() {
                         'PublicEmailAddress',
                         'MainPhoneNumber'
                     ]);
-                    let counter = 0;
                     val.forEach(function(el, idx, arr) {
                         // console.log(el.GetCharityByRegisteredCharityNumberResult.CharityName);
                         // console.log(defined(el, 'GetCharityByRegisteredCharityNumberResult.Returns'));
-                        if (defined(el, 'GetCharityByRegisteredCharityNumberResult.Submission')) {
-                            console.log(extractCurrentSubmission(el.GetCharityByRegisteredCharityNumberResult.Submission));
-                            counter++;
+
+                        // console.log(el.GetCharityByRegisteredCharityNumberResult.Returns[0].Employees);
+                        let data = {
+                            CharityName: null,
+                            RegisteredCharityNumber: null,
+                            RegistrationHistory: null,
+                            RegistrationDate: null,
+                            Address: null,
+                            Activities: null,
+                            Trustees: null,
+                            GrossIncome: null,
+                            TotalExpenditure: null,
+                            Employees: null,
+                            Volunteers: null
+                        };
+
+                        const res = el.GetCharityByRegisteredCharityNumberResult;
+
+                        data.CharityName = res.CharityName;
+                        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
+                        data.RegistrationHistory = res.RegistrationHistory;
+                        data.Address = res.Address;
+                        data.Activities = res.Activities;
+                        data.Trustees = res.Trustees;
+
+                        if (defined(res, 'Submission')) {
+                            console.log(res.RegisteredCharityNumber);
+                            
+                            const submission = extractCurrentSubmission(res.Submission);
+                            data.GrossIncome = submission.GrossIncome;
+                            data.TotalExpenditure = submission.TotalExpenditure;
                         }
+
+                        // if (defined(res.Returns[0], 'Employees')) {
+                        //     data.Employees = res.Returns[0].Employees.NoEmployees;
+                        //     data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+                        // }
+                        console.log(data);
                     });
-                    console.log(`${counter} charities of ${val.length} had submissions data`);
 
                     // 8 charities of 82 had returns data
                     // 75 charities of 82 had submissions data
