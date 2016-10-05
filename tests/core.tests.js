@@ -15,7 +15,7 @@ const APIKey = settings.private.charity_commission.api_key;
 const searchTerms = settings.private.search_terms;
 
 describe('Core', function() {
-    describe.skip('createClient():', function() {
+    describe('createClient():', function() {
         it('should create a valid client', function() {
             return ccAPI.createClient(ccAPIUrl).then(function(client) {
                 expect(client).to.respondTo('GetCharities');
@@ -141,7 +141,7 @@ describe('Core', function() {
             expect(res).to.be.not.ok;
         });
     });
-    describe('extractCurrentSubmission', function() {
+    describe.skip('extractCurrentSubmission', function() {
         it('should extract latest valid financial submission', function() {
             const expected = {
                 MailingCycle: 'AR15',
@@ -153,11 +153,11 @@ describe('Core', function() {
                 TotalExpenditure: '412574'
             };
 
-            expect(extractCurrentSubmission(subMissionList)).to.deep.equal(expected);            
+            expect(extractCurrentSubmission(subMissionList)).to.deep.equal(expected);
         });
 
     });
-    describe('integration tests', function() {
+    describe.skip('integration tests', function() {
         const step1 = function step1() {
             return new Promise(function(resolve, reject) {
                 resolve([true]);
@@ -184,18 +184,21 @@ describe('Core', function() {
                 });
         });
         it('execute promise stack', function() {
-            this.timeout(30000);
+            console.log('lets go!');
+            // this.timeout(30000);
+            console.log('setting timeout');
             return ccAPI.createClient(ccAPIUrl)
                 .then(function(client) {
-                    // console.log(searchTerms);
+                    console.log('create client');
                     return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
                 })
                 .then(function(obj) {
                     const { client, res } = obj;
-                    // console.log(typeof res);
+                    console.log(typeof res);
                     return fetchAllCharities(client, { APIKey }, res);
                 })
                 .then(function(val) {
+                    console.log(val[0].GetCharityByRegisteredCharityNumberResult.RegisteredCharityNumber);
                     expect(val[0].GetCharityByRegisteredCharityNumberResult).to.have.any.keys([
                         'RegisteredCharityNumber',
                         'SubsidiaryNumber',
@@ -205,49 +208,45 @@ describe('Core', function() {
                         'PublicEmailAddress',
                         'MainPhoneNumber'
                     ]);
-                    val.forEach(function(el, idx, arr) {
-                        // console.log(el.GetCharityByRegisteredCharityNumberResult.CharityName);
-                        // console.log(defined(el, 'GetCharityByRegisteredCharityNumberResult.Returns'));
+                    // val.forEach(function(el, idx, arr) {
+                    //     let data = {
+                    //         CharityName: '',
+                    //         RegisteredCharityNumber: '',
+                    //         RegistrationHistory: '',
+                    //         RegistrationDate: '',
+                    //         Address: '',
+                    //         Activities: '',
+                    //         Trustees: '',
+                    //         GrossIncome: '',
+                    //         TotalExpenditure: '',
+                    //         Employees: '',
+                    //         Volunteers: ''
+                    //     };
 
-                        // console.log(el.GetCharityByRegisteredCharityNumberResult.Returns[0].Employees);
-                        let data = {
-                            CharityName: null,
-                            RegisteredCharityNumber: null,
-                            RegistrationHistory: null,
-                            RegistrationDate: null,
-                            Address: null,
-                            Activities: null,
-                            Trustees: null,
-                            GrossIncome: null,
-                            TotalExpenditure: null,
-                            Employees: null,
-                            Volunteers: null
-                        };
+                    //     const res = el.GetCharityByRegisteredCharityNumberResult;
 
-                        const res = el.GetCharityByRegisteredCharityNumberResult;
+                    //     data.CharityName = res.CharityName;
+                    //     data.RegisteredCharityNumber = res.RegisteredCharityNumber;
+                    //     data.RegistrationHistory = res.RegistrationHistory;
+                    //     data.Address = res.Address;
+                    //     data.Activities = res.Activities;
+                    //     data.Trustees = res.Trustees;
 
-                        data.CharityName = res.CharityName;
-                        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-                        data.RegistrationHistory = res.RegistrationHistory;
-                        data.Address = res.Address;
-                        data.Activities = res.Activities;
-                        data.Trustees = res.Trustees;
+                    //     if (defined(res, 'Submission')) {
 
-                        if (defined(res, 'Submission')) {
-                            console.log(res.RegisteredCharityNumber);
-                            
-                            const submission = extractCurrentSubmission(res.Submission);
-                            data.GrossIncome = submission.GrossIncome;
-                            data.TotalExpenditure = submission.TotalExpenditure;
-                        }
+                    //         const submission = extractCurrentSubmission(res.Submission);
+                    //         data.GrossIncome = submission.GrossIncome;
+                    //         data.TotalExpenditure = submission.TotalExpenditure;
+                    //     }
+                    //     // fs.writeFile("~/tmp/test", data, function(err) {
+                    //     //     if (err) {
+                    //     //         return console.log(err);
+                    //     //     }
 
-                        // if (defined(res.Returns[0], 'Employees')) {
-                        //     data.Employees = res.Returns[0].Employees.NoEmployees;
-                        //     data.Volunteers = res.Returns[0].Employees.NoVolunteers;
-                        // }
-                        console.log(data);
-                    });
-
+                    //     //     console.log("The file was saved!");
+                    //     // });
+                    //     console.log(data);
+                    // });
                     // 8 charities of 82 had returns data
                     // 75 charities of 82 had submissions data
                 })
@@ -257,5 +256,3 @@ describe('Core', function() {
         });
     });
 });
-
-// const charity = val[0];
