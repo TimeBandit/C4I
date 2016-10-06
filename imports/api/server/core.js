@@ -102,8 +102,8 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
         client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
             if (err) { reject(err); }
             if (result) {
-                process.stdout.clearLine();
-                process.stdout.cursorTo(0);
+                // process.stdout.clearLine();
+                // process.stdout.cursorTo(0);
                 // console.log(
                 //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
                 // );

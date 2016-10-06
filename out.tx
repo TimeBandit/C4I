@@ -1,0 +1,48 @@
+
+> islamiccharities_code@ test /home/timebandit/Documents/projects/islamiccharities_code
+> mocha ./tests --compilers js:babel-register "-w"
+
+
+[?25l
+
+  Core
+    createClient():
+      - should create a valid client
+    choose():
+      - return a number that is at most 20
+    GetCharitiesByOneKeyword():
+      - it shoud return an array
+      - expect the first object to have all the required keys
+    GetCharitiesByKeywordList():
+      - should return error when list=[]
+      - should return a list of lists
+    buildCharNumList():
+      - given correct dataset should build a list of unique charity numbers
+    fetchAllCharities()
+      - fetch a single charity
+      - fetch two charities
+    defined()
+      - return true when a nested object key exists
+      - return false when a nested object key exists
+    extractCurrentSubmission
+      - should extract latest valid financial submission
+    integration tests
+      - returns eventually return [true, true, true]
+lets go!
+setting timeout
+searching for charitites
+fetching all charities
+    fetching 0 of 196    fetching 1 of 196    fetching 2 of 196    fetching 3 of 196    fetching 4 of 196    fetching 5 of 196    fetching 6 of 196    fetching 7 of 196    fetching 8 of 196    fetching 9 of 196    fetching 10 of 196    fetching 11 of 196    fetching 12 of 196    fetching 13 of 196    fetching 14 of 196    fetching 15 of 196    fetching 16 of 196    fetching 17 of 196    fetching 18 of 196    fetching 19 of 196      1) execute promise stack
+
+
+  0 passing (31s)
+  13 pending
+  1 failing
+
+  1) Core integration tests execute promise stack:
+     Error: timeout of 30000ms exceeded. Ensure the done() callback is being called in this test.
+  
+
+
+
+    fetching 20 of 196

@@ -15,7 +15,7 @@ const APIKey = settings.private.charity_commission.api_key;
 const searchTerms = settings.private.search_terms;
 
 describe('Core', function() {
-    describe('createClient():', function() {
+    describe.skip('createClient():', function() {
         it('should create a valid client', function() {
             return ccAPI.createClient(ccAPIUrl).then(function(client) {
                 expect(client).to.respondTo('GetCharities');
@@ -157,7 +157,7 @@ describe('Core', function() {
         });
 
     });
-    describe.skip('integration tests', function() {
+    describe('integration tests', function() {
         const step1 = function step1() {
             return new Promise(function(resolve, reject) {
                 resolve([true]);
@@ -185,20 +185,20 @@ describe('Core', function() {
         });
         it('execute promise stack', function() {
             console.log('lets go!');
-            // this.timeout(30000);
+            this.timeout(30000);
             console.log('setting timeout');
             return ccAPI.createClient(ccAPIUrl)
                 .then(function(client) {
-                    console.log('create client');
-                    return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
+                    console.log('searching for charitites');
+                    return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa", "masjid"]);
                 })
                 .then(function(obj) {
+                    console.log('fetching all charities');
                     const { client, res } = obj;
-                    console.log(typeof res);
                     return fetchAllCharities(client, { APIKey }, res);
                 })
                 .then(function(val) {
-                    console.log(val[0].GetCharityByRegisteredCharityNumberResult.RegisteredCharityNumber);
+                    // console.log(val[0].GetCharityByRegisteredCharityNumberResult);
                     expect(val[0].GetCharityByRegisteredCharityNumberResult).to.have.any.keys([
                         'RegisteredCharityNumber',
                         'SubsidiaryNumber',
@@ -208,45 +208,44 @@ describe('Core', function() {
                         'PublicEmailAddress',
                         'MainPhoneNumber'
                     ]);
-                    // val.forEach(function(el, idx, arr) {
-                    //     let data = {
-                    //         CharityName: '',
-                    //         RegisteredCharityNumber: '',
-                    //         RegistrationHistory: '',
-                    //         RegistrationDate: '',
-                    //         Address: '',
-                    //         Activities: '',
-                    //         Trustees: '',
-                    //         GrossIncome: '',
-                    //         TotalExpenditure: '',
-                    //         Employees: '',
-                    //         Volunteers: ''
-                    //     };
+                    val.forEach(function(el, idx, arr) {
+                        let data = {
+                            CharityName: '',
+                            RegisteredCharityNumber: '',
+                            RegistrationHistory: '',
+                            RegistrationDate: '',
+                            Address: '',
+                            Activities: '',
+                            Trustees: '',
+                            GrossIncome: '',
+                            TotalExpenditure: '',
+                            Employees: '',
+                            Volunteers: ''
+                        };
 
-                    //     const res = el.GetCharityByRegisteredCharityNumberResult;
+                        const res = el.GetCharityByRegisteredCharityNumberResult;
 
-                    //     data.CharityName = res.CharityName;
-                    //     data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-                    //     data.RegistrationHistory = res.RegistrationHistory;
-                    //     data.Address = res.Address;
-                    //     data.Activities = res.Activities;
-                    //     data.Trustees = res.Trustees;
+                        data.CharityName = res.CharityName;
+                        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
+                        data.RegistrationHistory = res.RegistrationHistory;
+                        data.Address = res.Address;
+                        data.Activities = res.Activities;
+                        data.Trustees = res.Trustees;
 
-                    //     if (defined(res, 'Submission')) {
+                        if (defined(res, 'Submission')) {
 
-                    //         const submission = extractCurrentSubmission(res.Submission);
-                    //         data.GrossIncome = submission.GrossIncome;
-                    //         data.TotalExpenditure = submission.TotalExpenditure;
-                    //     }
-                    //     // fs.writeFile("~/tmp/test", data, function(err) {
-                    //     //     if (err) {
-                    //     //         return console.log(err);
-                    //     //     }
+                            const submission = extractCurrentSubmission(res.Submission);
+                            data.GrossIncome = submission.GrossIncome;
+                            data.TotalExpenditure = submission.TotalExpenditure;
+                        }
 
-                    //     //     console.log("The file was saved!");
-                    //     // });
-                    //     console.log(data);
-                    // });
+                        if (defined(res, 'Returns')) {
+
+                            data.Employees = res.Returns[0].Employees.NoEmployees;
+                            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+                        }
+                        console.log(data);
+                    });
                     // 8 charities of 82 had returns data
                     // 75 charities of 82 had submissions data
                 })
