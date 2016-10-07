@@ -1,3 +1,5 @@
 node_modules/
 settings-development.json
 todos
+out.tx
+out2.tx
