@@ -3,16 +3,6 @@ const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
 require("babel-polyfill");
 // 
-const test = {
-    RegisteredCharityNumber: 1102307,
-    SubsidiaryNumber: 0,
-    CharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
-    MainCharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
-    RegistrationStatus: 'Registered',
-    PublicEmailAddress: 'mr.yasin@aol.co.uk',
-    MainPhoneNumber: '07968 794080'
-};
-
 export const choose = function(range) {
     return Math.floor((Math.random() * range) + 1);
 };
@@ -24,6 +14,19 @@ export const sleep = function(time) {
             resolve(true);
         }, time);
     });
+};
+
+export const defined = function(obj, strNames) {
+    let arrNames = strNames.split('.');
+    let name = arrNames.shift();
+
+    while (name) {
+        if (!obj.hasOwnProperty(name)) return false;
+        obj = obj[name];
+        name = arrNames.shift();
+    }
+
+    return true;
 };
 
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
@@ -154,4 +157,74 @@ export const fetchAllCharities = function(client, args, charityIds) {
 
         }, delay * charityIds.length);
     });
+};
+
+export const extractCurrentSubmission = function(list) {
+    let res = list[list.length - 1];
+
+    list.forEach(function(el, idx, arr) {
+        if (el.GrossIncome !== '') {
+            res = el;
+        }
+    });
+    // console.log(res);
+    return res;
+};
+
+
+export const makeData = function(list) {
+
+    let result = list.map(function(el) {
+//        PublicTelephoneNumber: '01582 724 647',
+//        PublicFaxNumber: '',
+//        EmailAddress: 'admin@olivetreeprimary.co.uk',
+//        WebsiteAddress: 'www.olivetreeprimary.co.uk',
+        let data = {
+            CharityName: '',
+            RegisteredCharityNumber: '',
+            RegistrationHistory: '',
+            RegistrationDate: '',
+            Address: '',
+            PublicTelephoneNumber: '',
+            PublicFaxNumber: '',
+            EmailAddress: '',
+            WebsiteAddress: '',
+            Activities: '',
+            Trustees: '',
+            GrossIncome: '',
+            TotalExpenditure: '',
+            Employees: '',
+            Volunteers: ''
+        };
+
+        const res = el.GetCharityByRegisteredCharityNumberResult;
+
+        data.CharityName = res.CharityName;
+        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
+        data.RegistrationHistory = res.RegistrationHistory;
+        data.Address = res.Address;
+        data.PublicTelephoneNumber = res.PublicTelephoneNumber;
+        data.PublicFaxNumber = res.PublicFaxNumber;
+        data.EmailAddress = res.EmailAddress;
+        data.WebsiteAddress = res.WebsiteAddress;
+        data.Activities = res.Activities;
+        data.Trustees = res.Trustees;
+
+        if (defined(res, 'Submission')) {
+
+            const submission = extractCurrentSubmission(res.Submission);
+            data.GrossIncome = submission.GrossIncome;
+            data.TotalExpenditure = submission.TotalExpenditure;
+        }
+
+        if (defined(res, 'Returns')) {
+
+            data.Employees = res.Returns[0].Employees.NoEmployees;
+            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+        }
+
+        return data;
+    });
+    
+    return result;
 };
