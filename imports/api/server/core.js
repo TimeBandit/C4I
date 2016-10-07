@@ -18,13 +18,13 @@ export const sleep = function(time) {
 
 export const defined = function(obj, strNames) {
     let arrNames = strNames.split('.');
-    let name  = arrNames.shift();
+    let name = arrNames.shift();
 
-    while (name) {        
+    while (name) {
         if (!obj.hasOwnProperty(name)) return false;
         obj = obj[name];
         name = arrNames.shift();
-    } 
+    }
 
     return true;
 };
@@ -102,8 +102,8 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
         client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
             if (err) { reject(err); }
             if (result) {
-                // process.stdout.clearLine();
-                // process.stdout.cursorTo(0);
+                process.stdout.clearLine();
+                process.stdout.cursorTo(0);
                 // console.log(
                 //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
                 // );
@@ -159,14 +159,72 @@ export const fetchAllCharities = function(client, args, charityIds) {
     });
 };
 
-export const extractCurrentSubmission = function (list) {
-    let res = list[list.length-1];
+export const extractCurrentSubmission = function(list) {
+    let res = list[list.length - 1];
 
-    list.forEach(function (el, idx, arr) {
+    list.forEach(function(el, idx, arr) {
         if (el.GrossIncome !== '') {
             res = el;
         }
     });
     // console.log(res);
-    return res;    
+    return res;
+};
+
+
+export const makeData = function(list) {
+
+    let result = list.map(function(el) {
+//        PublicTelephoneNumber: '01582 724 647',
+//        PublicFaxNumber: '',
+//        EmailAddress: 'admin@olivetreeprimary.co.uk',
+//        WebsiteAddress: 'www.olivetreeprimary.co.uk',
+        let data = {
+            CharityName: '',
+            RegisteredCharityNumber: '',
+            RegistrationHistory: '',
+            RegistrationDate: '',
+            Address: '',
+            PublicTelephoneNumber: '',
+            PublicFaxNumber: '',
+            EmailAddress: '',
+            WebsiteAddress: '',
+            Activities: '',
+            Trustees: '',
+            GrossIncome: '',
+            TotalExpenditure: '',
+            Employees: '',
+            Volunteers: ''
+        };
+
+        const res = el.GetCharityByRegisteredCharityNumberResult;
+
+        data.CharityName = res.CharityName;
+        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
+        data.RegistrationHistory = res.RegistrationHistory;
+        data.Address = res.Address;
+        data.PublicTelephoneNumber = res.PublicTelephoneNumber;
+        data.PublicFaxNumber = res.PublicFaxNumber;
+        data.EmailAddress = res.EmailAddress;
+        data.WebsiteAddress = res.WebsiteAddress;
+        data.Activities = res.Activities;
+        data.Trustees = res.Trustees;
+
+        if (defined(res, 'Submission')) {
+
+            const submission = extractCurrentSubmission(res.Submission);
+            data.GrossIncome = submission.GrossIncome;
+            data.TotalExpenditure = submission.TotalExpenditure;
+        }
+
+        if (defined(res, 'Returns')) {
+
+            data.Employees = res.Returns[0].Employees.NoEmployees;
+            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+        }
+
+        return data;
+    });
+    
+    return result;
 };

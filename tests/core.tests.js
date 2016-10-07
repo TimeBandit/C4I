@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities, defined, extractCurrentSubmission } from '../imports/api/server/core';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities, defined, extractCurrentSubmission, makeData } from '../imports/api/server/core';
 import { testData, listOfList, expected, subMissionList } from './testData'
 // 
 const should = chai.should();
@@ -15,19 +15,19 @@ const APIKey = settings.private.charity_commission.api_key;
 const searchTerms = settings.private.search_terms;
 
 describe('Core', function() {
-    describe.skip('createClient():', function() {
+    describe('createClient():', function() {
         it('should create a valid client', function() {
             return ccAPI.createClient(ccAPIUrl).then(function(client) {
                 expect(client).to.respondTo('GetCharities');
             });
         });
     });
-    describe.skip('choose():', function() {
+    describe('choose():', function() {
         it('return a number that is at most 20', function() {
             expect(choose(20)).to.be.at.most(20);
         });
     });
-    describe.skip('GetCharitiesByOneKeyword():', function() {
+    describe('GetCharitiesByOneKeyword():', function() {
         const goodArgs = { APIKey, strSearch: 'madrassa' };
 
         it('it shoud return an array', function() {
@@ -54,7 +54,7 @@ describe('Core', function() {
             });
         });
     });
-    describe.skip('GetCharitiesByKeywordList():', function() {
+    describe('GetCharitiesByKeywordList():', function() {
         let client;
         const goodArgs = { APIKey, strSearch: 'madrassa' };
 
@@ -77,12 +77,12 @@ describe('Core', function() {
                 });
         });
     });
-    describe.skip('buildCharNumList():', function() {
+    describe('buildCharNumList():', function() {
         it('given correct dataset should build a list of unique charity numbers', function() {
             expect(buildCharNumList(listOfList)).to.deep.equal(expected);
         });
     });
-    describe.skip('fetchAllCharities()', function() {
+    describe('fetchAllCharities()', function() {
         let client;
         const goodArgs = { APIKey };
 
@@ -111,7 +111,7 @@ describe('Core', function() {
                     expect(val[1].GetCharityByRegisteredCharityNumberResult.CharityName)
                         .to.equal("JAMIAT AHL-E-HADITH OLDHAM");
 
-                    console.log(val[1].GetCharityByRegisteredCharityNumberResult);
+                    // console.log(val[1].GetCharityByRegisteredCharityNumberResult);
 
                     // .Returns[0].AssetsAndLiabilities.Funds.TotalFunds);
                     // if (defined(val[0].GetCharityByRegisteredCharityNumberResult.Returns[0], 'AssetsAndLiabilities.Funds.TotalFunds')) {
@@ -120,7 +120,7 @@ describe('Core', function() {
         });
 
     });
-    describe.skip('defined()', function() {
+    describe('defined()', function() {
         const obj = {
             a: {
                 b: {
@@ -141,7 +141,7 @@ describe('Core', function() {
             expect(res).to.be.not.ok;
         });
     });
-    describe.skip('extractCurrentSubmission', function() {
+    describe('extractCurrentSubmission', function() {
         it('should extract latest valid financial submission', function() {
             const expected = {
                 MailingCycle: 'AR15',
@@ -175,7 +175,7 @@ describe('Core', function() {
                 resolve(val.concat(true));
             });
         };
-        it.skip('returns eventually return [true, true, true]', function() {
+        it('returns eventually return [true, true, true]', function() {
             return step1()
                 .then(step2)
                 .then(step3)
@@ -184,16 +184,16 @@ describe('Core', function() {
                 });
         });
         it('execute promise stack', function() {
-            console.log('lets go!');
+            // console.log('lets go!');
             this.timeout(30000);
-            console.log('setting timeout');
+            // console.log('setting timeout');
             return ccAPI.createClient(ccAPIUrl)
                 .then(function(client) {
-                    console.log('searching for charitites');
-                    return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa", "masjid"]);
+                    // console.log('searching for charitites');
+                    return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
                 })
                 .then(function(obj) {
-                    console.log('fetching all charities');
+                    // console.log('fetching all charities');
                     const { client, res } = obj;
                     return fetchAllCharities(client, { APIKey }, res);
                 })
@@ -208,44 +208,25 @@ describe('Core', function() {
                         'PublicEmailAddress',
                         'MainPhoneNumber'
                     ]);
-                    val.forEach(function(el, idx, arr) {
-                        let data = {
-                            CharityName: '',
-                            RegisteredCharityNumber: '',
-                            RegistrationHistory: '',
-                            RegistrationDate: '',
-                            Address: '',
-                            Activities: '',
-                            Trustees: '',
-                            GrossIncome: '',
-                            TotalExpenditure: '',
-                            Employees: '',
-                            Volunteers: ''
-                        };
+                    
+                    expect(makeData(val)[0]).to.have.all.keys([
+                        'CharityName',
+                        'RegisteredCharityNumber',
+                        'RegistrationHistory',
+                        'RegistrationDate',
+                        'Address',
+                        'PublicTelephoneNumber',
+                        'PublicFaxNumber',
+                        'EmailAddress',
+                        'WebsiteAddress',
+                        'Activities',
+                        'Trustees',
+                        'GrossIncome',
+                        'TotalExpenditure',
+                        'Employees',
+                        'Volunteers',
+                        ]);
 
-                        const res = el.GetCharityByRegisteredCharityNumberResult;
-
-                        data.CharityName = res.CharityName;
-                        data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-                        data.RegistrationHistory = res.RegistrationHistory;
-                        data.Address = res.Address;
-                        data.Activities = res.Activities;
-                        data.Trustees = res.Trustees;
-
-                        if (defined(res, 'Submission')) {
-
-                            const submission = extractCurrentSubmission(res.Submission);
-                            data.GrossIncome = submission.GrossIncome;
-                            data.TotalExpenditure = submission.TotalExpenditure;
-                        }
-
-                        if (defined(res, 'Returns')) {
-
-                            data.Employees = res.Returns[0].Employees.NoEmployees;
-                            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
-                        }
-                        console.log(data);
-                    });
                     // 8 charities of 82 had returns data
                     // 75 charities of 82 had submissions data
                 })

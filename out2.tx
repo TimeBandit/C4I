@@ -3,10 +3,37 @@
 > mocha ./tests --compilers js:babel-register "-w"
 
 
-  1) Core integration tests execute promise stack:
-     Error: timeout of 30000ms exceeded. Ensure the done() callback is being called in this test.
-  
-   fetching 195 of 196{ CharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
+[?25l
+
+  Core
+    createClient():
+      - should create a valid client
+    choose():
+      - return a number that is at most 20
+    GetCharitiesByOneKeyword():
+      - it shoud return an array
+      - expect the first object to have all the required keys
+    GetCharitiesByKeywordList():
+      - should return error when list=[]
+      - should return a list of lists
+    buildCharNumList():
+      - given correct dataset should build a list of unique charity numbers
+    fetchAllCharities()
+      - fetch a single charity
+      - fetch two charities
+    defined()
+      - return true when a nested object key exists
+      - return false when a nested object key exists
+    extractCurrentSubmission
+      - should extract latest valid financial submission
+    integration tests
+      - returns eventually return [true, true, true]
+lets go!
+setting timeout
+searching for charitites
+fetching all charities
+
+{ CharityName: 'JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA',
   RegisteredCharityNumber: 1102307,
   RegistrationHistory: 
    [ { RegistrationDate: '25/02/2004 10:15:00',
@@ -2634,7 +2661,7 @@
        RelatedCharitiesCount: 1 },
      { TrusteeNumber: 3542091,
        TrusteeName: 'MR SHABUD ULLAH',
-       RelatedCharitiesCount: 0 },
+       RelatedCharitiesCount: 1 },
      { TrusteeNumber: 3542095,
        TrusteeName: 'MR NAJM UDDIN',
        RelatedCharitiesCount: 0 },
