@@ -7,79 +7,77 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 export const Charities = new Mongo.Collection('Charities');
 // create & attach schema
+
+RegistrationHistorySchema = new SimpleSchema({
+    RegistrationDate: {
+        type: Date
+    },
+    RegistrationRemovalDate: {
+        type: Date
+    },
+    RemovalReason: {
+        type: String
+    }
+});
+
+AddressSchema = new SimpleSchema({
+    Line1: {
+        type: String
+    },
+    Line2: {
+        type: String
+    },
+    Line3: {
+        type: String
+    },
+    Line4: {
+        type: String
+    },
+    Line5: {
+        type: String
+    },
+    Postcode: {
+        type: String
+    }
+});
+
+TrusteesSchema = new SimpleSchema({
+    TrusteeNumber: {
+        type: Number
+    },
+    TrusteeName: {
+        type: String
+    },
+    RelatedCharitiesCount: {
+        type: Number
+    }
+});
+
 Charities.schema = new SimpleSchema({
-    RegisteredCharityNumber: {
-        type: Number
-    },
-    SubsidiaryNumber: {
-        type: Number
-    },
     CharityName: {
         type: String
     },
-    MainCharityName: {
+    RegisteredCharityNumber: {
+        type: Number
+    },
+    RegistrationHistory: [RegistrationHistorySchema],
+    RegistrationDate: '',
+    Address: AddressSchema,
+    Activities: {
         type: String
     },
-    RegistrationStatus: {
-        type: String
+    Trustees: [TrusteesSchema],
+    GrossIncome: {
+        type: Number
     },
-    PublicEmailAddress: {
-        type: String,
-        optional: true,
+    TotalExpenditure: {
+        type: Number
     },
-    MainPhoneNumber: {
-        type: String,
-        optional: true,
+    Employees: {
+        type: Number
     },
-    TotalFunds: {
-        type: Number,
-        optional: true,
-        min: 0,
-        defaultValue: 0
-    },
-    Efficiency: {
-        type: Number,
-        optional: true,
-        decimal: true,
-        min: 0,
-        max: 1,
-        defaultValue: 0
-    },
-    NumEmployees: {
-        type: Number,
-        optional: true,
-        min: 0,
-        defaultValue: 0
-    },
-    NumVolunteers: {
-        type: Number,
-        optional: true,
-        min: 0,
-        defaultValue: 0
-    },
-    Likes: {
-        type: Number,
-        optional: true,
-        min: 0,
-        defaultValue: 0
-    },
-    Pageviews: {
-        type: Number,
-        optional: true,
-        min: 0,
-        defaultValue: 0
-    },
-    updatedAt: {
-        type: Date,
-        autoValue: function() {
-            return new Date();
-        }
-    },
-    createdAt: {
-        type: Date,
-        autoValue: function() {
-            return new Date();
-        }
+    Volunteers: {
+        type: Number
     }
 });
 
@@ -92,4 +90,80 @@ Charities.attachSchema(Charities.schema);
 // RegistrationStatus:0,
 // PublicEmailAddress:0,
 // MainPhoneNumber:0
+// }
+
+// {
+//     RegisteredCharityNumber: {
+//         type: Number
+//     },
+//     SubsidiaryNumber: {
+//         type: Number
+//     },
+//     CharityName: {
+//         type: String
+//     },
+//     MainCharityName: {
+//         type: String
+//     },
+//     RegistrationStatus: {
+//         type: String
+//     },
+//     PublicEmailAddress: {
+//         type: String,
+//         optional: true,
+//     },
+//     MainPhoneNumber: {
+//         type: String,
+//         optional: true,
+//     },
+//     TotalFunds: {
+//         type: Number,
+//         optional: true,
+//         min: 0,
+//         defaultValue: 0
+//     },
+//     Efficiency: {
+//         type: Number,
+//         optional: true,
+//         decimal: true,
+//         min: 0,
+//         max: 1,
+//         defaultValue: 0
+//     },
+//     NumEmployees: {
+//         type: Number,
+//         optional: true,
+//         min: 0,
+//         defaultValue: 0
+//     },
+//     NumVolunteers: {
+//         type: Number,
+//         optional: true,
+//         min: 0,
+//         defaultValue: 0
+//     },
+//     Likes: {
+//         type: Number,
+//         optional: true,
+//         min: 0,
+//         defaultValue: 0
+//     },
+//     Pageviews: {
+//         type: Number,
+//         optional: true,
+//         min: 0,
+//         defaultValue: 0
+//     },
+//     updatedAt: {
+//         type: Date,
+//         autoValue: function() {
+//             return new Date();
+//         }
+//     },
+//     createdAt: {
+//         type: Date,
+//         autoValue: function() {
+//             return new Date();
+//         }
+//     }
 // }

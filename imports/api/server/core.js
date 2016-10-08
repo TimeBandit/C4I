@@ -175,10 +175,6 @@ export const extractCurrentSubmission = function(list) {
 export const makeData = function(list) {
 
     let result = list.map(function(el) {
-//        PublicTelephoneNumber: '01582 724 647',
-//        PublicFaxNumber: '',
-//        EmailAddress: 'admin@olivetreeprimary.co.uk',
-//        WebsiteAddress: 'www.olivetreeprimary.co.uk',
         let data = {
             CharityName: '',
             RegisteredCharityNumber: '',
@@ -201,7 +197,12 @@ export const makeData = function(list) {
 
         data.CharityName = res.CharityName;
         data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-        data.RegistrationHistory = res.RegistrationHistory;
+        data.RegistrationHistory = {
+            RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
+            RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
+            RemovalReason: res.RegistrationHistory[0].RemovalReason
+            
+        };
         data.Address = res.Address;
         data.PublicTelephoneNumber = res.PublicTelephoneNumber;
         data.PublicFaxNumber = res.PublicFaxNumber;
@@ -213,18 +214,57 @@ export const makeData = function(list) {
         if (defined(res, 'Submission')) {
 
             const submission = extractCurrentSubmission(res.Submission);
-            data.GrossIncome = submission.GrossIncome;
-            data.TotalExpenditure = submission.TotalExpenditure;
+            data.GrossIncome = parseInt(submission.GrossIncome);
+            data.TotalExpenditure = parseInt(submission.TotalExpenditure);
         }
 
         if (defined(res, 'Returns')) {
 
-            data.Employees = res.Returns[0].Employees.NoEmployees;
-            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+            data.Employees = parseInt(res.Returns[0].Employees.NoEmployees);
+            data.Volunteers = parseInt(res.Returns[0].Employees.NoVolunteers);
         }
 
         return data;
     });
-    
+    // console.log(result);
     return result;
+};
+
+export const trueDate = function(dateTimeString) {
+    if (!dateTimeString) { return '';}
+
+    const splitInput = dateTimeString.split(' ');
+
+    const datePart = splitInput[0].split('/').reverse();
+    let timePart = [];
+
+    if (splitInput[1]) {
+        timePart = splitInput[1].split(':').map(function (val) {
+            return parseInt(val);
+        });
+
+    }
+    const args = datePart.map(function (val) {
+        return parseInt(val);
+    }).concat(timePart);
+
+    return new Date(...args);
+};
+
+export const step1 = function step1() {
+    return new Promise(function(resolve, reject) {
+        resolve([true]);
+    });
+};
+
+export const step2 = function step2(val) {
+    return new Promise(function(resolve, reject) {
+        resolve(val.concat(true));
+    });
+};
+
+export const step3 = function step3(val) {
+    return new Promise(function(resolve, reject) {
+        resolve(val.concat(true));
+    });
 };
