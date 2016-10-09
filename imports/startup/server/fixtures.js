@@ -2,7 +2,7 @@
 
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
-import { Charities } from '../../api/server/charities';
+import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/server/charities';
 import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities } from '../../api/server/core';
 // 
 const searchTerms = Meteor.settings.private.search_terms;
@@ -15,10 +15,28 @@ Meteor.startup(function() {
     // init the db here
     console.log(`Meteor started`);
     if (Charities.find().count() === 0) {
+        console.log('dbs is empty');
         ccAPI.createClient(ccAPIUrl)
-            .then(GetCharitiesByKeywordList) // returns list of charity numbers & client
-            .then(buildCharNumList) // return list of charity object
-            .then(fetchAllCharities)
+            .then(function(client) {
+                console.log('searching for charitites');
+                return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
+            })
+            .then(function(obj) {
+                console.log('****', val);
+                console.log('fetching all charities');
+                const { client, res } = obj;
+                return fetchAllCharities(client, { APIKey }, res);
+            })
+            .then(function(val) {
+                return makeData(val);                
+                // 8 charities of 82 had returns data
+                // 75 charities of 82 had submissions data
+            })
+            .then(function (val) {
+                val.forEach(function (el, idx, arr) {
+                    console.log(el);
+                });
+            })
             .catch(function(error) {
                 throw error;
             });

@@ -9,7 +9,7 @@ export const choose = function(range) {
 
 export const sleep = function(time) {
     return new Promise(function(resolve, reject) {
-        setTimeout(function() {
+        Meteor.setTimeout(function() {
             // process.stdout.write(".");
             resolve(true);
         }, time);
@@ -30,20 +30,20 @@ export const defined = function(obj, strNames) {
 };
 
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
+    console.log('**');
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
-        sleep(choose(delay))
-            .then(function() {
-                client.GetCharitiesByKeyword(args, function(err, result) {
-                    if (err) { reject(err); }
-                    if (result) {
-                        resolve(
-                            result.GetCharitiesByKeywordResult.CharityList
-                        );
-                    }
-                    if (!result) { reject(new Error("Network Error")); }
-                });
-            });
+        client.GetCharitiesByKeyword(args, function(err, result) {
+            console.log('***', result);
+            if (err) { reject(err); }
+            if (result) {
+                resolve(
+                    result.GetCharitiesByKeywordResult.CharityList
+                );
+            }
+            if (!result) { reject(new Error("Network Error")); }
+
+        });
     });
 };
 
@@ -62,13 +62,13 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
     }
     return new Promise(function(resolve, reject) {
         const res = [];
-
         list.forEach(function(e, i, list) {
-            // console.log(`Keyword => ${e}`);
+            // console.log(client);
+            console.log(`Keyword => ${e}, ${args.APIKey}`);
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
-            // setTimeout(function() {
+            // Meteor.setTimeout(function() {
             // }, 500 * i);
         });
 
@@ -79,6 +79,8 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
                     client,
                     res: buildCharNumList(val)
                 });
+            }).catch(function(error) {
+                throw error;
             });
     });
 };
@@ -102,8 +104,8 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
         client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
             if (err) { reject(err); }
             if (result) {
-                process.stdout.clearLine();
-                process.stdout.cursorTo(0);
+                // process.stdout.clearLine();
+                // process.stdout.cursorTo(0);
                 // console.log(
                 //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
                 // );
@@ -134,9 +136,9 @@ export const fetchAllCharities = function(client, args, charityIds) {
         const delay = 1500;
 
         charityIds.forEach(function(e, i, list) {
-            setTimeout(function() {
+            Meteor.setTimeout(function() {
                 // console.log(`fetching ${e}`);
-                process.stdout.write(`    fetching ${i} of ${list.length}`);
+                console.log(`    fetching ${i} of ${list.length}`);
                 res.push(
                     getCharityByRegisteredCharityNumber(
                         client, { APIKey: args.APIKey, registeredCharityNumber: e }
@@ -145,7 +147,7 @@ export const fetchAllCharities = function(client, args, charityIds) {
             }, delay * i);
         });
 
-        setTimeout(function() {
+        Meteor.setTimeout(function() {
             // console.log(res.length);
             Promise.all(res)
                 .then(function(val) {
@@ -201,7 +203,7 @@ export const makeData = function(list) {
             RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
             RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
             RemovalReason: res.RegistrationHistory[0].RemovalReason
-            
+
         };
         data.Address = res.Address;
         data.PublicTelephoneNumber = res.PublicTelephoneNumber;
@@ -231,7 +233,9 @@ export const makeData = function(list) {
 };
 
 export const trueDate = function(dateTimeString) {
-    if (!dateTimeString) { return '';}
+    if (!dateTimeString) {
+        return '';
+    }
 
     const splitInput = dateTimeString.split(' ');
 
@@ -239,12 +243,12 @@ export const trueDate = function(dateTimeString) {
     let timePart = [];
 
     if (splitInput[1]) {
-        timePart = splitInput[1].split(':').map(function (val) {
+        timePart = splitInput[1].split(':').map(function(val) {
             return parseInt(val);
         });
 
     }
-    const args = datePart.map(function (val) {
+    const args = datePart.map(function(val) {
         return parseInt(val);
     }).concat(timePart);
 

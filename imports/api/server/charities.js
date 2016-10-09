@@ -8,7 +8,7 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 export const Charities = new Mongo.Collection('Charities');
 // create & attach schema
 
-RegistrationHistorySchema = new SimpleSchema({
+export const RegistrationHistorySchema = new SimpleSchema({
     RegistrationDate: {
         type: Date
     },
@@ -20,7 +20,7 @@ RegistrationHistorySchema = new SimpleSchema({
     }
 });
 
-AddressSchema = new SimpleSchema({
+export const AddressSchema = new SimpleSchema({
     Line1: {
         type: String
     },
@@ -41,7 +41,7 @@ AddressSchema = new SimpleSchema({
     }
 });
 
-TrusteesSchema = new SimpleSchema({
+export const TrusteesSchema = new SimpleSchema({
     TrusteeNumber: {
         type: Number
     },
@@ -60,13 +60,21 @@ Charities.schema = new SimpleSchema({
     RegisteredCharityNumber: {
         type: Number
     },
-    RegistrationHistory: [RegistrationHistorySchema],
-    RegistrationDate: '',
-    Address: AddressSchema,
+    RegistrationHistory: {
+        type: [RegistrationHistorySchema]   
+    },
+    RegistrationDate: {
+        type: String
+    },
+    Address: {
+        type: AddressSchema
+    },
     Activities: {
         type: String
     },
-    Trustees: [TrusteesSchema],
+    Trustees: {
+        type: [TrusteesSchema]
+    },
     GrossIncome: {
         type: Number
     },
