@@ -30,11 +30,9 @@ export const defined = function(obj, strNames) {
 };
 
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
-    console.log('**');
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
         client.GetCharitiesByKeyword(args, function(err, result) {
-            console.log('***', result);
             if (err) { reject(err); }
             if (result) {
                 resolve(
@@ -68,8 +66,6 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
-            // Meteor.setTimeout(function() {
-            // }, 500 * i);
         });
 
         Promise.all(res)
@@ -115,9 +111,6 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
             }
             if (!result) { reject(new Error("Network Error")); }
         });
-        // sleep(delay)
-        //     .then(function() {
-        //     });
     });
 };
 // not using generators until I up my JS game
@@ -132,32 +125,67 @@ export const charityGenerator = function*(client, args, charityIds) {
 
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
-        const res = [];
+        let res = [];
         const delay = 1500;
+        if (typeof Meteor !== 'undefined') {
+            charityIds.forEach(function(e, i, list) {
+                (
+                    setTimeout(function() {
+                    // console.log(`fetching ${e}`);
+                    console.log(e);
+                }, 10*i))(e);
+            });
 
-        charityIds.forEach(function(e, i, list) {
-            Meteor.setTimeout(function() {
+            charityIds.forEach(function(e, i, list) {
+                console.log('oink');
+                Meteor.setTimeout(function() {
+                    // console.log(`fetching ${e}`);
+                    console.log(`    fetching ${i} of ${list.length - 1}`);
+                    res.push(
+                        getCharityByRegisteredCharityNumber(
+                            client, { APIKey: args.APIKey, registeredCharityNumber: e }
+                        )
+                    );
+                }, delay * i);
+            });
+        } else {
+            setTimeout(function() {
                 // console.log(`fetching ${e}`);
-                console.log(`    fetching ${i} of ${list.length}`);
+                console.log(`    fetching ${i} of ${list.length - 1}`);
                 res.push(
                     getCharityByRegisteredCharityNumber(
                         client, { APIKey: args.APIKey, registeredCharityNumber: e }
                     )
                 );
             }, delay * i);
-        });
+        }
 
-        Meteor.setTimeout(function() {
-            // console.log(res.length);
-            Promise.all(res)
-                .then(function(val) {
-                    resolve(val);
-                })
-                .catch(function(error) {
-                    throw error;
-                });
+        if (typeof Meteor !== 'undefined') {
+            Meteor.setTimeout(function() {
+                // console.log(res.length);
+                Promise.all(res)
+                    .then(function(val) {
+                        resolve(val);
+                    })
+                    .catch(function(error) {
+                        throw error;
+                    });
 
-        }, delay * charityIds.length);
+            }, delay * charityIds.length);
+
+        } else {
+            setTimeout(function() {
+                // console.log(res.length);
+                Promise.all(res)
+                    .then(function(val) {
+                        resolve(val);
+                    })
+                    .catch(function(error) {
+                        throw error;
+                    });
+
+            }, delay * charityIds.length);
+        }
     });
 };
 

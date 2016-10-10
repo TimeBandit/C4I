@@ -22,12 +22,12 @@ Meteor.startup(function() {
                 return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
             })
             .then(function(obj) {
-                console.log('****', val);
                 console.log('fetching all charities');
                 const { client, res } = obj;
                 return fetchAllCharities(client, { APIKey }, res);
             })
             .then(function(val) {
+                console.log(val);
                 return makeData(val);                
                 // 8 charities of 82 had returns data
                 // 75 charities of 82 had submissions data
