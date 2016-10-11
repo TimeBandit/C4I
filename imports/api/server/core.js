@@ -62,7 +62,7 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
         const res = [];
         list.forEach(function(e, i, list) {
             // console.log(client);
-            console.log(`Keyword => ${e}, ${args.APIKey}`);
+            console.log(`Keyword => ${e}`);
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
@@ -102,9 +102,9 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
             if (result) {
                 // process.stdout.clearLine();
                 // process.stdout.cursorTo(0);
-                // console.log(
-                //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
-                // );
+                console.log(
+                    `${result.GetCharityByRegisteredCharityNumberResult.CharityName} - resolved`
+                );
                 resolve(
                     result
                 );
@@ -126,66 +126,51 @@ export const charityGenerator = function*(client, args, charityIds) {
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
         let res = [];
-        const delay = 1500;
-        if (typeof Meteor !== 'undefined') {
-            charityIds.forEach(function(e, i, list) {
-                (
-                    setTimeout(function() {
-                    // console.log(`fetching ${e}`);
-                    console.log(e);
-                }, 10*i))(e);
-            });
-
-            charityIds.forEach(function(e, i, list) {
-                console.log('oink');
-                Meteor.setTimeout(function() {
-                    // console.log(`fetching ${e}`);
-                    console.log(`    fetching ${i} of ${list.length - 1}`);
-                    res.push(
-                        getCharityByRegisteredCharityNumber(
-                            client, { APIKey: args.APIKey, registeredCharityNumber: e }
-                        )
-                    );
-                }, delay * i);
-            });
-        } else {
+        const delay = 500;
+        charityIds.forEach(function(e, i, list) {
             setTimeout(function() {
-                // console.log(`fetching ${e}`);
-                console.log(`    fetching ${i} of ${list.length - 1}`);
                 res.push(
-                    getCharityByRegisteredCharityNumber(
-                        client, { APIKey: args.APIKey, registeredCharityNumber: e }
-                    )
-                );
+                    getCharityByRegisteredCharityNumber(client, {
+                        APIKey: args.APIKey,
+                        registeredCharityNumber: e
+                    }));
             }, delay * i);
-        }
+        });
 
-        if (typeof Meteor !== 'undefined') {
-            Meteor.setTimeout(function() {
-                // console.log(res.length);
-                Promise.all(res)
-                    .then(function(val) {
-                        resolve(val);
-                    })
-                    .catch(function(error) {
-                        throw error;
-                    });
+        setTimeout(function() {
+            Promise.all(res)
+                .then(function(val) {
+                    resolve(val);
+                })
+                .catch(function(error) {
+                    throw error;
+                });
 
-            }, delay * charityIds.length);
+        }, delay * charityIds.length);
+        // if (typeof Meteor !== 'undefined') {
 
-        } else {
-            setTimeout(function() {
-                // console.log(res.length);
-                Promise.all(res)
-                    .then(function(val) {
-                        resolve(val);
-                    })
-                    .catch(function(error) {
-                        throw error;
-                    });
+        // } else {
+        //     setTimeout(function() {
+        //         // console.log(`fetching ${e}`);
+        //         console.log(`    fetching ${i} of ${list.length - 1}`);
+        //         res.push(
+        //             getCharityByRegisteredCharityNumber(
+        //                 client, { APIKey: args.APIKey, registeredCharityNumber: e }
+        //             )
+        //         );
+        //     }, delay * i);
+        //     setTimeout(function() {
+        //         // console.log(res.length);
+        //         Promise.all(res)
+        //             .then(function(val) {
+        //                 resolve(val);
+        //             })
+        //             .catch(function(error) {
+        //                 throw error;
+        //             });
 
-            }, delay * charityIds.length);
-        }
+        //     }, delay * charityIds.length);
+        // }
     });
 };
 
@@ -203,7 +188,6 @@ export const extractCurrentSubmission = function(list) {
 
 
 export const makeData = function(list) {
-
     let result = list.map(function(el) {
         let data = {
             CharityName: '',
