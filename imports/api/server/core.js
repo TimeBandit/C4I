@@ -190,21 +190,21 @@ export const extractCurrentSubmission = function(list) {
 export const makeData = function(list) {
     let result = list.map(function(el) {
         let data = {
-            CharityName: '',
-            RegisteredCharityNumber: '',
-            RegistrationHistory: '',
-            RegistrationDate: '',
-            Address: '',
-            PublicTelephoneNumber: '',
-            PublicFaxNumber: '',
-            EmailAddress: '',
-            WebsiteAddress: '',
-            Activities: '',
-            Trustees: '',
-            GrossIncome: '',
-            TotalExpenditure: '',
-            Employees: '',
-            Volunteers: ''
+            CharityName: "",
+            RegisteredCharityNumber: "",
+            RegistrationHistory: "",
+            RegistrationDate: "",
+            Address: "",
+            PublicTelephoneNumber: "",
+            PublicFaxNumber: "",
+            EmailAddress: "",
+            WebsiteAddress: "",
+            Activities: "",
+            Trustees: "",
+            GrossIncome: "",
+            TotalExpenditure: "",
+            Employees: "",
+            Volunteers: ""
         };
 
         const res = el.GetCharityByRegisteredCharityNumberResult;

@@ -5,7 +5,7 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const Charities = new Mongo.Collection('Charities');
+export const Charities = new Mongo.Collection('charities');
 // create & attach schema
 
 export const RegistrationHistorySchema = new SimpleSchema({
@@ -89,7 +89,7 @@ Charities.schema = new SimpleSchema({
     }
 });
 
-Charities.attachSchema(Charities.schema);
+// Charities.attachSchema(Charities.schema);
 
 // {
 // SubsidiaryNumber:0,
