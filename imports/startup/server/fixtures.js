@@ -38,9 +38,10 @@ function dbWrite(obj) {
 }
 
 let output;
+
 function writeIt() {
     console.log(`ok lets do this!`);
-    output.forEach(function (el, idx, arr) {
+    output.forEach(function(el, idx, arr) {
         Charities.insert(el);
     });
 }
@@ -48,7 +49,9 @@ Meteor.startup(function() {
     // init the db here.
     console.log(`Meteor started`);
     console.log(Charities.find().count());
-    Charities.insert(test);
+    // Charities.insert(test, function (err, res) {
+    //     console.log(err ? console.log(err) : console.log(res));
+    // });
     if (Charities.find().count() === 0) {
         console.log('dbs is empty');
         ccAPI.createClient(ccAPIUrl)
@@ -68,42 +71,15 @@ Meteor.startup(function() {
             })
             .then(function(val) {
                 console.log(`writing objects to db`);
-                console.log(val[0].RegisteredCharityNumber);
-                console.log({ text: "5", createdAt: new Date() });
-                console.log(Charities._name);
-                console.log(test.RegisteredCharityNumber);
-                // out = val;
-                // writeIt();
-                console.log(`errm did it work?`);
-                // dbWrite(test)
-                // .catch(function (error) {
-                //     console.log(error);
-                // });
-                // Charities.insert(test);
-                // Charities.insert(test, function (err, id) {
-                //     if (err) {
-                //         console.log(err.reason);
-                //     } else {
-                //         console.log(id);
-                //     }
-                // });
+                val.forEach(function(el, idx, arr) {
+                    // Charities.rawCollection().insert(el);
+                    console.log(el.RegisteredCharityNumber);
+                    Charities.rawCollection().update({ RegisteredCharityNumber: el.RegisteredCharityNumber},
+                        el, {upsert: true}
+                    );
+                });
+                console.log(`DONE!`);
 
-
-
-                // val.forEach(function(element, index) {
-                //     console.log(element.RegisteredCharityNumber);
-                // Charities.update({
-                //         RegisteredCharityNumber: element.RegisteredCharityNumber
-                //     },
-                //     el, { upsert: true },
-                //     function(err, docs) {
-                //         if (err) {
-                //             throw new Error(`${err.reason}`);
-                //         } else {
-                //             console.log(`wrote ${el.RegisteredCharityNumber} to db`);
-                //         }
-                //     });
-                // });
             })
             .catch(function(error) {
                 throw error;
