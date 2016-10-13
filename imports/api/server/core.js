@@ -9,7 +9,7 @@ export const choose = function(range) {
 
 export const sleep = function(time) {
     return new Promise(function(resolve, reject) {
-        setTimeout(function() {
+        Meteor.setTimeout(function() {
             // process.stdout.write(".");
             resolve(true);
         }, time);
@@ -32,18 +32,16 @@ export const defined = function(obj, strNames) {
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
     return new Promise(function(resolve, reject) {
         // sleep prevents server hammering
-        sleep(choose(delay))
-            .then(function() {
-                client.GetCharitiesByKeyword(args, function(err, result) {
-                    if (err) { reject(err); }
-                    if (result) {
-                        resolve(
-                            result.GetCharitiesByKeywordResult.CharityList
-                        );
-                    }
-                    if (!result) { reject(new Error("Network Error")); }
-                });
-            });
+        client.GetCharitiesByKeyword(args, function(err, result) {
+            if (err) { reject(err); }
+            if (result) {
+                resolve(
+                    result.GetCharitiesByKeywordResult.CharityList
+                );
+            }
+            if (!result) { reject(new Error("Network Error")); }
+
+        });
     });
 };
 
@@ -62,14 +60,12 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
     }
     return new Promise(function(resolve, reject) {
         const res = [];
-
         list.forEach(function(e, i, list) {
-            // console.log(`Keyword => ${e}`);
+            // console.log(client);
+            console.log(`Keyword => ${e}`);
             res.push(
                 GetCharitiesByOneKeyword(client, { APIKey: args.APIKey, strSearch: e })
             );
-            // setTimeout(function() {
-            // }, 500 * i);
         });
 
         Promise.all(res)
@@ -79,6 +75,8 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
                     client,
                     res: buildCharNumList(val)
                 });
+            }).catch(function(error) {
+                throw error;
             });
     });
 };
@@ -102,20 +100,17 @@ export const getCharityByRegisteredCharityNumber = function(client, args, delay 
         client.GetCharityByRegisteredCharityNumber(args, function(err, result) {
             if (err) { reject(err); }
             if (result) {
-                process.stdout.clearLine();
-                process.stdout.cursorTo(0);
-                // console.log(
-                //     `Resolved 𖦸 \t ${result.GetCharityByRegisteredCharityNumberResult.CharityName}`
-                // );
+                // process.stdout.clearLine();
+                // process.stdout.cursorTo(0);
+                console.log(
+                    `${result.GetCharityByRegisteredCharityNumberResult.CharityName} - resolved`
+                );
                 resolve(
                     result
                 );
             }
             if (!result) { reject(new Error("Network Error")); }
         });
-        // sleep(delay)
-        //     .then(function() {
-        //     });
     });
 };
 // not using generators until I up my JS game
@@ -130,23 +125,19 @@ export const charityGenerator = function*(client, args, charityIds) {
 
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
-        const res = [];
-        const delay = 1500;
-
+        let res = [];
+        const delay = 500;
         charityIds.forEach(function(e, i, list) {
             setTimeout(function() {
-                // console.log(`fetching ${e}`);
-                process.stdout.write(`    fetching ${i} of ${list.length}`);
                 res.push(
-                    getCharityByRegisteredCharityNumber(
-                        client, { APIKey: args.APIKey, registeredCharityNumber: e }
-                    )
-                );
+                    getCharityByRegisteredCharityNumber(client, {
+                        APIKey: args.APIKey,
+                        registeredCharityNumber: e
+                    }));
             }, delay * i);
         });
 
         setTimeout(function() {
-            // console.log(res.length);
             Promise.all(res)
                 .then(function(val) {
                     resolve(val);
@@ -156,6 +147,30 @@ export const fetchAllCharities = function(client, args, charityIds) {
                 });
 
         }, delay * charityIds.length);
+        // if (typeof Meteor !== 'undefined') {
+
+        // } else {
+        //     setTimeout(function() {
+        //         // console.log(`fetching ${e}`);
+        //         console.log(`    fetching ${i} of ${list.length - 1}`);
+        //         res.push(
+        //             getCharityByRegisteredCharityNumber(
+        //                 client, { APIKey: args.APIKey, registeredCharityNumber: e }
+        //             )
+        //         );
+        //     }, delay * i);
+        //     setTimeout(function() {
+        //         // console.log(res.length);
+        //         Promise.all(res)
+        //             .then(function(val) {
+        //                 resolve(val);
+        //             })
+        //             .catch(function(error) {
+        //                 throw error;
+        //             });
+
+        //     }, delay * charityIds.length);
+        // }
     });
 };
 
@@ -173,35 +188,35 @@ export const extractCurrentSubmission = function(list) {
 
 
 export const makeData = function(list) {
-
     let result = list.map(function(el) {
-//        PublicTelephoneNumber: '01582 724 647',
-//        PublicFaxNumber: '',
-//        EmailAddress: 'admin@olivetreeprimary.co.uk',
-//        WebsiteAddress: 'www.olivetreeprimary.co.uk',
         let data = {
-            CharityName: '',
-            RegisteredCharityNumber: '',
-            RegistrationHistory: '',
-            RegistrationDate: '',
-            Address: '',
-            PublicTelephoneNumber: '',
-            PublicFaxNumber: '',
-            EmailAddress: '',
-            WebsiteAddress: '',
-            Activities: '',
-            Trustees: '',
-            GrossIncome: '',
-            TotalExpenditure: '',
-            Employees: '',
-            Volunteers: ''
+            CharityName: "",
+            RegisteredCharityNumber: "",
+            RegistrationHistory: "",
+            RegistrationDate: "",
+            Address: "",
+            PublicTelephoneNumber: "",
+            PublicFaxNumber: "",
+            EmailAddress: "",
+            WebsiteAddress: "",
+            Activities: "",
+            Trustees: "",
+            GrossIncome: "",
+            TotalExpenditure: "",
+            Employees: "",
+            Volunteers: ""
         };
 
         const res = el.GetCharityByRegisteredCharityNumberResult;
 
         data.CharityName = res.CharityName;
         data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-        data.RegistrationHistory = res.RegistrationHistory;
+        data.RegistrationHistory = {
+            RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
+            RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
+            RemovalReason: res.RegistrationHistory[0].RemovalReason
+
+        };
         data.Address = res.Address;
         data.PublicTelephoneNumber = res.PublicTelephoneNumber;
         data.PublicFaxNumber = res.PublicFaxNumber;
@@ -213,18 +228,59 @@ export const makeData = function(list) {
         if (defined(res, 'Submission')) {
 
             const submission = extractCurrentSubmission(res.Submission);
-            data.GrossIncome = submission.GrossIncome;
-            data.TotalExpenditure = submission.TotalExpenditure;
+            data.GrossIncome = parseInt(submission.GrossIncome);
+            data.TotalExpenditure = parseInt(submission.TotalExpenditure);
         }
 
         if (defined(res, 'Returns')) {
 
-            data.Employees = res.Returns[0].Employees.NoEmployees;
-            data.Volunteers = res.Returns[0].Employees.NoVolunteers;
+            data.Employees = parseInt(res.Returns[0].Employees.NoEmployees);
+            data.Volunteers = parseInt(res.Returns[0].Employees.NoVolunteers);
         }
 
         return data;
     });
-    
+    // console.log(result);
     return result;
+};
+
+export const trueDate = function(dateTimeString) {
+    if (!dateTimeString) {
+        return '';
+    }
+
+    const splitInput = dateTimeString.split(' ');
+
+    const datePart = splitInput[0].split('/').reverse();
+    let timePart = [];
+
+    if (splitInput[1]) {
+        timePart = splitInput[1].split(':').map(function(val) {
+            return parseInt(val);
+        });
+
+    }
+    const args = datePart.map(function(val) {
+        return parseInt(val);
+    }).concat(timePart);
+
+    return new Date(...args);
+};
+
+export const step1 = function step1() {
+    return new Promise(function(resolve, reject) {
+        resolve([true]);
+    });
+};
+
+export const step2 = function step2(val) {
+    return new Promise(function(resolve, reject) {
+        resolve(val.concat(true));
+    });
+};
+
+export const step3 = function step3(val) {
+    return new Promise(function(resolve, reject) {
+        resolve(val.concat(true));
+    });
 };

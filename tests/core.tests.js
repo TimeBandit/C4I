@@ -1,8 +1,25 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities, defined, extractCurrentSubmission, makeData } from '../imports/api/server/core';
-import { testData, listOfList, expected, subMissionList } from './testData'
+import {
+    GetCharitiesByOneKeyword,
+    GetCharitiesByKeywordList,
+    choose,
+    buildCharNumList,
+    sleep,
+    charityDataset,
+    charityGenerator,
+    fetchAllCharities,
+    defined,
+    extractCurrentSubmission,
+    makeData,
+    step1,
+    step2,
+    step3,
+    trueDate
+} from '../imports/api/server/core';
+
+import { testData, listOfList, expected, subMissionList } from './testData';
 // 
 const should = chai.should();
 const expect = chai.expect;
@@ -22,9 +39,21 @@ describe('Core', function() {
             });
         });
     });
-    describe('choose():', function() {
-        it('return a number that is at most 20', function() {
+    describe('utility methods:', function() {
+        it('choose() return a number that is at most 20', function() {
             expect(choose(20)).to.be.at.most(20);
+        });
+        it('return convert a date string to a date object', function() {
+            expect(trueDate('10/09/2010 13:36:00').toString())
+                .to.equal('Sun Oct 10 2010 13:36:00 GMT+0100 (BST)');
+        });
+        it('return a black string when given one', function() {
+            expect(trueDate(''))
+                .to.equal('');
+        });
+        it('should return a valid date object if no time passed', function() {
+            expect(trueDate('10/09/2010').toString())
+                .to.equal('Sun Oct 10 2010 00:00:00 GMT+0100 (BST)');
         });
     });
     describe('GetCharitiesByOneKeyword():', function() {
@@ -110,12 +139,6 @@ describe('Core', function() {
                         .to.equal("JAMIA MASJID & MADRASSA FAIZ UL QURAN GHOUSIA");
                     expect(val[1].GetCharityByRegisteredCharityNumberResult.CharityName)
                         .to.equal("JAMIAT AHL-E-HADITH OLDHAM");
-
-                    // console.log(val[1].GetCharityByRegisteredCharityNumberResult);
-
-                    // .Returns[0].AssetsAndLiabilities.Funds.TotalFunds);
-                    // if (defined(val[0].GetCharityByRegisteredCharityNumberResult.Returns[0], 'AssetsAndLiabilities.Funds.TotalFunds')) {
-                    // }
                 });
         });
 
@@ -158,23 +181,7 @@ describe('Core', function() {
 
     });
     describe('integration tests', function() {
-        const step1 = function step1() {
-            return new Promise(function(resolve, reject) {
-                resolve([true]);
-            });
-        };
 
-        const step2 = function step2(val) {
-            return new Promise(function(resolve, reject) {
-                resolve(val.concat(true));
-            });
-        };
-
-        const step3 = function step3(val) {
-            return new Promise(function(resolve, reject) {
-                resolve(val.concat(true));
-            });
-        };
         it('returns eventually return [true, true, true]', function() {
             return step1()
                 .then(step2)
@@ -208,7 +215,7 @@ describe('Core', function() {
                         'PublicEmailAddress',
                         'MainPhoneNumber'
                     ]);
-                    
+
                     expect(makeData(val)[0]).to.have.all.keys([
                         'CharityName',
                         'RegisteredCharityNumber',
@@ -225,7 +232,7 @@ describe('Core', function() {
                         'TotalExpenditure',
                         'Employees',
                         'Volunteers',
-                        ]);
+                    ]);
 
                     // 8 charities of 82 had returns data
                     // 75 charities of 82 had submissions data
