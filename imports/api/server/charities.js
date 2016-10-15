@@ -63,9 +63,6 @@ Charities.schema = new SimpleSchema({
     RegistrationHistory: {
         type: [RegistrationHistorySchema]   
     },
-    RegistrationDate: {
-        type: String
-    },
     Address: {
         type: AddressSchema
     },
@@ -86,10 +83,16 @@ Charities.schema = new SimpleSchema({
     },
     Volunteers: {
         type: Number
+    },
+    createdAt: {
+        type: Date,
+        autoValue: function () {
+            return new Date();
+        }
     }
 });
 
-// Charities.attachSchema(Charities.schema);
+Charities.attachSchema(Charities.schema);
 
 // {
 // SubsidiaryNumber:0,

@@ -193,7 +193,6 @@ export const makeData = function(list) {
             CharityName: "",
             RegisteredCharityNumber: "",
             RegistrationHistory: "",
-            RegistrationDate: "",
             Address: "",
             PublicTelephoneNumber: "",
             PublicFaxNumber: "",
