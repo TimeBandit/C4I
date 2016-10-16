@@ -46,7 +46,7 @@ function writeIt() {
     });
 }
 Meteor.startup(function() {
-    // init the db here..
+    // init the db here...
     console.log(`Meteor started`);
     console.log(Charities.find().count());
     //     console.log(err ? console.log(err) : console.log(res));
