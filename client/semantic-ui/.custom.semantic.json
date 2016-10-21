@@ -1,6 +1,8 @@
 {
     "definitions": {
         "accordion": true,
+        "button": true,
+        "card": true,
         "ad": true,
         "api": true,
         "site": true

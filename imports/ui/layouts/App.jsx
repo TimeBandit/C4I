@@ -1,11 +1,13 @@
+/*jshint esversion: 6 */
+
 // libs
 import React from 'react';
 // import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 
 // css
-import "picnic/picnic.min.css";
-import './App.less';
+// import "picnic/picnic.min.css";
+// import './App.less';
 
 // components..
 import Menu from "../components/Menu.jsx";
@@ -31,6 +33,7 @@ export default class App extends React.Component {
                                     <span>charities4islam.co.uk</span>
                                 </nav>
                                 <article className="hero">
+                                    <button className="ui small container blue button">Default</button>
                                     <h1 className="page-title">
                                         charities4islam.co.uk
                                         <p className="page-slogan">Bringing clarity to the ummah</p>

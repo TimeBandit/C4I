@@ -1,8 +1,9 @@
+/*jshint esversion: 6 */
 import React from 'react';
 
 const HomePage = () => (
-    <section className="content flex two three-600 four-1000">
-	    <div className="half third-600 fourth-1000">
+
+  <section className="content flex two three-600 four-1000">
 	        <article className="card">
 	            <div className="stat">
 	                <div className="value">1.2 M</div>
@@ -13,7 +14,6 @@ const HomePage = () => (
 	                <button className="more-btn">See More</button>
 	            </footer>
 	        </article>
-	    </div>
 	    <div className="half third-600 fourth-1000">
 	        <article className="card">
 	            <div className="stat">
