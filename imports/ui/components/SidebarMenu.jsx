@@ -4,7 +4,7 @@ import { $ } from 'meteor/jquery';
 import { Link } from 'react-router';
 // import slideOut from "/imports/ui/helpers/slideOut.js";
 // css
-export default class Menu extends React.Component {
+export default class SidebarMenu extends React.Component {
   componentDidMount() {
     // $(slideOut());
     // create sidebar and attach to menu open
@@ -13,16 +13,16 @@ export default class Menu extends React.Component {
 
   render() {
     return (
-      <nav id="menu" className="sideBar">
+      <nav id="menu">
         <div className="ui vertical inverted sidebar menu">
           <Link to="/">
-            <a className="active item">Home</a>
+            Home
           </Link>
           <Link to="about">
-            <a className="item">About</a>
+            About
           </Link>
           <Link to="contact">
-            <a className="item">Contact</a>
+            Contact
           </Link>
         </div>
       </nav>
