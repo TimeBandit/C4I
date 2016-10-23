@@ -4,23 +4,11 @@ import { $ } from 'meteor/jquery';
 import { Link } from 'react-router';
 // css
 export default class NavMenu extends React.Component {
-  componentDidMount() {
-    // fix menu when passed
-    $('.masthead')
-      .visibility({
-        once: false,
-        onBottomPassed: function() {
-          $('.fixed.menu').transition('fade in');
-        },
-        onBottomPassedReverse: function() {
-          $('.fixed.menu').transition('fade out');
-        }
-      });
-  }
+  
 
   render() {
     return (
-      <nav id="menu">
+      <nav id="navMenu">
         <div className="ui large top fixed hidden menu">
           <div className="ui container">
             <a className="active item">Home</a>

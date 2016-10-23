@@ -7,24 +7,13 @@ import { Link } from 'react-router';
 export default class SidebarMenu extends React.Component {
   componentDidMount() {
     // $(slideOut());
-    // create sidebar and attach to menu open
-    $('.ui.sidebar').sidebar('attach events', '.toc.item');
+    
   }
 
   render() {
     return (
-      <nav id="menu">
-        <div className="ui vertical inverted sidebar menu">
-          <Link to="/">
-            Home
-          </Link>
-          <Link to="about">
-            About
-          </Link>
-          <Link to="contact">
-            Contact
-          </Link>
-        </div>
+      <nav id="sideMenu">
+        
       </nav>
     );
   }

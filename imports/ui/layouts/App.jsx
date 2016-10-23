@@ -18,12 +18,38 @@ export default class App extends React.Component {
 
     };
   }
+
+  componentDidMount() {
+    // fix menu when passed
+    $(document)
+      .ready(function() {
+
+        // fix menu when passed
+        $('.masthead')
+          .visibility({
+            once: false,
+            onBottomPassed: function() {
+              console.log(`going down`);
+              $('.fixed.menu').transition('fade in');
+            },
+            onBottomPassedReverse: function() {
+              console.log(`going up`);
+              $('.fixed.menu').transition('fade out');
+            }
+          });
+
+        // create sidebar and attach to menu open
+        $('.ui.sidebar')
+          .sidebar('attach events', '.toc.item');
+
+      });
+  }
+
   render() {
     return (
       <span>
         <NavMenu />
-        <SidebarMenu />
-        <div className="pusher">
+        <div>
           <div className="ui inverted vertical masthead center aligned segment">
 
             <div className="ui container">
@@ -44,7 +70,7 @@ export default class App extends React.Component {
 
             <div className="ui text container">
               <h1 className="ui inverted header">
-                Imagine-a-Company
+                Charities 4 Islam
               </h1>
               <h2>Do whatever you want when you want to.</h2>
               <div className="ui huge primary button">Get Started <i className="right arrow icon" /></div>
@@ -78,11 +104,11 @@ export default class App extends React.Component {
             <div className="ui equal width stackable internally celled grid">
               <div className="center aligned row">
                 <div className="column">
-                  <h3>&quot; What a Company &quot;</h3>
+                  <h3>&quot;What a Company&quot;</h3>
                   <p>That is what they all say about us</p>
                 </div>
                 <div className="column">
-                  <h3>&quot; I shouldn&#39;t have gone with their competitor. &quot;</h3>
+                  <h3>&quot;I shouldn&#39;t have gone with their competitor.&quot;</h3>
                   <p>
                     <img src="img/imgs/nan.jpg" className="ui avatar image" alt=" " /> <b>Nan</b> Chief Fun Officer Acme Toys
                   </p>
