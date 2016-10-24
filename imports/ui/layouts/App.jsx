@@ -1,17 +1,14 @@
 import React from 'react';
 // import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-
 // css
-// import "picnic/picnic.min.css";
-import './App2.less';
+import './App.less';
 
 // components..
-import SidebarMenu from '../components/SidebarMenu'
 import NavMenu from '../components/NavMenu';
 
-
 export default class App extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -29,11 +26,9 @@ export default class App extends React.Component {
           .visibility({
             once: false,
             onBottomPassed: function() {
-              console.log(`going down`);
               $('.fixed.menu').transition('fade in');
             },
             onBottomPassedReverse: function() {
-              console.log(`going up`);
               $('.fixed.menu').transition('fade out');
             }
           });
@@ -50,7 +45,8 @@ export default class App extends React.Component {
       <span>
         <NavMenu />
         <div>
-          <div className="ui inverted vertical masthead center aligned segment">
+
+          <div className="ui inverted vertical center aligned segment">
 
             <div className="ui container">
               <div className="ui large secondary inverted pointing menu">
@@ -67,17 +63,9 @@ export default class App extends React.Component {
                 </div>
               </div>
             </div>
-
-            <div className="ui text container">
-              <h1 className="ui inverted header">
-                Charities 4 Islam
-              </h1>
-              <h2>Do whatever you want when you want to.</h2>
-              <div className="ui huge primary button">Get Started <i className="right arrow icon" /></div>
-            </div>
-
           </div>
 
+          {this.props.children}          
           <div className="ui vertical stripe segment">
             <div className="ui middle aligned stackable grid container">
               <div className="row">
@@ -98,7 +86,6 @@ export default class App extends React.Component {
               </div>
             </div>
           </div>
-
 
           <div className="ui vertical stripe quote segment">
             <div className="ui equal width stackable internally celled grid">
@@ -130,7 +117,6 @@ export default class App extends React.Component {
               <a className="ui large button">I&#39;m Still Quite Interested</a>
             </div>
           </div>
-
 
           <div className="ui inverted vertical footer segment">
             <div className="ui container">

@@ -3,26 +3,27 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 // layout
-import App from '/imports/ui/layouts/App.jsx';
+// keep file extension
+import App from '../../ui/layouts/App.jsx'
 // import AppContainer from '/imports/ui/containers/AppContainer.jsx';
 // 
 // route components
-import HomePage from '/imports/ui/pages/HomePage.jsx';
-import AboutPage from '/imports/ui/pages/AboutPage.jsx';
-import SearchPage from '/imports/ui/pages/SearchPage.jsx';
-import ContactPage from '/imports/ui/pages/ContactPage.jsx';
-import LegalPage from '/imports/ui/pages/LegalPage.jsx';
-import MyFavouritesPage from '/imports/ui/pages/MyFavouritesPage.jsx';
+import HomePage from '../../ui/pages/HomePage'
+import AboutPage from '../../ui/pages/AboutPage'
+import SearchPage from '../../ui/pages/SearchPage'
+import ContactPage from '../../ui/pages/ContactPage'
+import LegalPage from '../../ui/pages/LegalPage'
+import MyFavouritesPage from '../../ui/pages/MyFavouritesPage'
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-    	<IndexRoute component={HomePage} />
-    	<Route path="/about" component={AboutPage} />
-    	<Route path="/search" component={SearchPage} />
-    	<Route path="/contact" component={ContactPage} />
-    	<Route path="/myfavourites" component={MyFavouritesPage} />
-    	<Route path="/legal" component={LegalPage} />
+      <IndexRoute component={HomePage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/search" component={SearchPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/myfavourites" component={MyFavouritesPage} />
+      <Route path="/legal" component={LegalPage} />
     </Route>
   </Router>
 );

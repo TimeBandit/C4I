@@ -1,230 +1,96 @@
 @import "/imports/ui/stylesheets/util/variables.less";
 
-/* panel styles */
-
-#panel {
-    // subtracts the width of the menu
-    max-width: 100% - 256px;
+.hidden.menu {
+    display: none;
 }
 
-
-/* header styles */
-
-
-/* nav styles */
-
-#banner {
-    .wrapper {
-        #fixed-header {
-            .flex();
-            // bring the button back on top
-            span {
-                // using flex box to centre align on x,y axis
-                .flex-direction(column);
-                .justify-content(center);
-                width: calc(100% - 20/@rem);
-                .align-items(center);
-                font-weight: bold;
-                font-size: 20/@em;
-                .flex();
-            }
-        }
-    }
+.masthead.segment {
+    min-height: 700px;
+    padding: 1em 0em;
 }
 
-
-/*  menu button */
-
-.toggle-button {
-    width: 57/@rem;
-    margin-left: 5/@rem;
+.masthead .logo.item img {
+    margin-right: 1em;
 }
 
-// 
-.hero {
-    background-image: url("/img/bgrd/hero.jpeg");
-    background-position: center center;
-    font-family: 'BebasNeue Regular';
-    padding: 108/@rem 0 108/@rem 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin-top: 100/@rem;
-    text-align: center;
-    .page-title {
-        // remove the defaule h1 margin & padding
-        background: fadeout(@darkPrimaryColor, 30%);
-        color: @textPrimaryColor;
-        letter-spacing: 0.3rem;
-        border-radius: @borderRadius;
-        font-size: 3em;
-        margin: 0 auto;
-        width: 550/@rem;
-    }
-    .page-slogan {
-        // background: fadeout(@darkPrimaryColor, 40%);
-        // margin: 2.5rem auto 2.5rem auto;
-        margin: 0 auto;
-        color: @textPrimaryColor;
-        border-radius: @borderRadius;
-        font-size: 0.4em;
-        width: 450/@rem;
-    }
-    .page-purpose {
-        // background: fadeout(@darkPrimaryColor, 40%);
-        margin: 2.5rem auto 2.5rem auto;
-        color: @textPrimaryColor;
-        border-radius: @borderRadius;
-        font-size: 1.0em;
-        width: 350/@rem;
-    }
+.masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
 }
 
-// section styles 
-.wrapper {
-    margin-top: -100/@rem;
+.masthead h1.ui.header {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
 }
 
-.content {
-    font-family: lato;
+.masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
 }
 
-#footer {
-    background-color: @lightPrimaryColor;
-    text-transform: lowercase;
+.ui.vertical.stripe {
+    padding: 8em 0em;
 }
 
-
-/* card styles */
-
-.card {
-    color: @darkPrimaryColor;
-    position: relative;
-    .stat {
-        // set background image
-        background-image: linear-gradient( rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("/img/svgicons/dollar-symbol.svg");
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 50%;
-        -o-background-size: 50%;
-        -moz-background-size: 50%;
-        -webkit-background-size: 50%;
-        // center stats
-        .flex();
-        .flex-direction(column);
-        .justify-content(center);
-        .align-items(center);
-        min-height: 150/@rem;
-        max-height: 280/@rem;
-        .value {
-            font-size: 24/@em;
-            line-height: 0.75em;
-        }
-        .text {
-            font-size: 16/@em;
-        }
-    }
-    footer {
-        background-color: @primaryColor;
-        text-transform: lowercase;
-        text-transform: capitalize;
-        color: @textPrimaryColor;
-        position: relative;
-        text-align: center;
-        .more-btn {
-            position: absolute;
-            top: -17/@rem;
-            right: 1.4rem;
-        }
-    }
+.ui.vertical.stripe h3 {
+    font-size: 2em;
 }
 
-
-/* media queries styles */
-
-@media (min-width:320px) {
-    /* smartphones, iPhone, portrait 480x320 phones */
-    #fixed-header {
-        background-color: @darkPrimaryColor;
-        color: @textPrimaryColor;
-    }
-    .hero {
-        .page-title {
-            display: none;
-        }
-        .page-slogan {
-            display: none;
-        }
-        .page-purpose {
-            display: none;
-        }
-    }
-    .content {
-        // max-width: 960/@rem;
-        margin: 0 auto;
-        width: 95%;
-        .full {
-            padding-left: 0;
-        }
-    }
+.ui.vertical.stripe .button + h3,
+.ui.vertical.stripe p + h3 {
+    margin-top: 3em;
 }
 
-@media (min-width:481px) {
-    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+.ui.vertical.stripe .floated.image {
+    clear: both;
 }
 
-// @media (min-width:641px) 
-@media (min-width:600px) {
-    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-    #fixed-header {
-        background: url("img/bgrd/transparent_tile.png");
-        box-shadow: 0 0;
-        span {
-            opacity: 0;
-        }
-    }
-    .hero {
-        .page-title {
-            display: block;
-        }
-        .page-slogan {
-            display: block;
-        }
-        .page-purpose {
-            display: block;
-        }
-    }
-    .content {
-        max-width: 960/@rem;
-        margin: 0 auto;
-        width: 90%;
-    }
-    .card {
-        .stat {
-            .value {
-                font-size: 48/@em;
-                line-height: 0.75em;
-            }
-            .text {
-                font-size: 16/@em;
-            }
-        }
-        footer {
-            text-align: left;
-            .more-btn {
-                right: 15/@rem
-            }
-        }
-    }
+.ui.vertical.stripe p {
+    font-size: 1.33em;
 }
 
-@media (min-width:961px) {
-    /* tablet, landscape iPad, lo-res laptops ands desktops */
+.ui.vertical.stripe .horizontal.divider {
+    margin: 3em 0em;
 }
 
-@media (min-width:1025px) {
-    /* big landscape tablets, laptops, and desktops */
+.quote.stripe.segment {
+    padding: 0em;
 }
 
-@media (min-width:1281px) {
-    /* hi-res laptops and desktops */
+.quote.stripe.segment .grid .column {
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+
+.footer.segment {
+    padding: 5em 0em;
+}
+
+.secondary.pointing.menu .toc.item {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .ui.fixed.menu {
+        display: none !important;
+    }
+    .secondary.pointing.menu .item,
+    .secondary.pointing.menu .menu {
+        display: none;
+    }
+    .secondary.pointing.menu .toc.item {
+        display: block;
+    }
+    .masthead.segment {
+        min-height: 350px;
+    }
+    .masthead h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+    }
+    .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+    }
 }

@@ -7,8 +7,8 @@ const test = {
 
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
-import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/server/charities.js';
-import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, makeData } from '../../api/server/core';
+import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/charities/charities.js';
+import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, makeData } from '../../api/charities/server/core';
 // 
 const searchTerms = Meteor.settings.private.search_terms;
 const settings = Meteor.settings;

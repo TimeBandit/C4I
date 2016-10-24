@@ -4,7 +4,6 @@ import { $ } from 'meteor/jquery';
 import { Link } from 'react-router';
 // css
 export default class NavMenu extends React.Component {
-  
 
   render() {
     return (
