@@ -1,10 +1,13 @@
-import Charities from '../../server/charities'
-// 
+import { Charities } from '../charities'
 
 Meteor.publish('max.gross.income', function() {
-  return Charities.find({
-    userId: { $exists: false }
-  }, {
-    fields: Lists.publicFields
-  });
+
+  return Charites.findOne(
+	{"GrossIncome": {$type: "number"}},
+	{sort: {"GrossIncome": -1 })
+
 });
+
+// db.charities.find(
+// 	{"GrossIncome": {$type: "number"}})
+// 		.sort({"GrossIncome": -1})[0]
