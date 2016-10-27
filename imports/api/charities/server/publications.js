@@ -1,13 +1,7 @@
+import { Meteor } from 'meteor/meteor';
 import { Charities } from '../charities'
+import { topGrossIncomeQuery } from '../queries';
 
-Meteor.publish('max.gross.income', function() {
-
-  return Charites.findOne(
-	{"GrossIncome": {$type: "number"}},
-	{sort: {"GrossIncome": -1 })
-
+Meteor.publish('top.gross.income', function() {
+  return topGrossIncomeQuery;
 });
-
-// db.charities.find(
-// 	{"GrossIncome": {$type: "number"}})
-// 		.sort({"GrossIncome": -1})[0]
