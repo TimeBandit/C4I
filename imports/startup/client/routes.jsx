@@ -15,7 +15,7 @@ import ContactPage from '../../ui/pages/ContactPage'
 import LegalPage from '../../ui/pages/LegalPage'
 import MyFavouritesPage from '../../ui/pages/MyFavouritesPage'
 import HomePageContainer from '../../ui/containers/HomePageContainer'
-import CharityPageContainer from '../../ui/pages/CharityPageContainer'
+import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
