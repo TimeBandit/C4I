@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 import React from 'react'
+import { Link } from 'react-router'
 import { currencyFormat } from '../helpers/helpers';
 
 export default class HomePage extends React.Component {
@@ -50,7 +51,7 @@ export default class HomePage extends React.Component {
                     </div>
                   </div>
                   <div className="meta">
-                    <a>Friends</a>
+                    Updated yesterday
                   </div>
                   <div className="description">
                     This Islamic charity reported the highest gross income 
@@ -58,17 +59,10 @@ export default class HomePage extends React.Component {
                   </div>
                 </div>
                 <div className="extra content">
-                  <span className="right floated">
-                    Joined in 2013
-                  </span>
-                  <span>
-                    <i className="user icon"></i>
-                    75 Friends
-                  </span>
                 </div>
                 <div className="ui bottom attached button">
                   <i className="pointing up icon"></i>
-                  Go to charity
+                    <Link to={val === undefined ? "wait" : "/charity/" + val.RegisteredCharityNumber}>SHOW ME</Link>
                 </div>
               </div>
             </div>

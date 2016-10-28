@@ -22,7 +22,7 @@ const RegistrationHistorySchema = new SimpleSchema({
 
 const AddressSchema = new SimpleSchema({
   Line1: {
-    type: Number
+    type: String
   },
   Line2: {
     type: String
@@ -88,7 +88,7 @@ Charities.schema = new SimpleSchema({
     type: Date,
     autoValue: function() {
       if (this.isInsert) {
-        return new Date;
+        return new Date();
       }
     }
   }
