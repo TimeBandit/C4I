@@ -28,6 +28,6 @@ export default createContainer(() => {
   return {
     subscriptionHandle,
     loading,
-    val: topGrossIncomeQuery.fetch()[0]
+    val: topGrossIncomeQuery().fetch()[0]
   };
 }, HomePage);

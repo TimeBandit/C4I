@@ -8,11 +8,13 @@ export default class CharityPage extends React.Component {
   }
 
   render() {
+
+    const { charData, loading } = this.props;
+
     return (
       <div>
-        <h2>{this.props.params.registeredCharityNumber}</h2>
+        <h2>{ charData === undefined ? "" : charData.CharityName}</h2>
       </div>
     )
   }
 }
-

@@ -2,15 +2,15 @@ import { Meteor } from 'meteor/meteor';
 import { Charities } from '../../api/charities/charities'
 import { createContainer } from 'meteor/react-meteor-data';
 import CharityPage from '../pages/CharityPage'
-import { topGrossIncomeQuery } from '../../api/charities/queries';
+import { currentCharity } from '../../api/charities/queries';
 
 // creates a container around the app componenet
 // & feeds in all the data sources
-export default createContainer(() => {
+export default createContainer(( { params: { registeredCharityNumber }} ) => {
 
-  const registeredCharityNumber = parseInt(this.props.params.registeredCharityNumber);
+  const charNum = parseInt(registeredCharityNumber);
 
-  const subscriptionHandle = Meteor.subscribe('current.charity', registeredCharityNumber,
+  const subscriptionHandle = Meteor.subscribe('current.charity', charNum,
     function onStop(val) {
       console.log('onStop');
       console.log(val);
@@ -22,14 +22,9 @@ export default createContainer(() => {
 
   const loading = !subscriptionHandle.ready();
 
-  // console.log(`container`);
-  // console.log(subscriptionHandle);
-  // console.log(loading);
-  // console.log('===')
-
   return {
     subscriptionHandle,
     loading,
-    val: topGrossIncomeQuery.fetch()[0]
+    charData: currentCharity(charNum).fetch()[0]
   };
 }, CharityPage);
