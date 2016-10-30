@@ -12,9 +12,22 @@ export default class CharityPage extends React.Component {
     const { charData, loading } = this.props;
 
     return (
-      <div>
-        <h2>{ charData === undefined ? "" : charData.CharityName}</h2>
-      </div>
+      <span>
+      	<ui className="ui container">
+	      	<div className="ui vertical segment">
+		        <h1  className="ui header" >
+		        	{ charData === undefined ? "" : charData.CharityName}
+		        	<div className="sub header">{ charData === undefined ? "" : charData.Activities }</div>
+		        </h1>
+					</div>
+					<div className="ui vertical segment">
+					  <p></p>
+					</div>
+					<div className="ui vertical segment">
+					  <p></p>
+					</div>
+      	</ui>
+      </span>
     )
   }
 }
