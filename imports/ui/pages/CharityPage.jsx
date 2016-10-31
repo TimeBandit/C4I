@@ -21,7 +21,9 @@ export default class CharityPage extends React.Component {
 		        </h1>
 					</div>
 					<div className="ui vertical segment">
-					  <p></p>
+					  <iframe
+						  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=Eiffel+Tower,Paris+France" allowFullScreen>
+						</iframe>
 					</div>
 					<div className="ui vertical segment">
 					  <p></p>
@@ -31,3 +33,12 @@ export default class CharityPage extends React.Component {
     )
   }
 }
+
+// https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
+
+//  AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI 
+
+//  https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=Eiffel+Tower,Paris+France
+
+//   var myOtherUrl = 
+//        "http://example.com/index.html?url=" + encodeURIComponent(address);
