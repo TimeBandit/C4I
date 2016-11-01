@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import GoogleMap from './GoogleMap';
 
 export default class CharityPage extends React.Component {
 
@@ -21,9 +22,7 @@ export default class CharityPage extends React.Component {
 		        </h1>
 					</div>
 					<div className="ui vertical segment">
-					  <iframe
-						  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=Eiffel+Tower,Paris+France" allowFullScreen>
-						</iframe>
+						{ charData === undefined ? "" : <GoogleMap adressObj={charData.Address}/>}					  
 					</div>
 					<div className="ui vertical segment">
 					  <p></p>

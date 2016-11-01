@@ -1,25 +1,29 @@
-import React from 'react';
+import React from 'react'
+import { adressObjToURI } from '../helpers/helpers'
 
-const GoogleMap({ adressObj }) => {
+const GoogleMap = ({ adressObj }) => {
 
-	makeAdressString = (adressObj) => {
+  const style = {
+    border: "0"
+  };
 
-	}
+  let makeURL = (val) => {
+  	console.log(val);
+  	console.log("https://www.google.com/maps/embed/v1/place?key=" +
+      "AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI" + "&q=" +
+      adressObjToURI(val))
 
-	makeSrc = (queryString )
+    return "https://www.google.com/maps/embed/v1/place?key=" +
+      "AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q" + "&q=" +
+      adressObjToURI(val);
+  };
 
   return (
-    <iframe src="" frameborder="0"></iframe>
+    <iframe src={makeURL(adressObj)} frameBorder="0" style = {style}></iframe>
   );
 }
 
 export default GoogleMap;
 
-const testData =  { 
-	Line1: "11 ROSS STREET", 
-	Line2: "OLDHAM", 
-	Line3: "LANCASHIRE", 
-	Line4: "", 
-	Line5: "", 
-	Postcode: "OL8 1UA" 
-}
+
+// "https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=11%20ROSS%20STREET%2C%20OLDHAM%2C%20LANCASHIRE%2C%20OL8%201UA"

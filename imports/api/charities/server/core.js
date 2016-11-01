@@ -3,31 +3,6 @@ const ccAPI = require('charity-commission-api');
 const ccAPIUrl = 'http://apps.charitycommission.gov.uk/Showcharity/API/SearchCharitiesV1/SearchCharitiesV1.asmx?wsdl';
 require("babel-polyfill");
 // 
-export const choose = function(range) {
-    return Math.floor((Math.random() * range) + 1);
-};
-
-export const sleep = function(time) {
-    return new Promise(function(resolve, reject) {
-        Meteor.setTimeout(function() {
-            // process.stdout.write(".");
-            resolve(true);
-        }, time);
-    });
-};
-
-export const defined = function(obj, strNames) {
-    let arrNames = strNames.split('.');
-    let name = arrNames.shift();
-
-    while (name) {
-        if (!obj.hasOwnProperty(name)) return false;
-        obj = obj[name];
-        name = arrNames.shift();
-    }
-
-    return true;
-};
 
 export const GetCharitiesByOneKeyword = function(client, args, delay = 500) {
     return new Promise(function(resolve, reject) {
@@ -147,30 +122,6 @@ export const fetchAllCharities = function(client, args, charityIds) {
                 });
 
         }, delay * charityIds.length);
-        // if (typeof Meteor !== 'undefined') {
-
-        // } else {
-        //     setTimeout(function() {
-        //         // console.log(`fetching ${e}`);
-        //         console.log(`    fetching ${i} of ${list.length - 1}`);
-        //         res.push(
-        //             getCharityByRegisteredCharityNumber(
-        //                 client, { APIKey: args.APIKey, registeredCharityNumber: e }
-        //             )
-        //         );
-        //     }, delay * i);
-        //     setTimeout(function() {
-        //         // console.log(res.length);
-        //         Promise.all(res)
-        //             .then(function(val) {
-        //                 resolve(val);
-        //             })
-        //             .catch(function(error) {
-        //                 throw error;
-        //             });
-
-        //     }, delay * charityIds.length);
-        // }
     });
 };
 
@@ -243,6 +194,8 @@ export const makeData = function(list) {
     return result;
 };
 
+// utility functions
+
 export const trueDate = function(dateTimeString) {
     if (!dateTimeString) {
         return '';
@@ -283,3 +236,31 @@ export const step3 = function step3(val) {
         resolve(val.concat(true));
     });
 };
+
+
+export const choose = function(range) {
+    return Math.floor((Math.random() * range) + 1);
+};
+
+export const sleep = function(time) {
+    return new Promise(function(resolve, reject) {
+        Meteor.setTimeout(function() {
+            // process.stdout.write(".");
+            resolve(true);
+        }, time);
+    });
+};
+
+export const defined = function(obj, strNames) {
+    let arrNames = strNames.split('.');
+    let name = arrNames.shift();
+
+    while (name) {
+        if (!obj.hasOwnProperty(name)) return false;
+        obj = obj[name];
+        name = arrNames.shift();
+    }
+
+    return true;
+};
+
