@@ -1,5 +1,6 @@
 node_modules/
+client/semantic-ui/
 settings-development.json
+.eslintrc.json
+.babelrc
 todos
-out.tx
-out2.tx

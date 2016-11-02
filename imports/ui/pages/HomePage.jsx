@@ -1,68 +1,83 @@
-import React from 'react';
+/*jshint esversion: 6 */
+import React from 'react'
+import { Link } from 'react-router'
+import { currencyFormat } from '../helpers/helpers';
 
-const HomePage = () => (
-    <section className="content flex two three-600 four-1000">
-	    <div className="half third-600 fourth-1000">
-	        <article className="card">
-	            <div className="stat">
-	                <div className="value">1.2 M</div>
-	                <div className="text">Riches Charity</div>
-	            </div>
-	            <footer>
-	                <h3>Islamic Relief</h3>
-	                <button className="more-btn">See More</button>
-	            </footer>
-	        </article>
-	    </div>
-	    <div className="half third-600 fourth-1000">
-	        <article className="card">
-	            <div className="stat">
-	                <div className="value">600</div>
-	                <div className="text">Most Favourite</div>
-	            </div>
-	            <footer>
-	                <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
-	                <button className="more-btn">See More</button>
-	            </footer>
-	        </article>
-	    </div>
-	    <div className="half third-600 fourth-1000">
-	        <article className="card">
-	            <div className="stat">
-	                <div className="value">24 K</div>
-	                <div className="text">Most Page View</div>
-	            </div>
-	            <footer>
-	                <h3>Islamic Relief</h3>
-	                <button className="more-btn">See More</button>
-	            </footer>
-	        </article>
-	    </div>
-	    <div className="half third-600 fourth-1000">
-	        <article className="card">
-	            <div className="stat">
-	                <div className="value">70p/1£</div>
-	                <div className="text">Most Efficient</div>
-	            </div>
-	            <footer>
-	                <h3>Islamic Relief</h3>
-	                <button className="more-btn">See More</button>
-	            </footer>
-	        </article>
-	    </div>
-	    <div className="half third-600 fourth-1000">
-	        <article className="card">
-	            <div className="stat">
-	                <div className="value">196</div>
-	                <div className="text">Most Employees</div>
-	            </div>
-	            <footer>
-	                <h3>Guarati Sunni Muslim Community Centre (GSMCC)</h3>
-	                <button className="more-btn">See More</button>
-	            </footer>
-	        </article>
-	    </div>
-    </section>
-);
+export default class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-export default HomePage;
+  render() {
+    let { subscriptionHandle, loading, val } = this.props;
+
+    // console.log('on the client');
+    // console.log(subscriptionHandle);
+    // console.log(loading);
+    console.log(val);
+
+    return (
+      <span>
+        <div className="ui inverted vertical masthead center aligned segment">
+
+          <div className="ui text container">
+            <h1 className="ui inverted header">
+              Charities 4 Islam
+              <div className="inverted sub header">
+                We search public data on Islamic charities to 
+                bring you the key facts. 
+              </div>
+            </h1>
+            <p></p>
+            <div className="ui huge primary button">See the results <i className="down arrow icon" /></div>
+          </div>
+
+        </div>
+
+        <div className="ui vertical segment">
+          <div className="ui container">
+            <div className="ui three doubling cards">
+              <div className="card">
+                <div className="content">
+                  <div className="center aligned header">
+                    <div className="ui small statistic">
+                      <div className="value">
+                        {val === undefined ? "wait" : currencyFormat(val.GrossIncome)}
+                      </div>
+                      <div className="label">
+                        #1 for gross income
+                      </div>
+                    </div>
+                  </div>
+                  <div className="meta">
+                    Updated yesterday
+                  </div>
+                  <div className="description">
+                    This Islamic charity reported the highest gross income 
+                    from all those that we surveyed.
+                  </div>
+                </div>
+                <div className="extra content">
+                </div>
+                <div className="ui bottom attached button">
+                  <i className="pointing up icon"></i>
+                    <Link to={val === undefined ? "wait" : "/charity/" + val.RegisteredCharityNumber}>SHOW ME</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </span>
+
+    )
+
+  }
+
+}
+
+// const HomePage = () => (
+// );
+
+// export default HomePage;

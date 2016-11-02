@@ -7,8 +7,8 @@ const test = {
 
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
-import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/server/charities.js';
-import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, makeData } from '../../api/server/core';
+import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/charities/charities.js';
+import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, makeData } from '../../api/charities/server/core';
 // 
 const searchTerms = Meteor.settings.private.search_terms;
 const settings = Meteor.settings;
@@ -46,10 +46,9 @@ function writeIt() {
     });
 }
 Meteor.startup(function() {
-    // init the db here.
+    // init the db here...
     console.log(`Meteor started`);
     console.log(Charities.find().count());
-    // Charities.insert(test, function (err, res) {
     //     console.log(err ? console.log(err) : console.log(res));
     // });
     if (Charities.find().count() === 0) {
@@ -71,18 +70,21 @@ Meteor.startup(function() {
             })
             .then(function(val) {
                 console.log(`writing objects to db`);
+                console.log(val[0]);
                 val.forEach(function(el, idx, arr) {
-                    // Charities.rawCollection().insert(el);
+                    // Charities.insert(el);
                     console.log(el.RegisteredCharityNumber);
-                    Charities.rawCollection().update({ RegisteredCharityNumber: el.RegisteredCharityNumber},
-                        el, {upsert: true}
+                    Charities.rawCollection().update({ RegisteredCharityNumber: el.RegisteredCharityNumber },
+                        el, { upsert: true }
                     );
                 });
                 console.log(`DONE!`);
 
             })
             .catch(function(error) {
-                throw error;
+                console.log(error);
+                Meteor.error(error);
+                // throw error;
             });
     }
 });

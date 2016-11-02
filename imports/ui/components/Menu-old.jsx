@@ -8,13 +8,13 @@ import slideOut from "/imports/ui/helpers/slideOut.js";
 import './Menu.less';
 
 export default class Menu extends React.Component {
-    componentDidMount() {
-        $(slideOut());
-    }
+  componentDidMount() {
+    $(slideOut());
+  }
 
-    render() {
-        return (
-            <nav id="menu" className="sideBar">
+  render() {
+    return (
+      <nav id="menu" className="sideBar">
 				<div className="sideBar__section">
 					<div>
 						<Link to="/">
@@ -82,6 +82,6 @@ export default class Menu extends React.Component {
 					</Link>
 				</div>
 		    </nav>
-        );
-    }
+    );
+  }
 }
