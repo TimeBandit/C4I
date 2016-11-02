@@ -264,3 +264,14 @@ export const defined = function(obj, strNames) {
     return true;
 };
 
+export const parseAdressObjectServer = function (obj) {
+    // only using first and last lines - more reliable
+    const keys = Object.keys(obj);
+    console.log(obj[keys[0]] + obj[keys[keys.length-1]]);
+    // remove final comma
+    return obj[keys[0]] + "," + obj[keys[keys.length-1]];
+}
+
+export const adressObjToURIServer = function (obj) {
+    return encodeURIComponent(parseAdressObjectServer(obj))
+}

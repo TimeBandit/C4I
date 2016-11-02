@@ -1,25 +1,7 @@
 /*jshint esversion: 6 */
 const chai = require("chai");
 import * as sinon from 'sinon';
-import {
-  GetCharitiesByOneKeyword,
-  GetCharitiesByKeywordList,
-  choose,
-  buildCharNumList,
-  sleep,
-  charityDataset,
-  charityGenerator,
-  fetchAllCharities,
-  defined,
-  extractCurrentSubmission,
-  makeData,
-  step1,
-  step2,
-  step3,
-  trueDate,
-  parseAdressObject,
-  adressObjToURI
-} from '../imports/api/charities/server/core';
+import { GetCharitiesByOneKeyword, GetCharitiesByKeywordList, choose, buildCharNumList, sleep, charityDataset, charityGenerator, fetchAllCharities, defined, extractCurrentSubmission, makeData, step1, step2, step3, trueDate, parseAdressObjectServer, adressObjToURIServer } from '../imports/api/charities/server/core';
 
 import { testData, listOfList, expected, subMissionList } from './testData'
 // 
@@ -89,14 +71,14 @@ describe('Core', function() {
       Postcode: "OL8 1UA"
     }
 
-    const res = "11 ROSS STREET, OLDHAM, LANCASHIRE, OL8 1UA";
-    const URIres = "11%20ROSS%20STREET%2C%20OLDHAM%2C%20LANCASHIRE%2C%20OL8%201UA"
-
+    const res = "11 ROSS STREET,OL8 1UA";
+    const URIres = "11%20ROSS%20STREET%2C%20OL8%201UA"
+    // 
     it('should concatenate each valid property into a single string', function() {
-      expect(parseAdressObject(adressObject)).to.equal(res);
+      expect(parseAdressObjectServer(adressObject)).to.equal(res);
     });
     it('should convert an adress object to a URI encoded string', function() {
-      expect(adressObjToURI(adressObject)).to.equal(URIres);
+      expect(adressObjToURIServer(adressObject)).to.equal(URIres);
     });
   });
   describe.skip('GetCharitiesByOneKeyword():', function() {
