@@ -4,7 +4,9 @@ import { adressObjToURI, parseAdressObject } from '../helpers/helpers'
 const GoogleMap = ({ adressObj }) => {
 
   const style = {
-    border: "0"
+    border: "0",
+    width: "100%",
+    height: "100%"
   };
 
   return (

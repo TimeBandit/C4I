@@ -23,7 +23,7 @@ const GoogleMap = ({ contactData }) => {
   return (
     <div className="ui card">
   		<div className="content">
-  			<div className="header">How to contact us</div>
+  			<div className="header">Contact Info</div>
   		</div>
   		<div className="content">
   			<div className="ui list">
