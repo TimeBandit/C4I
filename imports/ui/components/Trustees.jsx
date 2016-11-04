@@ -5,13 +5,10 @@ import TrusteeCard from './TrusteeCard'
 const GoogleMap = ({ trusteesData }) => {
 
 	const buildTrusteeCards = () => {
-			return trusteesData.map(function (el, idx, arr) {
-				return <TrusteeCard 
-					key={idx} 
-					name={el.TrusteeName} 
-					number={el.TrusteeNumber} 
-					relateCharities={el.RelatedCharitiesCount}
-					/>
+		
+			return trusteesData.map(function (el, idx, arr) {				
+				return <TrusteeCard key={idx} name={el.TrusteeName} 
+					number={el.TrusteeNumber} relateCharities={el.RelatedCharitiesCount} />
 			})
 	}
 

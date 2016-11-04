@@ -1,7 +1,8 @@
 /*jshint esversion: 6 */
 import React from 'react'
 import { Link } from 'react-router'
-import { currencyFormat } from '../helpers/helpers';
+import { currencyFormat } from '../helpers/helpers'
+import HighestGrossIncomeCard from '../components/HomePage/HighestGrossIncomeCard';
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -38,33 +39,7 @@ export default class HomePage extends React.Component {
         <div className="ui vertical segment">
           <div className="ui container">
             <div className="ui three doubling cards">
-              <div className="card">
-                <div className="content">
-                  <div className="center aligned header">
-                    <div className="ui small statistic">
-                      <div className="value">
-                        {val === undefined ? "wait" : currencyFormat(val.GrossIncome)}
-                      </div>
-                      <div className="label">
-                        #1 for gross income
-                      </div>
-                    </div>
-                  </div>
-                  <div className="meta">
-                    Updated yesterday
-                  </div>
-                  <div className="description">
-                    This Islamic charity reported the highest gross income 
-                    from all those that we surveyed.
-                  </div>
-                </div>
-                <div className="extra content">
-                </div>
-                <div className="ui bottom attached button">
-                  <i className="pointing up icon"></i>
-                    <Link to={val === undefined ? "wait" : "/charity/" + val.RegisteredCharityNumber}>SHOW ME</Link>
-                </div>
-              </div>
+              {val === undefined ? <div className="ui active loader"></div> : <HighestGrossIncomeCard GrossIncome={val.GrossIncome} RegisteredCharityNumber={val.RegisteredCharityNumber} />}
             </div>
           </div>
         </div>
