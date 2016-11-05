@@ -101,7 +101,7 @@ export const charityGenerator = function*(client, args, charityIds) {
 export const fetchAllCharities = function(client, args, charityIds) {
     return new Promise(function(resolve, reject) {
         let res = [];
-        const delay = 500;
+        const delay = 2000;
         charityIds.forEach(function(e, i, list) {
             setTimeout(function() {
                 res.push(

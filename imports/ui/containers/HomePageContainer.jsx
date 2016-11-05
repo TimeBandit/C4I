@@ -2,32 +2,26 @@ import { Meteor } from 'meteor/meteor';
 import { Charities } from '../../api/charities/charities'
 import { createContainer } from 'meteor/react-meteor-data';
 import HomePage from '../pages/HomePage'
-import { topGrossIncomeQuery } from '../../api/charities/queries';
+import { topGrossIncomeQuery, bottomGrossIncomeQuery, topTotalExpenditureQuery, bottomTotalExpenditureQuery } from '../../api/charities/queries';
 
 // creates a container around the app componenet
 // & feeds in all the data sources
 export default createContainer(() => {
 
-  const subscriptionHandle = Meteor.subscribe('top.gross.income', null,
-    function onStop(val) {
-      console.log('onStop');
-      console.log(val);
-    },
-    function onReady(val2) {
-      console.log('onReady');
-      console.log(arguments);
-    });
+  const topGrossIncomeSubscription = Meteor.subscribe('top.gross.income');
+  const bottomGrossIncomeSubscription = Meteor.subscribe('bottom.gross.income');
+  
+  const topTotalExpenditureSubscription = Meteor.subscribe('top.total.expenditure');
+  const bottomTotalExpenditureSubscription = Meteor.subscribe('bottom.total.expenditure');
 
-  const loading = !subscriptionHandle.ready();
-
-  // console.log(`container`);
-  // console.log(subscriptionHandle);
-  // console.log(loading);
-  // console.log('===')
+  const loading = !topGrossIncomeSubscription.ready();
 
   return {
-    subscriptionHandle,
+    topGrossIncomeSubscription,
     loading,
-    val: topGrossIncomeQuery().fetch()[0]
+    topGrossIncome: topGrossIncomeQuery().fetch()[0],
+    bottomGrossIncome: bottomGrossIncomeQuery().fetch()[0],
+    topTotalExpenditure: topTotalExpenditureQuery().fetch()[0],
+    bottomTotalExpenditure: bottomTotalExpenditureQuery().fetch()[0]
   };
 }, HomePage);

@@ -2,7 +2,8 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { currencyFormat } from '../helpers/helpers'
-import HighestGrossIncomeCard from '../components/HomePage/HighestGrossIncomeCard';
+import GrossIncomeCard from '../components/HomePage/GrossIncomeCard'
+import TotalExpenditureCard from '../components/HomePage/TotalExpenditureCard';
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -11,12 +12,35 @@ export default class HomePage extends React.Component {
   }
 
   render() {
-    let { subscriptionHandle, loading, val } = this.props;
+    let { 
+      subscriptionHandle, 
+      loading, topGrossIncome, 
+      bottomGrossIncome, 
+      topTotalExpenditure, 
+      bottomTotalExpenditure 
+    } = this.props;
 
-    // console.log('on the client');
-    // console.log(subscriptionHandle);
-    // console.log(loading);
-    console.log(val);
+    const topGrossIncomeText = {
+        title: "#1 for gross income",
+        description: "This Islamic charity reported the highest gross income from all those that we surveyed."
+    };
+
+    const bottomGrossIncomeText = {
+        title: "Lowest gross income",
+        description: "This Islamic charity reported the lowest gross income from all those that we surveyed."
+    };
+
+    const topTotalExpenditureText = {
+        title: "#1 for total expenditure",
+        description: "This Islamic charity reported the highest total expenditure from all those that we surveyed."
+    };
+
+    const bottomTotalExpenditureText = {
+        title: "Lowest total expenditure",
+        description: "This Islamic charity reported the lowest total expenditure from all those that we surveyed."
+    };
+    
+    console.log(topGrossIncome);
 
     return (
       <span>
@@ -39,7 +63,10 @@ export default class HomePage extends React.Component {
         <div className="ui vertical segment">
           <div className="ui container">
             <div className="ui three doubling cards">
-              {val === undefined ? <div className="ui active loader"></div> : <HighestGrossIncomeCard GrossIncome={val.GrossIncome} RegisteredCharityNumber={val.RegisteredCharityNumber} />}
+              {topGrossIncome === undefined ? <div className="ui active loader"></div> : <GrossIncomeCard GrossIncome={topGrossIncome.GrossIncome} RegisteredCharityNumber={topGrossIncome.RegisteredCharityNumber} text={topGrossIncomeText}/>}
+              {bottomGrossIncome === undefined ? <div className="ui active loader"></div> : <GrossIncomeCard GrossIncome={bottomGrossIncome.GrossIncome} RegisteredCharityNumber={bottomGrossIncome.RegisteredCharityNumber} text={bottomGrossIncomeText}/>}
+              {bottomGrossIncome === undefined ? <div className="ui active loader"></div> : <TotalExpenditureCard TotalExpenditure={topTotalExpenditure.TotalExpenditure} RegisteredCharityNumber={topTotalExpenditure.RegisteredCharityNumber} text={topTotalExpenditureText}/>}
+              {bottomGrossIncome === undefined ? <div className="ui active loader"></div> : <TotalExpenditureCard TotalExpenditure={bottomTotalExpenditure.TotalExpenditure} RegisteredCharityNumber={bottomTotalExpenditure.RegisteredCharityNumber} text={bottomTotalExpenditureText}/>}
             </div>
           </div>
         </div>

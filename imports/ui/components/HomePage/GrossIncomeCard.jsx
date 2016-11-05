@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { currencyFormat } from '../../helpers/helpers'
 
-const HighestGrossIncomeCard = ({ GrossIncome, RegisteredCharityNumber }) => {
+const GrossIncomeCard = ({ GrossIncome, RegisteredCharityNumber, text }) => {
 
 
   return (
@@ -14,7 +14,7 @@ const HighestGrossIncomeCard = ({ GrossIncome, RegisteredCharityNumber }) => {
               {currencyFormat(GrossIncome)}
             </div>
             <div className="label">
-              #1 for gross income
+              {text.title}
             </div>
           </div>
         </div>
@@ -22,8 +22,7 @@ const HighestGrossIncomeCard = ({ GrossIncome, RegisteredCharityNumber }) => {
           Updated yesterday
         </div>
         <div className="description">
-          This Islamic charity reported the highest gross income 
-          from all those that we surveyed.
+          {text.description}
         </div>
       </div>
       <div className="extra content">
@@ -36,4 +35,4 @@ const HighestGrossIncomeCard = ({ GrossIncome, RegisteredCharityNumber }) => {
   );
 }
 
-export default HighestGrossIncomeCard;
+export default GrossIncomeCard;

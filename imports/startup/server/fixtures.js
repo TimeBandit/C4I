@@ -57,7 +57,7 @@ Meteor.startup(function() {
             .then(function(client) {
                 // Charities.insert(test);
                 console.log('searching for charitites');
-                return GetCharitiesByKeywordList(client, { APIKey }, ["madrassa"]);
+                return GetCharitiesByKeywordList(client, { APIKey }, ["islam"]);
             })
             .then(function(obj) {
                 console.log('fetching all charities');
