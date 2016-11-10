@@ -244,7 +244,7 @@ export const choose = function(range) {
 
 export const sleep = function(time) {
     return new Promise(function(resolve, reject) {
-        Meteor.setTimeout(function() {
+        setTimeout(function() {
             // process.stdout.write(".");
             resolve(true);
         }, time);
