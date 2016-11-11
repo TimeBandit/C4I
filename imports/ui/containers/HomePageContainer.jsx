@@ -8,7 +8,7 @@ import {
 } from '../../api/charities/queries';
 
 // creates a container around the app componenet
-// & feeds in all the data sources
+// & feeds in all the data sources.
 export default createContainer(() => {
 
   const topGrossIncomeSubscription = Meteor.subscribe('top.gross.income');
@@ -18,10 +18,10 @@ export default createContainer(() => {
   const bottomTotalExpenditureSubscription = Meteor.subscribe('bottom.total.expenditure');
 // 
   const topEmployeesSubscription = Meteor.subscribe('top.employees');
-  const topVolunteersSubscription = Meteor.subscribe('bottom.volunteers');
+  const topVolunteersSubscription = Meteor.subscribe('top.volunteers');
 // 
   const loading = !topGrossIncomeSubscription.ready();
-  console.log(topVolunteersQuery().fetch()[0]);
+  console.log(topGrossIncomeQuery().fetch()[0]);
   return {
     topGrossIncomeSubscription,
     loading,

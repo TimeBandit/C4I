@@ -52,7 +52,7 @@ export default class HomePage extends React.Component {
         title: "#1 for most volunteers",
         description: "This Islamic charity reported the most people volunteering from all those that we surveyed."
     };
-    console.log(topGrossIncome);
+    // console.log(topGrossIncome);
 
     return (
       <span>
@@ -80,7 +80,7 @@ export default class HomePage extends React.Component {
               {topTotalExpenditure === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(topTotalExpenditure.TotalExpenditure)} RegisteredCharityNumber={topTotalExpenditure.RegisteredCharityNumber} text={topTotalExpenditureText}/>}
               {bottomTotalExpenditure === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(bottomTotalExpenditure.TotalExpenditure)} RegisteredCharityNumber={bottomTotalExpenditure.RegisteredCharityNumber} text={bottomTotalExpenditureText}/>}
               
-              {topEmployees === undefined ? <div className="ui active loader"></div> : <DataCard data={topEmployees.Employees} RegisteredCharityNumber={bottomTotalExpenditure.RegisteredCharityNumber} text={topEmployeesText}/>}
+              {topEmployees === undefined ? <div className="ui active loader"></div> : <DataCard data={topEmployees.Employees} RegisteredCharityNumber={topEmployees.RegisteredCharityNumber} text={topEmployeesText}/>}
               {topVolunteers === undefined ? <div className="ui active loader"></div> : <DataCard data={topVolunteers.Volunteers} RegisteredCharityNumber={topVolunteers.RegisteredCharityNumber} text={topVolunteersText}/>}
             </div>
           </div>
