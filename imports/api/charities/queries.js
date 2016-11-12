@@ -5,7 +5,8 @@ export const topGrossIncomeQuery = function function_name(val) {
   return Charities.find({
     "GrossIncome": { $type: 1 }
   }, {
-    sort: { "GrossIncome": -1 }
+    sort: { "GrossIncome": -1 },
+    limit: 10
   });
 }
 

@@ -4,7 +4,8 @@ import { Link } from 'react-router'
 import { currencyFormat } from '../helpers/helpers'
 // import GrossIncomeCard from '../components/HomePage/GrossIncomeCard'
 // import TotalExpenditureCard from '../components/HomePage/TotalExpenditureCard'
-import DataCard from '../components/HomePage/DataCard';
+import DataCard from '../components/HomePage/DataCard'
+import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContainer';
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -75,6 +76,7 @@ export default class HomePage extends React.Component {
         <div className="ui vertical segment">
           <div className="ui container">
             <div className="ui three doubling cards">
+              <TopGrossIncomeContainer />
               {topGrossIncome === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(topGrossIncome.GrossIncome)} RegisteredCharityNumber={topGrossIncome.RegisteredCharityNumber} text={topGrossIncomeText}/>}
               {bottomGrossIncome === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(bottomGrossIncome.GrossIncome)} RegisteredCharityNumber={bottomGrossIncome.RegisteredCharityNumber} text={bottomGrossIncomeText}/>}
               {topTotalExpenditure === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(topTotalExpenditure.TotalExpenditure)} RegisteredCharityNumber={topTotalExpenditure.RegisteredCharityNumber} text={topTotalExpenditureText}/>}

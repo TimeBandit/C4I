@@ -21,7 +21,7 @@ export default createContainer(() => {
   const topVolunteersSubscription = Meteor.subscribe('top.volunteers');
 // 
   const loading = !topGrossIncomeSubscription.ready();
-  console.log(topGrossIncomeQuery().fetch()[0]);
+  // console.log(topGrossIncomeQuery().fetch()[0]);
   return {
     topGrossIncomeSubscription,
     loading,

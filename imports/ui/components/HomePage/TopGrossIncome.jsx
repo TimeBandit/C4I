@@ -2,19 +2,24 @@ import React from 'react'
 import { Link } from 'react-router'
 import { currencyFormat } from '../../helpers/helpers'
 
-const TopGrossIncome = ({ GrossIncome, RegisteredCharityNumber, text }) => {
+const TopGrossIncome = ({ loading, resultExists, result }) => {
 
+  const title = "#1 for gross income";
+  const description = "This Islamic charity reported the highest gross income \
+                      from all those that we surveyed.";
 
+  // resultExists? console.log(result) : "wating";
+  console.log(loading, resultExists);
   return (
-  	<div className="card">
+    <div className="card">
       <div className="content">
         <div className="center aligned header">
           <div className="ui small statistic">
             <div className="value">
-              {currencyFormat(GrossIncome)}
+              {resultExists? currencyFormat(result.GrossIncome) : ""}
             </div>
             <div className="label">
-              {text.title}
+              {title}
             </div>
           </div>
         </div>
@@ -22,14 +27,14 @@ const TopGrossIncome = ({ GrossIncome, RegisteredCharityNumber, text }) => {
           Updated yesterday
         </div>
         <div className="description">
-          {text.description}
+          {description}
         </div>
       </div>
       <div className="extra content">
       </div>
       <div className="ui bottom attached button">
         <i className="pointing up icon"></i>
-          <Link to={"/charity/" + RegisteredCharityNumber}>SHOW ME</Link>
+          {resultExists? <Link to={"/charity/" + result.RegisteredCharityNumber}>SHOW ME</Link> : ""}
       </div>
     </div>
   );
