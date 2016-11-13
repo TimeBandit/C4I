@@ -4,8 +4,8 @@ import { currencyFormat } from '../helpers/helpers'
 const GoogleMap = ({ financialData }) => {
 
   const { GrossIncome, TotalExpenditure, Employees, Volunteers } = financialData;
-  console.log('bla');
-  console.log(typeof Employees);
+  // console.log('bla');
+  // console.log(typeof Employees);
 
   return (
   	<div className="ui tiny statistics">

@@ -9,7 +9,6 @@ const TopGrossIncome = ({ loading, resultExists, result }) => {
                       from all those that we surveyed.";
 
   // resultExists? console.log(result) : "wating";
-  console.log(loading, resultExists);
   return (
     <div className="card">
       <div className="content">

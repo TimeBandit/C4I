@@ -11,7 +11,6 @@ export default createContainer(() => {
   const handle = Meteor.subscribe('top.gross.income');
   const loading = !handle.ready();
   const result = topGrossIncomeQuery().fetch()[0];
-  console.log(handle, loading, result);
   const resultExists = !loading && !!result;
 
   return {
