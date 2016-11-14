@@ -7,8 +7,6 @@ const TopGrossIncome = ({ loading, resultExists, result }) => {
   const title = "#1 for gross income";
   const description = "This Islamic charity reported the highest gross income \
                       from all those that we surveyed.";
-
-  // resultExists? console.log(result) : "wating";
   return (
     <div className="card">
       <div className="content">

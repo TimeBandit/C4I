@@ -1,11 +1,10 @@
 /*jshint esversion: 6 */
 import React from 'react'
 import { Link } from 'react-router'
-import { currencyFormat } from '../helpers/helpers'
-// import GrossIncomeCard from '../components/HomePage/GrossIncomeCard'
-// import TotalExpenditureCard from '../components/HomePage/TotalExpenditureCard'
-import DataCard from '../components/HomePage/DataCard'
-import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContainer';
+import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContainer'
+import TopTotalExpenditureContainer from '../containers/HomePage/TopGrossIncomeContainer'
+import TopEmployeesContainer from '../containers/HomePage/TopEmployeesContainer'
+import TopVolunteersContainer from '../containers/HomePage/TopVolunteersContainer'
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -13,52 +12,15 @@ export default class HomePage extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    $('.ui.accordion')
+      .accordion();
+  }
+
   render() {
-    let { 
-      subscriptionHandle, 
-      loading, topGrossIncome, 
-      bottomGrossIncome, 
-      topTotalExpenditure, 
-      bottomTotalExpenditure,
-      topEmployees,
-      topVolunteers
-    } = this.props;
-
-    const topGrossIncomeText = {
-        title: "#1 for gross income",
-        description: "This Islamic charity reported the highest gross income from all those that we surveyed."
-    };
-
-    const bottomGrossIncomeText = {
-        title: "Lowest gross income",
-        description: "This Islamic charity reported the lowest positive gross income from all those that we surveyed."
-    };
-    // 
-    const topTotalExpenditureText = {
-        title: "#1 for total expenditure",
-        description: "This Islamic charity reported the highest total expenditure from all those that we surveyed."
-    };
-
-    const bottomTotalExpenditureText = {
-        title: "Lowest total expenditure",
-        description: "This Islamic charity reported the lowest positive total expenditure from all those that we surveyed."
-    };
-    // 
-    const topEmployeesText = {
-        title: "#1 for most employees",
-        description: "This Islamic charity reported the most people employed from all those that we surveyed."
-    };
-
-    const topVolunteersText = {
-        title: "#1 for most volunteers",
-        description: "This Islamic charity reported the most people volunteering from all those that we surveyed."
-    };
-    // console.log(topGrossIncome);
-
     return (
       <span>
         <div className="ui inverted vertical masthead center aligned segment">
-
           <div className="ui text container">
             <h1 className="ui inverted header">
               Charities 4 Islam
@@ -70,33 +32,42 @@ export default class HomePage extends React.Component {
             <p></p>
             <div className="ui huge primary button">See the results <i className="down arrow icon" /></div>
           </div>
-
         </div>
-
         <div className="ui vertical segment">
-          <div className="ui container">
-            <div className="ui three doubling cards">
-              <TopGrossIncomeContainer />
-              {topGrossIncome === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(topGrossIncome.GrossIncome)} RegisteredCharityNumber={topGrossIncome.RegisteredCharityNumber} text={topGrossIncomeText}/>}
-              {bottomGrossIncome === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(bottomGrossIncome.GrossIncome)} RegisteredCharityNumber={bottomGrossIncome.RegisteredCharityNumber} text={bottomGrossIncomeText}/>}
-              {topTotalExpenditure === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(topTotalExpenditure.TotalExpenditure)} RegisteredCharityNumber={topTotalExpenditure.RegisteredCharityNumber} text={topTotalExpenditureText}/>}
-              {bottomTotalExpenditure === undefined ? <div className="ui active loader"></div> : <DataCard data={currencyFormat(bottomTotalExpenditure.TotalExpenditure)} RegisteredCharityNumber={bottomTotalExpenditure.RegisteredCharityNumber} text={bottomTotalExpenditureText}/>}
-              
-              {topEmployees === undefined ? <div className="ui active loader"></div> : <DataCard data={topEmployees.Employees} RegisteredCharityNumber={topEmployees.RegisteredCharityNumber} text={topEmployeesText}/>}
-              {topVolunteers === undefined ? <div className="ui active loader"></div> : <DataCard data={topVolunteers.Volunteers} RegisteredCharityNumber={topVolunteers.RegisteredCharityNumber} text={topVolunteersText}/>}
+          <ui className="container">
+            <div className="ui styled fluid accordion">
+              <div className="active title">
+                <i className="dropdown icon"></i>
+                Top 10 for Gross Income
+              </div>
+              <div className="content">
+                <TopGrossIncomeContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 for Total Expenditure
+              </div>
+              <div className="content">
+                <TopTotalExpenditureContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 Employers
+              </div>
+              <div className="content">
+                <TopEmployeesContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 for Volunteers
+              </div>
+              <div className="content">
+                <TopVolunteersContainer />
+              </div>
             </div>
-          </div>
+          </ui>
         </div>
-        
       </span>
-
     )
-
   }
-
 }
-
-// const HomePage = () => (
-// );
-
-// export default HomePage;

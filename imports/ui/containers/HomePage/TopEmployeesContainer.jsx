@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import Charities from '../../../api/charities/charities';
-import { topGrossIncomeQuery } from '../../../api/charities/queries'
-import TopGrossIncomeList from '../../components/HomePage/TopGrossIncomeList'
+import { topEmployeesQuery } from '../../../api/charities/queries'
+import TopEmployeesList from '../../components/HomePage/TopEmployeesList'
 
 // returns the top ten
 export default createContainer(() => {
-  const handle = Meteor.subscribe('top.gross.income');
+  const handle = Meteor.subscribe('top.employees');
   const loading = !handle.ready();
-  const result = topGrossIncomeQuery.fetch();
+  const result = topEmployeesQuery.fetch();
   const resultExists = !loading && !!result;
 
   return {
@@ -16,4 +16,4 @@ export default createContainer(() => {
     resultExists,
     result: resultExists ? result : []
   };
-}, TopGrossIncomeList);
+}, TopEmployeesList);

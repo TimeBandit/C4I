@@ -14,7 +14,7 @@ export default class CharityPage extends React.Component {
 
     const { charData, loading } = this.props;
 		if (charData) {
-			console.log(charData.Trustees);
+			// console.log(charData.Trustees);
 			
 		}
 
