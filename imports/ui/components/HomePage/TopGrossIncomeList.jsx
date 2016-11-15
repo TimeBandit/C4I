@@ -11,11 +11,12 @@ const ListItem = ({ item }) => {
         </div>
       </div>
       <div className="content">
-        <div className="ui tiny statistic">
-            <div className="value">
-              {currencyFormat(item.GrossIncome)}
-            </div>
-          </div>
+        <a className="header">
+          {currencyFormat(item.GrossIncome)}
+        </a>
+        <div className="description">
+          {item.CharityName}
+        </div>        
       </div>
     </div>
   );

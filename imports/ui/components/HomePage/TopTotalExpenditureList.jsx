@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { currencyFormat } from '../../helpers/helpers'
 
 const ListItem = ({ item }) => {
+  console.log('im in');
   return (
     <div className="item">
       <div className="right floated content">
@@ -11,11 +12,12 @@ const ListItem = ({ item }) => {
         </div>
       </div>
       <div className="content">
-        <div className="ui tiny statistic">
-            <div className="value">
-              {currencyFormat(item.TotalExpenditure)}
-            </div>
-          </div>
+        <a className="header">
+          {currencyFormat(item.TotalExpenditure)}
+        </a>
+        <div className="description">
+          {item.CharityName}
+        </div>        
       </div>
     </div>
   );

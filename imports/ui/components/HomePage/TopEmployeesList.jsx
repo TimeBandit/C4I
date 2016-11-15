@@ -11,11 +11,12 @@ const ListItem = ({ item }) => {
         </div>
       </div>
       <div className="content">
-        <div className="ui tiny statistic">
-            <div className="value">
-              {item.Employees}
-            </div>
-          </div>
+        <a className="header">
+          {item.Employees}
+        </a>
+        <div className="description">
+          {item.CharityName}
+        </div>        
       </div>
     </div>
   );

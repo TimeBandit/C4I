@@ -2,7 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContainer'
-import TopTotalExpenditureContainer from '../containers/HomePage/TopGrossIncomeContainer'
+import TopTotalExpenditureContainer from '../containers/HomePage/TopTotalExpenditureContainer'
 import TopEmployeesContainer from '../containers/HomePage/TopEmployeesContainer'
 import TopVolunteersContainer from '../containers/HomePage/TopVolunteersContainer'
 

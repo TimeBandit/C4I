@@ -5,20 +5,18 @@ import { currencyFormat } from '../../helpers/helpers'
 const ListItem = ({ item }) => {
   return (
     <div className="item">
-      <div className="content">
-        <div className="ui tiny horizontal statistic">
-            <div className="value">
-              {item.Volunteers}
-            </div>
-            <div className="label">
-              {item.CharityName}
-            </div>
-          </div>
-      </div>
       <div className="right floated content">
         <div className="tiny ui button">
           <Link to={"/charity/" + item.RegisteredCharityNumber}>View</Link>
         </div>
+      </div>
+      <div className="content">
+        <a className="header">
+          {item.Volunteers}
+        </a>
+        <div className="description">
+          {item.CharityName}
+        </div>        
       </div>
     </div>
   );
@@ -26,7 +24,6 @@ const ListItem = ({ item }) => {
 
 const makeList = (result) => {
   return result.map(function(el, idx, arr) {
-    console.log(el.CharityName, el.Volunteers)
     return <ListItem key={idx} item={el} />
   })
 }
