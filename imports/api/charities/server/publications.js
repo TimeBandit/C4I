@@ -1,7 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Charities } from '../charities'
-import { topGrossIncomeQuery, topTotalExpenditureQuery, topEmployeesQuery, topVolunteersQuery } from '../queries'
+import {
+  topGrossIncomeQuery,
+  topTotalExpenditureQuery,
+  topEmployeesQuery,
+  topVolunteersQuery
+} from '../queries'
 
+  // cumulatives
 Meteor.publish('top.gross.income', function() {
   return topGrossIncomeQuery;
 });
@@ -10,13 +16,17 @@ Meteor.publish('top.total.expenditure', function() {
   return topTotalExpenditureQuery
 });
 
-Meteor.publish('top.employees', function(registeredCharityNumber) {
+Meteor.publish('top.employees', function() {
   return topEmployeesQuery
 });
 
-Meteor.publish('top.volunteers', function(registeredCharityNumber) {
+Meteor.publish('top.volunteers', function() {
   return topVolunteersQuery
 });
+
+// Meteor.publish('cumulatives', function() {
+//   return cumulatives
+// });
 // 
 // Meteor.publish('bottom.gross.income', function() {
 //   return Charities.find({
@@ -35,5 +45,5 @@ Meteor.publish('top.volunteers', function(registeredCharityNumber) {
 // });
 // 
 Meteor.publish('current.charity', function(registeredCharityNumber) {
-  return Charities.find({"RegisteredCharityNumber": val});
+  return Charities.find({ "RegisteredCharityNumber": val });
 });

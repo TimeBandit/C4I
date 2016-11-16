@@ -1,8 +1,7 @@
 // set of homepage queries to be used on client & server
 import { Charities } from './charities'
 
-// "GrossIncome": { $type: number }
-
+// top 10 queries
 export const topGrossIncomeQuery = Charities.find({
   $or: [{ "GrossIncome": { $type: 1 } }, { "GrossIncome": { $type: 16 } }, { "GrossIncome": { $type: 18 } }],
   "RegistrationHistory.RemovalReason": { $eq: "" }
@@ -19,7 +18,6 @@ export const topTotalExpenditureQuery = Charities.find({
   limit: 10
 });
 
-// $or: [{ "Employees": { $type: 1 } }, { "Employees": { $type: 16 } }, { "Employees": { $type: 18 } }]
 export const topEmployeesQuery = Charities.find({
   "Employees": { $ne: "" },
   "RegistrationHistory.RemovalReason": { $eq: "" }
@@ -36,24 +34,23 @@ export const topVolunteersQuery = Charities.find({
   limit: 10
 });
 //
-export const bottomGrossIncomeQuery = function(val) {
-  return Charities.find({
-    "GrossIncome": { $type: 1, $gt: 0 },
-    "RegistrationHistory.RemovalReason": { $eq: "" }
-  }, {
-    sort: { "GrossIncome": 1 }
-  });
-}
-
-export const bottomTotalExpenditureQuery = function(val) {
-  return Charities.find({
-    "TotalExpenditure": { $type: 1, $gt: 0 },
-    "RegistrationHistory.RemovalReason": { $eq: "" }
-  }, {
-    sort: { "TotalExpenditure": 1 }
-  });
-}
-
+// export const cumulatives = Charities.aggregate({
+//   $match: {
+//     "GrossIncome": { $type: 16 },
+//     "TotalExpenditure": { $type: 16 },
+//     "Employees": { $type: 16 },
+//     "Volunteers": { $type: 16 }
+//   }
+// }, {
+//   $group: {
+//     _id: null,
+//     GrossIncome: { $sum: "$GrossIncome" },
+//     TotalExpenditure: { $sum: "$TotalExpenditure" },
+//     Employees: { $sum: "$Employees" },
+//     Volunteers: { $sum: "$Volunteers" }
+//   }
+// });
+// 
 export const currentCharity = function(val) {
   return Charities.find({ "RegisteredCharityNumber": val })
 }
