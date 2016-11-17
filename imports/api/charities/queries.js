@@ -34,23 +34,6 @@ export const topVolunteersQuery = Charities.find({
   limit: 10
 });
 //
-// export const cumulatives = Charities.aggregate({
-//   $match: {
-//     "GrossIncome": { $type: 16 },
-//     "TotalExpenditure": { $type: 16 },
-//     "Employees": { $type: 16 },
-//     "Volunteers": { $type: 16 }
-//   }
-// }, {
-//   $group: {
-//     _id: null,
-//     GrossIncome: { $sum: "$GrossIncome" },
-//     TotalExpenditure: { $sum: "$TotalExpenditure" },
-//     Employees: { $sum: "$Employees" },
-//     Volunteers: { $sum: "$Volunteers" }
-//   }
-// });
-// 
 export const currentCharity = function(val) {
   return Charities.find({ "RegisteredCharityNumber": val })
 }

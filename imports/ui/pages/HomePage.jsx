@@ -18,6 +18,10 @@ export default class HomePage extends React.Component {
   }
 
   render() {
+
+    const { loading, resultExists, result} = this.props;
+    resultExists? console.log(result):"waiting for cumulatives";
+
     return (
       <span>
         <div className="ui inverted vertical masthead center aligned segment">

@@ -1,11 +1,29 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { Charities } from '../charities'
 import {
   topGrossIncomeQuery,
   topTotalExpenditureQuery,
   topEmployeesQuery,
   topVolunteersQuery
-} from '../queries'
+} from '../queries';
+
+const cumulatives = Charities.aggregate({
+  $match: {
+    "GrossIncome": { $type: 16 },
+    "TotalExpenditure": { $type: 16 },
+    "Employees": { $type: 16 },
+    "Volunteers": { $type: 16 }
+  }
+}, {
+  $group: {
+    _id: null,
+    GrossIncome: { $sum: "$GrossIncome" },
+    TotalExpenditure: { $sum: "$TotalExpenditure" },
+    Employees: { $sum: "$Employees" },
+    Volunteers: { $sum: "$Volunteers" }
+  }
+});
 
   // cumulatives
 Meteor.publish('top.gross.income', function() {
@@ -24,25 +42,11 @@ Meteor.publish('top.volunteers', function() {
   return topVolunteersQuery
 });
 
-// Meteor.publish('cumulatives', function() {
-//   return cumulatives
-// });
-// 
-// Meteor.publish('bottom.gross.income', function() {
-//   return Charities.find({
-//     "GrossIncome": { $type: 1, $gt: 0 }
-//   }, {
-//     sort: { "GrossIncome": 1 }
-//   });
-// });
-
-// Meteor.publish('bottom.total.expenditure', function() {
-//   return Charities.find({
-//     "TotalExpenditure": { $type: 1, $gt: 0 }
-//   }, {
-//     sort: { "TotalExpenditure": 1 }
-//   });
-// });
+Meteor.publish('cumulative.stats', function() {
+  let self = this;
+  self.added('CumulativeStats', Random.id(), ...cumulatives);
+  self.ready();   
+});
 // 
 Meteor.publish('current.charity', function(registeredCharityNumber) {
   return Charities.find({ "RegisteredCharityNumber": val });
