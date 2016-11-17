@@ -1,7 +1,10 @@
 /*jshint esversion: 6 */
 import React from 'react'
 import { Link } from 'react-router'
-import { currencyFormat } from '../helpers/helpers';
+import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContainer'
+import TopTotalExpenditureContainer from '../containers/HomePage/TopTotalExpenditureContainer'
+import TopEmployeesContainer from '../containers/HomePage/TopEmployeesContainer'
+import TopVolunteersContainer from '../containers/HomePage/TopVolunteersContainer'
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -9,18 +12,19 @@ export default class HomePage extends React.Component {
     this.state = {};
   }
 
-  render() {
-    let { subscriptionHandle, loading, val } = this.props;
+  componentDidMount() {
+    $('.ui.accordion')
+      .accordion();
+  }
 
-    // console.log('on the client');
-    // console.log(subscriptionHandle);
-    // console.log(loading);
-    console.log(val);
+  render() {
+
+    const { loading, resultExists, result} = this.props;
+    resultExists? console.log(result):"waiting for cumulatives";
 
     return (
       <span>
         <div className="ui inverted vertical masthead center aligned segment">
-
           <div className="ui text container">
             <h1 className="ui inverted header">
               Charities 4 Islam
@@ -32,52 +36,42 @@ export default class HomePage extends React.Component {
             <p></p>
             <div className="ui huge primary button">See the results <i className="down arrow icon" /></div>
           </div>
-
         </div>
-
         <div className="ui vertical segment">
-          <div className="ui container">
-            <div className="ui three doubling cards">
-              <div className="card">
-                <div className="content">
-                  <div className="center aligned header">
-                    <div className="ui small statistic">
-                      <div className="value">
-                        {val === undefined ? "wait" : currencyFormat(val.GrossIncome)}
-                      </div>
-                      <div className="label">
-                        #1 for gross income
-                      </div>
-                    </div>
-                  </div>
-                  <div className="meta">
-                    Updated yesterday
-                  </div>
-                  <div className="description">
-                    This Islamic charity reported the highest gross income 
-                    from all those that we surveyed.
-                  </div>
-                </div>
-                <div className="extra content">
-                </div>
-                <div className="ui bottom attached button">
-                  <i className="pointing up icon"></i>
-                    <Link to={val === undefined ? "wait" : "/charity/" + val.RegisteredCharityNumber}>SHOW ME</Link>
-                </div>
+          <ui className="container">
+            <div className="ui styled fluid accordion">
+              <div className="active title">
+                <i className="dropdown icon"></i>
+                Top 10 for Gross Income
+              </div>
+              <div className="content">
+                <TopGrossIncomeContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 for Total Expenditure
+              </div>
+              <div className="content">
+                <TopTotalExpenditureContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 Employers
+              </div>
+              <div className="content">
+                <TopEmployeesContainer />
+              </div>
+              <div className="title">
+                <i className="dropdown icon"></i>
+                Top 10 for Volunteers
+              </div>
+              <div className="content">
+                <TopVolunteersContainer />
               </div>
             </div>
-          </div>
+          </ui>
         </div>
-        
       </span>
-
     )
-
   }
-
 }
-
-// const HomePage = () => (
-// );
-
-// export default HomePage;
