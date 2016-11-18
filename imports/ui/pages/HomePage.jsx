@@ -5,6 +5,7 @@ import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContai
 import TopTotalExpenditureContainer from '../containers/HomePage/TopTotalExpenditureContainer'
 import TopEmployeesContainer from '../containers/HomePage/TopEmployeesContainer'
 import TopVolunteersContainer from '../containers/HomePage/TopVolunteersContainer'
+import { currencyFormat } from '../helpers/helpers'
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -20,7 +21,6 @@ export default class HomePage extends React.Component {
   render() {
 
     const { loading, resultExists, result} = this.props;
-    resultExists? console.log(result):"waiting for cumulatives";
 
     return (
       <span>
@@ -36,6 +36,44 @@ export default class HomePage extends React.Component {
             <p></p>
             <div className="ui huge primary button">See the results <i className="down arrow icon" /></div>
           </div>
+        </div>
+        <div className="ui vertical segment">
+          <ui className="container">
+            <div className="ui statistics">
+              <div className="statistic">
+                <div className="value">
+                  {resultExists? currencyFormat(result.GrossIncome): ""}
+                </div>
+                <div className="label">
+                  Total Gross Income
+                </div>
+              </div>
+              <div className="statistic">
+                <div className="value">
+                  {resultExists? currencyFormat(result.TotalExpenditure): ""}
+                </div>
+                <div className="label">
+                  Views
+                </div>
+              </div>
+              <div className="statistic">
+                <div className="value">
+                  {resultExists? result.Employees: ""}
+                </div>
+                <div className="label">
+                  Employees
+                </div>
+              </div>
+              <div className="statistic">
+                <div className="value">
+                  {resultExists? result.Volunteers: ""}
+                </div>
+                <div className="label">
+                  Volunteers
+                </div>
+              </div>
+            </div>
+          </ui>
         </div>
         <div className="ui vertical segment">
           <ui className="container">
