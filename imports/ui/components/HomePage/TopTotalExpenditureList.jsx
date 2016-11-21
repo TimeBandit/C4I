@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import { currencyFormat } from '../../helpers/helpers'
 
 const ListItem = ({ item }) => {
-  console.log('im in');
   return (
     <div className="item">
       <div className="right floated content">

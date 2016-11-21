@@ -5,6 +5,7 @@ import TopGrossIncomeContainer from '../containers/HomePage/TopGrossIncomeContai
 import TopTotalExpenditureContainer from '../containers/HomePage/TopTotalExpenditureContainer'
 import TopEmployeesContainer from '../containers/HomePage/TopEmployeesContainer'
 import TopVolunteersContainer from '../containers/HomePage/TopVolunteersContainer'
+import SearchContainer from '../containers/SearchContainer'
 import { currencyFormat } from '../helpers/helpers'
 
 export default class HomePage extends React.Component {
@@ -76,6 +77,8 @@ export default class HomePage extends React.Component {
           </ui>
         </div>
         <div className="ui vertical segment">
+        <SearchContainer />
+        
           <ui className="container">
             <div className="ui styled fluid accordion">
               <div className="active title">

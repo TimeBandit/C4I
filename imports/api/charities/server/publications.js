@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { Charities } from '../charities'
-import {
-  topGrossIncomeQuery,
-  topTotalExpenditureQuery,
-  topEmployeesQuery,
-  topVolunteersQuery
+import { 
+  topGrossIncomeQuery, 
+  topTotalExpenditureQuery, 
+  topEmployeesQuery, 
+  topVolunteersQuery, 
+  searchContent 
 } from '../queries';
 
 const cumulatives = Charities.aggregate({
@@ -24,30 +25,33 @@ const cumulatives = Charities.aggregate({
     Volunteers: { $sum: "$Volunteers" }
   }
 });
-
-  // cumulatives
+// cumulatives
 Meteor.publish('top.gross.income', function() {
   return topGrossIncomeQuery;
 });
 
 Meteor.publish('top.total.expenditure', function() {
-  return topTotalExpenditureQuery
+  return topTotalExpenditureQuery;
 });
 
 Meteor.publish('top.employees', function() {
-  return topEmployeesQuery
+  return topEmployeesQuery;
 });
 
 Meteor.publish('top.volunteers', function() {
-  return topVolunteersQuery
+  return topVolunteersQuery;
 });
 
 Meteor.publish('cumulative.stats', function() {
   let self = this;
   self.added('CumulativeStats', Random.id(), ...cumulatives);
-  self.ready();   
+  self.ready();
 });
 // 
+Meteor.publish('search.data', function() {
+  return searchContent;
+});
+
 Meteor.publish('current.charity', function(registeredCharityNumber) {
   return Charities.find({ "RegisteredCharityNumber": val });
 });

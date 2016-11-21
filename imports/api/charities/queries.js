@@ -34,6 +34,10 @@ export const topVolunteersQuery = Charities.find({
   limit: 10
 });
 //
+export const searchContent = Charities.find(
+  {}, 
+  { fields: { CharityName: 1, RegisteredCharityNumber: 1 } });
+
 export const currentCharity = function(val) {
   return Charities.find({ "RegisteredCharityNumber": val })
 }
