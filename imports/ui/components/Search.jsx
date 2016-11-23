@@ -63,15 +63,16 @@ export default class Search extends React.Component {
     })
 
     this.props.resultExists ? this.initialiseSearch(res) : 'waiting';
+    console.log(this.props);
 
     return (
-      <div className="ui search">
-		  <div className="ui icon input">
-		    <input className="prompt" placeholder="Common passwords..." type="text"/>
-		    <i className="search icon"></i>
-		  </div>
-		  <div className="results"></div>
-		</div>
+      <div className="ui fluid search">
+			  <div className="ui icon input">
+			    <input className="prompt" placeholder="Common passwords..." type="text"/>
+			    <i className="search icon"></i>
+			  </div>
+			  <div className="results"></div>
+			</div>
     );
   }
 }
