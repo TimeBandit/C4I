@@ -1,34 +1,7 @@
 // modules
 import React from 'react';
 import { $ } from 'meteor/jquery';
-
-var content = [
-  { title: 'Andorra' },
-  { title: 'United Arab Emirates' },
-  { title: 'Afghanistan' },
-  { title: 'Antigua' },
-  { title: 'Anguilla' },
-  { title: 'Albania' },
-  { title: 'Armenia' },
-  { title: 'Netherlands Antilles' },
-  { title: 'Angola' },
-  { title: 'Argentina' },
-  { title: 'American Samoa' },
-  { title: 'Austria' },
-  { title: 'Australia' },
-  { title: 'Aruba' },
-  { title: 'Aland Islands' },
-  { title: 'Azerbaijan' },
-  { title: 'Bosnia' },
-  { title: 'Barbados' },
-  { title: 'Bangladesh' },
-  { title: 'Belgium' },
-  { title: 'Burkina Faso' },
-  { title: 'Bulgaria' },
-  { title: 'Bahrain' },
-  { title: 'Burundi' }
-  // etc
-];
+import { browserHistory } from 'react-router'
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -44,15 +17,14 @@ export default class Search extends React.Component {
     console.log(content);
     $('.ui.search')
       .search({
-        source: content
+        source: content,
+        onSelect: function (result, response) {
+        	console.log(result);
+        	browserHistory.push(`/charity/${result.description}`)
+        }
       });
   }
 
-  // ,
-  //         searchFullText: false
-
-  // RegisteredCharityNumber: el.RegisteredCharityNumber,
-  //         CharityName: el.CharityName
   render() {
 
     const res = this.props.result.map(function(el, idx, arr) {
@@ -63,12 +35,15 @@ export default class Search extends React.Component {
     })
 
     this.props.resultExists ? this.initialiseSearch(res) : 'waiting';
-    console.log(this.props);
 
     return (
       <div className="ui fluid search">
 			  <div className="ui icon input">
-			    <input className="prompt" placeholder="Common passwords..." type="text"/>
+			    <input 
+				    className="prompt" 
+				    placeholder="Common passwords..." 
+				    type="text"
+			    />
 			    <i className="search icon"></i>
 			  </div>
 			  <div className="results"></div>

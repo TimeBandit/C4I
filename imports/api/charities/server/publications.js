@@ -53,5 +53,5 @@ Meteor.publish('search.data', function() {
 });
 
 Meteor.publish('current.charity', function(registeredCharityNumber) {
-  return Charities.find({ "RegisteredCharityNumber": val });
+  return Charities.find({ "RegisteredCharityNumber": registeredCharityNumber });
 });
