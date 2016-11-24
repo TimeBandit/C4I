@@ -9,7 +9,6 @@ export default createContainer(() => {
   const loading = !handle.ready();
   const result = searchContent.fetch();
   const resultExists = !loading && !!result;
-  resultExists ? console.log('container => ',result) : 'waiting';
   return {
   	loading,
     resultExists,

@@ -8,6 +8,7 @@ import { currentCharity } from '../../api/charities/queries';
 // & feeds in all the data sources
 export default createContainer(( { params: { registeredCharityNumber }} ) => {
   const charNum = parseInt(registeredCharityNumber);
+	console.log('ch page container ', charNum);
   const subscriptionHandle = Meteor.subscribe('current.charity', charNum);
   const loading = !subscriptionHandle.ready();
   return {

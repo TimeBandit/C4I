@@ -19,7 +19,7 @@ export default class Search extends React.Component {
       .search({
         source: content,
         onSelect: function (result, response) {
-        	console.log(result);
+        	console.log(result, result.description);
         	browserHistory.push(`/charity/${result.description}`)
         }
       });
