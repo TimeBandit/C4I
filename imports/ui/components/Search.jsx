@@ -14,13 +14,13 @@ export default class Search extends React.Component {
   componentDidMount() {}
 
   initialiseSearch(content) {
-    console.log(content);
     $('.ui.search')
       .search({
         source: content,
         onSelect: function (result, response) {
-        	console.log(result, result.description);
+        	console.log(result);
         	browserHistory.push(`/charity/${result.description}`)
+        	return false;
         }
       });
   }
