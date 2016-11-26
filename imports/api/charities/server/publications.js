@@ -48,10 +48,12 @@ Meteor.publish('cumulative.stats', function() {
   self.ready();
 });
 // 
-Meteor.publish('search.data', function() {
-  return searchContent;
-});
+// Meteor.publish('search.data', function() {
+//   return searchContent;
+// });
 
 Meteor.publish('current.charity', function(registeredCharityNumber) {
-  return Charities.find({ "RegisteredCharityNumber": registeredCharityNumber });
+  const res = Charities.find({ "RegisteredCharityNumber": registeredCharityNumber });
+  console.log('inside the publish function ', res.fetch())
+  return res;
 });
