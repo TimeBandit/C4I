@@ -10,7 +10,7 @@ export default createContainer(() => {
  //  const res = searchContent.fetch();
  //  const resultExists = !loading && !!res;
   return {
-  	// loading,
+  	// loading,.
    //  resultExists,
    //  result: resultExists ? res : []
   };
