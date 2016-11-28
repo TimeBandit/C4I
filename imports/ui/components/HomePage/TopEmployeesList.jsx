@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 import { currencyFormat } from '../../helpers/helpers'
 
 const ListItem = ({ item }) => {

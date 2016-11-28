@@ -1,5 +1,5 @@
 // set of homepage queries to be used on client & server
-import { Charities } from './charities'
+import { Charities } from './charities';
 
 // top 10 queries
 export const topGrossIncomeQuery = Charities.find({
@@ -34,6 +34,12 @@ export const topVolunteersQuery = Charities.find({
   limit: 10
 });
 //
+// export const searchContent = Charities.find(
+//   {}, 
+//   { 
+//     fields: {_id:1, CharityName: 1, RegisteredCharityNumber: 1 }
+//   });
+
 export const currentCharity = function(val) {
   return Charities.find({ "RegisteredCharityNumber": val })
 }
