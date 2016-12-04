@@ -21,22 +21,32 @@ export default class HomePage extends React.Component {
 
   render() {
 
-    const { loading, resultExists, result} = this.props;
+    const { loading, resultExists, result } = this.props;
 
     return (
       <span>
         <div className="ui inverted vertical masthead center aligned segment">
           <div className="ui text container">
             <h1 className="ui inverted header">
-              Charities 4 Islam
+              Islamic Charity Book
               <div className="inverted sub header">
-                We search public data on Islamic charities to 
-                bring you the key facts. 
+                The #1 resource for finding Islamic charities based in the UK
               </div>
             </h1>
             <p></p>
-            <div className="ui huge primary button">See the results <i className="down arrow icon" /></div>
+            <SearchContainer />
           </div>
+        </div>
+        <div className="ui fluid three item icon menu">
+          <a className="item">
+            <i className="search icon"></i>
+          </a>
+          <a className="item">
+            <i className="info icon"></i>
+          </a>
+          <a className="item">
+            <i className="ordered list icon"></i>
+          </a>
         </div>
         <div className="ui vertical segment">
           <ui className="container">
@@ -77,8 +87,6 @@ export default class HomePage extends React.Component {
           </ui>
         </div>
         <div className="ui vertical segment">
-        <SearchContainer />
-        
           <ui className="container">
             <div className="ui styled fluid accordion">
               <div className="active title">

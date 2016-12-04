@@ -8,7 +8,7 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchContent: false,
+      searchContent: [],
     };
     this.initialiseSearch = this.initialiseSearch.bind(this);
   }
@@ -57,10 +57,10 @@ export default class Search extends React.Component {
 
     return (
       <div className="ui fluid search">
-			  <div className="ui icon input">
+			  <div className="ui big icon input">
 			    <input 
 				    className="prompt" 
-				    placeholder="Common passwords..." 
+				    placeholder="Charity name or number..." 
 				    type="text"
 			    />
 			    <i className="search icon"></i>
