@@ -35,19 +35,20 @@ export default class HomePage extends React.Component {
             </h1>
             <p></p>
             <SearchContainer />
+            <div className="ui fluid three item icon menu">
+              <a className="item">
+                <i className="search icon"></i>
+              </a>
+              <a className="item">
+                <i className="info icon"></i>
+              </a>
+              <a className="item">
+                <i className="ordered list icon"></i>
+              </a>
+            </div>
           </div>
         </div>
-        <div className="ui fluid three item icon menu">
-          <a className="item">
-            <i className="search icon"></i>
-          </a>
-          <a className="item">
-            <i className="info icon"></i>
-          </a>
-          <a className="item">
-            <i className="ordered list icon"></i>
-          </a>
-        </div>
+        {/*
         <div className="ui vertical segment">
           <ui className="container">
             <div className="ui statistics">
@@ -86,6 +87,8 @@ export default class HomePage extends React.Component {
             </div>
           </ui>
         </div>
+        */}
+        {/*
         <div className="ui vertical segment">
           <ui className="container">
             <div className="ui styled fluid accordion">
@@ -120,6 +123,7 @@ export default class HomePage extends React.Component {
             </div>
           </ui>
         </div>
+        */}
       </span>
     )
   }
