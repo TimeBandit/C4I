@@ -1,5 +1,15 @@
 @import "/imports/ui/stylesheets/util/variables.less";
 
+// keep the footer below the fold
+.content {
+    height: 100vh;
+    background-image: url("img/bgrd/hero.jpeg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+// 
 .hidden.menu {
     display: none;
 }
@@ -84,7 +94,7 @@
     }
     .masthead.segment {
         // min-height: 350px;
-        height: 90vh;
+        min-height: 90vh;
     }
     .masthead h1.ui.header {
         font-size: 2em;

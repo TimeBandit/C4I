@@ -56,7 +56,7 @@ export default class Search extends React.Component {
     this.state.searchContent ? this.initialiseSearch() : 'waiting';
 
     return (
-      <div className="ui fluid search">
+      <div className="ui search">
 			  <div className="ui big icon input">
 			    <input 
 				    className="prompt" 
