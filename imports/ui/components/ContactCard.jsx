@@ -14,7 +14,7 @@ const GoogleMap = ({ contactData }) => {
         res += (Address[key] + ', ');
       }
     }
-    // console.log(res);
+    // console.log(res);;
     // remove final comma
     return res.slice(0, -2);
 
