@@ -35,17 +35,6 @@ export default class HomePage extends React.Component {
             <p></p>
           </div>
         </div>        
-        <div className="ui fluid three item icon bottom attached menu">
-          <a className="item">
-            <i className="search icon"></i>
-          </a>
-          <a className="item">
-            <i className="info icon"></i>
-          </a>
-          <a className="item">
-            <i className="ordered list icon"></i>
-          </a>
-        </div>
       </span>
     )
   }

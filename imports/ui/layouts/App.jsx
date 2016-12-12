@@ -44,25 +44,42 @@ export default class App extends React.Component {
   render() {
     return (
       <span>
-        <span className="content">
-          {/*<NavMenu />*/}
-            <div className="ui inverted vertical center aligned segment">
-              <div className="ui container">
-                <div className="ui large secondary inverted pointing menu">
-                  <a className="toc item">
-                    <i className="sidebar icon" />
-                  </a>
-                  <a className="active item">Home</a>
-                  <a className="item">Top 10</a>
-                  <a className="item">About</a>
-                  <div className="right item">
-                    <SearchContainer />
-                  </div>
+        <div className="ui segment" id="testy">
+          <div className="ui vertical center aligned segment">
+            <div className="ui container">
+              <div className="ui large secondary inverted pointing menu">
+                <a className="toc item">
+                  <i className="sidebar icon" />
+                </a>
+                <a className="active item">Home</a>
+                <a className="item">Top 10</a>
+                <a className="item">About</a>
+                <div className="right item">
+                  <SearchContainer />
                 </div>
               </div>
             </div>
-            {this.props.children}
-        </span>
+          </div>
+          {this.props.children}
+        </div>
+        <div id="icon-menu" className="ui padded grid">
+          <div className="mobile only row">
+            <div className="column">
+              <div className="ui brown three item icon menu">
+                <a className="item">
+                  <i className="search icon"></i>
+                </a>
+                <a className="item">
+                  <i className="info icon"></i>
+                </a>
+                <a className="item">
+                  <i className="ordered list icon"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*<NavMenu />*/}
         {/*
         <div className="ui vertical stripe segment">
           <div className="ui middle aligned stackable grid container">
