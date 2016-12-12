@@ -1,5 +1,4 @@
 @import "/imports/ui/stylesheets/util/variables.less";
-
 // keep the footer below the fold
 #testy {
     height: 100vh;
@@ -10,6 +9,9 @@
 }
 
 #icon-menu {
+    .mobile {
+        padding-bottom: 0;
+    }
     position: fixed;
     width: 100vw;
     bottom: 0;
@@ -19,6 +21,12 @@
         .menu {
             border-radius: 0;
         }
+    }
+}
+
+.masthead {
+    .segment {
+        background: rgba(0, 0, 0, 0.3) !important;
     }
 }
 
@@ -41,8 +49,8 @@
 }
 
 .masthead h1.ui.header {
-    margin-top: 3em;
-    margin-bottom: 0em;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
     font-size: 4em;
     font-weight: normal;
 }
@@ -90,8 +98,11 @@
     padding: 5em 0em;
 }
 
-.secondary.pointing.menu .toc.item {
-    display: none;
+.secondary.inverted.pointing.menu {
+    border-color: rgba(0, 0, 0, 0) !important;
+    .toc.item {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 700px) {
@@ -102,7 +113,7 @@
     .secondary.pointing.menu .menu {
         display: none;
     }
-    .secondary.pointing.menu .toc.item {
+    .secondary.inverted.pointing.menu .toc.item {
         display: block;
     }
     .masthead.segment {
@@ -111,10 +122,14 @@
     }
     .masthead h1.ui.header {
         font-size: 2em;
-        margin-top: 1.5em;
+        margin-top: 0em;
+        margin-bottom: 0em;
     }
     .masthead h2 {
         margin-top: 0.5em;
         font-size: 1.5em;
+    }
+    .footer {
+        display: none;
     }
 }

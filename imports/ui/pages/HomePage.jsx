@@ -26,12 +26,14 @@ export default class HomePage extends React.Component {
       <span>
         <div className="ui vertical masthead center aligned segment">
           <div className="ui text container">
-            <h1 className="ui header">
-              Islamic Charity Book
-              <div className="sub header">
-                The #1 resource for finding Islamic charities based in the UK
-              </div>
-            </h1>
+            <div className="ui inverted segment">
+              <h1 className="ui inverted header">
+                Islamic Charity Book
+                <div className="sub header">
+                  The #1 resource for finding Islamic charities based in the UK
+                </div>
+              </h1>
+            </div>
             <p></p>
           </div>
         </div>        
