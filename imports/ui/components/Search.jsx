@@ -8,38 +8,45 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchContent: [],
+      searchContent: []
     };
     this.initialiseSearch = this.initialiseSearch.bind(this);
   }
 
   componentDidMount() {
-  	try {
-  		// statements
-	    Meteor.call('getSearchContent', (err, res) => {
-	      console.log(`in the method call`, res[0]);
-	      this.setState({ searchContent: res });
-	    });
-  	} catch(e) {
-  		// statements
-  		console.log(e);
-  	}
-  }
-
-  // redirect() {
-  //   console.log(result);
-  //   browserHistory.push(`/charity/${result.description}`)
-  //   return false;
-  // }
+      try {
+        // statements
+        Meteor.call('getSearchContent', (err, res) => {
+          console.log(`in the method call`, res[0]);
+          this.setState({ searchContent: res });
+        });
+      } catch (e) {
+        // statements
+        console.log(e);
+      }
+    }
+    // redirect() {
+    //   console.log(result);
+    //   browserHistory.push(`/charity/${result.description}`)
+    //   return false;
+    // }
 
   initialiseSearch() {
-    $('.ui.search')
+
+    const searchNode = $('.ui.search');
+
+    searchNode
       .search({
         source: this.state.searchContent,
         onSelect: function(result, response) {
-          console.log(result);
           browserHistory.push(`/charity/${result.description}`)
           return false;
+        }
+      })
+      .keypress(function(e) {
+        if (e.keyCode === 27) {
+          searchNode.search('hide results');
+          e.target.value = ""
         }
       });
   }
@@ -57,16 +64,16 @@ export default class Search extends React.Component {
 
     return (
       <div className="ui search">
-			  <div className="ui big icon input">
-			    <input 
-				    className="prompt" 
-				    placeholder="Charity name or number..." 
-				    type="text"
-			    />
-			    <i className="search icon"></i>
-			  </div>
-			  <div className="results"></div>
-			</div>
+        <div className="ui big icon input">
+          <input 
+            className="prompt" 
+            placeholder="Charity name or number..." 
+            type="text"
+          />
+          <i className="search icon"></i>
+        </div>
+        <div className="results"></div>
+      </div>
     );
   }
 }
