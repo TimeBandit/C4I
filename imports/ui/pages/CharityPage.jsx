@@ -1,9 +1,11 @@
 import React from 'react'
 import GoogleMap from '../components/GoogleMap'
-import ContactCard from '../components/ContactCard'
 import Trustees from '../components/Trustees'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
-import GrossIncome from '../components/GrossIncome';
+import Income from '../components/Income';
+import Spending from '../components/Spending';
+import Numbers from '../components/Numbers';
+import ContactList from '../components/ContactList'
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -36,28 +38,18 @@ export default class CharityPage extends React.Component {
 			  			</div>
 			  		</div>
 			  	</div>
-			  	<div className="row">
+			  	<div className="stretched row">			  		
+						{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Income financialData={charData}/>}
+						{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Spending financialData={charData}/>}
 			  		<div className="column">
-			  			<div className="ui segment">
-								{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "Missing Data.." : <GrossIncome financialData={charData}/>}	
-			  			</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">2</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">3</div>
+			  			<div className="ui segment">Status</div>
 			  		</div>
 			  	</div>
-			  	<div className="row">
+			  	<div className="stretched row">
+			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Numbers data={charData}/>}
+			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <ContactList data={charData}/>}
 			  		<div className="column">
-			  			<div className="ui segment">4</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">5</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">6</div>
+			  			<div className="ui segment">Public Address</div>
 			  		</div>
 			  	</div>
 			  	<div className="row">
