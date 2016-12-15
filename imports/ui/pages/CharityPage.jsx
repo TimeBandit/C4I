@@ -5,7 +5,9 @@ import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Income from '../components/Income';
 import Spending from '../components/Spending';
 import Numbers from '../components/Numbers';
-import ContactList from '../components/ContactList'
+import ContactList from '../components/ContactList';
+import Address from '../components/Address';
+import Activities from '../components/Activities';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -27,13 +29,13 @@ export default class CharityPage extends React.Component {
     // if (charData) console.log(charData.GrossIncome);
 
     return (
-      <div className="ui equal width stackable grid container">
-	      	<div className="row">
+      <div className="ui equal width stackable vertically divided grid container">
+	      	<div className="center aligned row">
 			  		<div className="column">
 			  			<div className="ui segment">
 			  				<h1  className="ui header" >
 				 			  	{charData === undefined ? "" : charData.CharityName === undefined ? "" : charData.CharityName}
-				 			  	<div className="sub header">{charData === undefined ? "" : charData.Activities }</div>
+				 			  	
 				 			  </h1>
 			  			</div>
 			  		</div>
@@ -48,24 +50,20 @@ export default class CharityPage extends React.Component {
 			  	<div className="stretched row">
 			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Numbers data={charData}/>}
 			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <ContactList data={charData}/>}
-			  		<div className="column">
-			  			<div className="ui segment">Public Address</div>
-			  		</div>
+			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Address data={charData.Address}/>}
+			  	</div>
+			  	<div className="row">
+			  		{charData === undefined ? <div className="ui active loader">Loading</div> :  isNaN(charData.GrossIncome) ? "" : <Activities data={charData.Activities}/>}
 			  	</div>
 			  	<div className="row">
 			  		<div className="column">
-			  			<div className="ui segment">7</div>
-			  		</div>
-			  	</div>
-			  	<div className="row">
-			  		<div className="column">
-			  			<div className="ui segment">8</div>
+			  			<div className="ui segment">What</div>
 			  		</div>
 			  		<div className="column">
-			  			<div className="ui segment">9</div>
+			  			<div className="ui segment">Who</div>
 			  		</div>			  		
 			  		<div className="column">
-			  			<div className="ui segment">10</div>
+			  			<div className="ui segment">How</div>
 			  		</div>
 			  	</div>
 			  </div>
