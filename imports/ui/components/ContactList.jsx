@@ -4,10 +4,8 @@ import ContactItemFax from './ContactItemFax'
 import ContactItemMail from './ContactItemMail'
 import ContactItemLinkify from './ContactItemLinkify'
 
-const ContactList = ({ data }) => {
+const ContactList = ({ PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress }) => {
 
-  const {PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = data;
-  
   if ((!PublicTelephoneNumber)&&(!PublicFaxNumber)&&(!EmailAddress)&&(!WebsiteAddress)) {
     console.log('there is nooo adress')
     return (
@@ -30,3 +28,4 @@ const ContactList = ({ data }) => {
 }
 
 export default ContactList;
+

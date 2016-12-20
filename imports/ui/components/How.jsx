@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Address = ({ data }) => {
+const How = ({ data }) => {
 
-  function Address(props) {
+  function HowList(props) {
 
     let items = [];
     const lines = Object.values(props.address);
@@ -19,14 +19,17 @@ const Address = ({ data }) => {
 
   return (
     <div className="column">
-      <div className="ui segment">
-        <Address address={data}>
+      <h3 className="ui top attached header">
+        How We Serve
+      </h3>
+      <div className="ui attached segment">
+        <HowList address={data}>
           {(line, index) => <div className="item" key={index}>{line}</div>}
-        </Address>
+        </HowList>
       </div>
     </div>
   );
 }
 
-export default Address;
+export default How;
 // {buildAddress()}

@@ -1,12 +1,8 @@
 import React from 'react'
 import { currencyFormat } from '../helpers/helpers'
 
-const Numbers = ({ data }) => {
-
-  const { RegisteredCharityNumber } = data;
-  // console.log('bla');
-  // console.log(typeof Employees);
-
+const Numbers = ({ RegisteredCharityNumber, RegisteredCompanyNumber }) => {
+  
   return (
     <div className="column">
 			<div className="ui segment">
@@ -22,7 +18,7 @@ const Numbers = ({ data }) => {
 	  	<div className="ui segment">
 			  <div className="ui tiny statistic">
 			    <div className="value">
-			      xxxx
+			      {RegisteredCompanyNumber}
 			    </div>
 			    <div className="label">
 			      Company Number
