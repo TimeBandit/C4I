@@ -5,9 +5,10 @@ export default class Income extends React.Component {
   constructor(props) {
     super(props)
     this.state = {};
+    this.renderChart = this.renderChart.bind(this);
   };
 
-  componentDidMount() {
+  renderChart() {
     let chartData = this.props.chartData;
     delete chartData.Total;
 
@@ -15,29 +16,6 @@ export default class Income extends React.Component {
       labels: Object.keys(this.props.chartData),
       series: Object.values(this.props.chartData)
     }
-
-    // new Chartist.Pie('.ct-chart', d, {
-    //   chartPadding: 30,
-    //   labelOffset: 50,
-    //   labelDirection: 'explode'
-    // });
-
-    // const colours = ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22"]
-
-    // // give enough time for the chart to be drawn
-    // setTimeout(function() {
-
-    //   const paths = document.querySelectorAll('.ct-slice-pie');
-    //   paths.forEach(function(path, index) {
-    //     path.style.fill = colours[index];
-    //   });
-
-    // }, 10);
-
-    // let data = {
-    //   labels: ['Mon'],
-    //   series: [5, 2, 4, 2, 0]
-    // };
 
     new Chartist.Bar('.ct-chart', data, {
       stackBars: true,
@@ -59,7 +37,28 @@ export default class Income extends React.Component {
         showGrid: false
       }
     });
-  }
+
+  };
+
+  renderLegend() {
+    let chartData = this.props.chartData;
+    delete chartData.Total;
+    // ******** work here **** //
+    const labels = Object.keys(this.props.chartData),
+    const  series: Object.values(this.props.chartData)
+
+    return Object.keys(this.props.chartData).map(function(value, index) {
+      return (
+        <div className="item" key={index}>{value.split(/(?=[A-Z])/).join(" ")}</div>
+      )
+    })
+
+  };
+
+  componentDidMount() {
+    console.log(this);
+    this.renderChart()
+  };
 
   render() {
 
@@ -82,9 +81,33 @@ export default class Income extends React.Component {
             <div className="item">Apples</div>
             <div className="item">Pears</div>
             <div className="item">Oranges</div>
+            {this.renderLegend()}
           </div>
         </div>
       </div>
     )
-  }
+  };
 };
+
+// new Chartist.Pie('.ct-chart', d, {
+//   chartPadding: 30,
+//   labelOffset: 50,
+//   labelDirection: 'explode'
+// });
+
+// const colours = ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22"]
+
+// // give enough time for the chart to be drawn
+// setTimeout(function() {
+
+//   const paths = document.querySelectorAll('.ct-slice-pie');
+//   paths.forEach(function(path, index) {
+//     path.style.fill = colours[index];
+//   });
+
+// }, 10);
+
+// let data = {
+//   labels: ['Mon'],
+//   series: [5, 2, 4, 2, 0]
+// };
