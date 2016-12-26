@@ -9,7 +9,7 @@ export default class Income extends React.Component {
   };
 
   renderChart() {
-    let chartData = this.props.chartData;
+    let chartData = this.props.chartData;;
     delete chartData.Total;
 
     const data = {
