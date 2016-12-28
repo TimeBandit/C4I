@@ -4,24 +4,30 @@ import { currencyFormat } from '../helpers/helpers'
 export default class Income extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {};
+    this.state = {
+      colours: ["#FF851B", "#FFE21F", "#D9E778", "#2ECC40", "#6DFFFF", "#54C8FF", "#A291FB"],
+      data: 'set in componentWillMount'
+    };
     this.renderChart = this.renderChart.bind(this);
+    this.renderLegend = this.renderLegend.bind(this);
+    this.setColours = this.setColours.bind(this);
   };
 
   renderChart() {
-    let chartData = this.props.chartData;;
+    const chartData = this.props.chartData;
     delete chartData.Total;
 
     const data = {
-      labels: Object.keys(this.props.chartData),
-      series: Object.values(this.props.chartData)
+      labels: this.state.data.map(x => x[0]),
+      series: this.state.data.map(x => parseInt(x[1]))
     }
 
     new Chartist.Bar('.ct-chart', data, {
       stackBars: true,
       stackMode: 'accumulate',
       distributeSeries: true,
-      width: '20%',
+      width: '100%',
+      height: '100%',
       chartPadding: {
         top: 0,
         right: 0,
@@ -41,23 +47,57 @@ export default class Income extends React.Component {
   };
 
   renderLegend() {
-    let chartData = this.props.chartData;
-    delete chartData.Total;
-    // ******** work here **** //
-    const labels = Object.keys(this.props.chartData),
-    const  series: Object.values(this.props.chartData)
-
-    return Object.keys(this.props.chartData).map(function(value, index) {
+    const colours = this.state.colours;
+    const res = this.state.data.map(function(keyVal, index) {
       return (
-        <div className="item" key={index}>{value.split(/(?=[A-Z])/).join(" ")}</div>
+        <div className="item" key={index}>
+          <div className="ui horizontal label income-legend">
+            {keyVal[0].split(/(?=[A-Z])/).join(" ")}
+          </div>
+          {currencyFormat(parseInt(keyVal[1]))}
+        </div>
       )
-    })
+    });
+    return res.reverse();
+  };
 
+  setColours() {
+    const colours = this.state.colours;
+    // give enough time for the chart to be drawn
+    setTimeout(function() {
+      const barChart = document.querySelectorAll('.ct-bar');
+      let legendLabels = document.querySelectorAll('.income-legend');
+      barChart.forEach(function(bar, index) {
+        bar.style.stroke = colours[index];
+        legendLabels[index].style.backgroundColor = colours[colours.length - index - 1];
+      });
+    }, 10);
+
+  }
+
+  componentWillMount() {
+    let dataObject = this.props.chartData;
+    delete dataObject.Total;
+    // make ordered list of the data
+    let orderedData = Object.keys(dataObject)
+      .map(function(key, index, arr) {
+        return [key, dataObject[key]]
+      })
+      .sort(function(first, second) {
+        if (parseInt(first[1]) < parseInt(second[1])) {
+          return 1
+        };
+        if (parseInt(first[1]) > parseInt(second[1])) {
+          return -1
+        };
+        return 0;
+      });
+    this.setState({ data: orderedData });
   };
 
   componentDidMount() {
-    console.log(this);
-    this.renderChart()
+    this.renderChart();
+    this.setColours();
   };
 
   render() {
@@ -65,49 +105,53 @@ export default class Income extends React.Component {
     return (
       <div className="column">
         <div className="ui segment">
-          <div className="ui tiny statistic">
-            <div className="value">
-              {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}              
+          <div className="ui left floated basic segment">
+            <div className="ui tiny statistic">
+              <div className="value">
+                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}              
+              </div>
+              <div className="label">
+                Income
+              </div>
             </div>
-            <div className="label">
-              Income
+            <div className="ct-chart ct-perfect-fourth">
             </div>
           </div>
-          <div className="ct-chart ct-perfect-fourth">
-          </div>
-        </div>
-        <div className="ui segment">
-          <div className="ui list">
-            <div className="item">Apples</div>
-            <div className="item">Pears</div>
-            <div className="item">Oranges</div>
-            {this.renderLegend()}
+          <div className="ui right floated basic segment">
+            <div className="ui list">
+              {this.renderLegend()}
+            </div>
           </div>
         </div>
       </div>
+
     )
   };
 };
 
-// new Chartist.Pie('.ct-chart', d, {
-//   chartPadding: 30,
-//   labelOffset: 50,
-//   labelDirection: 'explode'
-// });
-
-// const colours = ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#2ecc71", "#27ae60", "#e67e22"]
-
-// // give enough time for the chart to be drawn
-// setTimeout(function() {
-
-//   const paths = document.querySelectorAll('.ct-slice-pie');
-//   paths.forEach(function(path, index) {
-//     path.style.fill = colours[index];
-//   });
-
-// }, 10);
-
-// let data = {
-//   labels: ['Mon'],
-//   series: [5, 2, 4, 2, 0]
-// };
+{
+  /*<div className="ui items">
+          <div className="item">
+            <div className="image">
+            </div>
+              <div className="ct-chart ct-perfect-fourth">
+            </div>
+            <div className="content">
+              <a className="header">
+                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}
+              </a>
+              <div className="meta">
+                <span>Total Income</span>
+              </div>
+              <div className="description">
+                <div className="ui list">
+                  {this.renderLegend()}
+                </div>
+              </div>
+              <div className="extra">
+                Additional Details
+              </div>
+            </div>
+          </div>
+        </div>*/
+}
