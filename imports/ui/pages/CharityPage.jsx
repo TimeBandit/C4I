@@ -74,7 +74,7 @@ export default class CharityPage extends React.Component {
 			  	</div>
 			  	<div className="stretched row">
 						<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
-						{/*<Spending data={charity.Submission/>*/}
+						{/*<Spending data={charity.Submission}/>*/}
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">

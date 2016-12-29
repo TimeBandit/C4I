@@ -18,32 +18,38 @@ export default class Income extends React.Component {
     delete chartData.Total;
 
     const data = {
-      labels: this.state.data.map(x => x[0]),
-      series: this.state.data.map(x => parseInt(x[1]))
-    }
-
-    new Chartist.Bar('.ct-chart', data, {
-      stackBars: true,
-      stackMode: 'accumulate',
-      distributeSeries: true,
-      width: '100%',
-      height: '100%',
-      chartPadding: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-      },
-      axisX: {
-        showLabel: false,
-        showGrid: false
-      },
-      axisY: {
-        showLabel: false,
-        showGrid: false
+        series: this.state.data.map(x => parseInt(x[1]))
       }
-    });
+      // labels: this.state.data.map(x => x[0]),
 
+    // new Chartist.Bar('.ct-chart', data, {
+    //   stackBars: true,
+    //   stackMode: 'accumulate',
+    //   distributeSeries: true,
+    //   width: '100%',
+    //   height: '150px',
+    //   chartPadding: {
+    //     top: 0,
+    //     right: 0,
+    //     bottom: 0,
+    //     left: 0
+    //   },
+    //   axisX: {
+    //     showLabel: false,
+    //     showGrid: false
+    //   },
+    //   axisY: {
+    //     showLabel: false,
+    //     showGrid: false
+    //   }
+    // });
+
+    new Chartist.Pie('.ct-chart', data, {
+      width: '200px',
+      height: '200px',
+      chartPadding: 30,
+      showLabel: false
+    });
   };
 
   renderLegend() {
@@ -52,9 +58,9 @@ export default class Income extends React.Component {
       return (
         <div className="item" key={index}>
           <div className="ui horizontal label income-legend">
-            {keyVal[0].split(/(?=[A-Z])/).join(" ")}
+            {currencyFormat(parseInt(keyVal[1]))}
           </div>
-          {currencyFormat(parseInt(keyVal[1]))}
+          {keyVal[0].split(/(?=[A-Z])/).join(" ")}
         </div>
       )
     });
@@ -65,10 +71,10 @@ export default class Income extends React.Component {
     const colours = this.state.colours;
     // give enough time for the chart to be drawn
     setTimeout(function() {
-      const barChart = document.querySelectorAll('.ct-bar');
+      const barChart = document.querySelectorAll('.ct-slice-pie');
       let legendLabels = document.querySelectorAll('.income-legend');
       barChart.forEach(function(bar, index) {
-        bar.style.stroke = colours[index];
+        bar.style.fill = colours[index];
         legendLabels[index].style.backgroundColor = colours[colours.length - index - 1];
       });
     }, 10);
@@ -103,55 +109,50 @@ export default class Income extends React.Component {
   render() {
 
     return (
-      <div className="column">
-        <div className="ui segment">
-          <div className="ui left floated basic segment">
-            <div className="ui tiny statistic">
-              <div className="value">
-                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}              
-              </div>
-              <div className="label">
-                Income
-              </div>
-            </div>
-            <div className="ct-chart ct-perfect-fourth">
-            </div>
+      <div className="ui items income-item">
+        <div className="item">
+          <div className="image ct-chart ct-perfect-fourth">
           </div>
-          <div className="ui right floated basic segment">
-            <div className="ui list">
-              {this.renderLegend()}
+          <div className="content income-item-content">
+            <a className="header">
+              {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}
+            </a>
+            <div className="meta">
+              <span>Total Income</span>
+            </div>
+            <div className="description">
+              <div className="ui divided list">
+                {this.renderLegend()}
+              </div>
+            </div>
+            <div className="extra">
+              Additional Details
             </div>
           </div>
         </div>
       </div>
-
     )
   };
-};
-
-{
-  /*<div className="ui items">
-          <div className="item">
-            <div className="image">
-            </div>
-              <div className="ct-chart ct-perfect-fourth">
-            </div>
-            <div className="content">
-              <a className="header">
-                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}
-              </a>
-              <div className="meta">
-                <span>Total Income</span>
-              </div>
-              <div className="description">
-                <div className="ui list">
-                  {this.renderLegend()}
-                </div>
-              </div>
-              <div className="extra">
-                Additional Details
-              </div>
-            </div>
-          </div>
-        </div>*/
+}; {
+  /*<div className="column">
+                        <div className="ui segment">
+                          <div className="ui left floated basic segment">
+                            <div className="ui tiny statistic">
+                              <div className="value">
+                                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}              
+                              </div>
+                              <div className="label">
+                                Income
+                              </div>
+                            </div>
+                            <div className="ct-chart ct-perfect-fourth">
+                            </div>
+                          </div>
+                          <div className="ui right floated basic segment">
+                            <div className="ui list">
+                              {this.renderLegend()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>*/
 }
