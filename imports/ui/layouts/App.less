@@ -7,10 +7,11 @@
 //     background-size: cover;
 // }
 // .ct-series-a .ct-bar {
-    /* The width of your bars */
-    // stroke-width: 40px;
-// }
 
+/* The width of your bars */
+
+// stroke-width: 40px;
+// }
 .ct-series-a,
 .ct-series-b,
 .ct-series-c,
@@ -23,12 +24,6 @@
         stroke-width: 4px;
     }
     margin: 5px;
-    .ct-bar {
-        /* The width of your bars */
-        stroke-width : 33px;
-        stroke-opacity : 1;
-        margin: 2px;
-    }
 }
 
 .income-item {
@@ -40,6 +35,7 @@
         }
     }
 }
+
 .horizontal.label {
     color: white;
 }
@@ -138,6 +134,23 @@
     border-color: rgba(0, 0, 0, 0) !important;
     .toc.item {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .income-item {
+        margin: 0 auto !important;
+        .item {
+            .ct-chart-pie {
+                display: none;
+            }
+            .income-item-content {
+                margin-left: 0 !important;
+                .label {
+                    width: 100px;
+                }
+            }
+        }
     }
 }
 

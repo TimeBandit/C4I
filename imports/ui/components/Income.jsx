@@ -14,42 +14,35 @@ export default class Income extends React.Component {
   };
 
   renderChart() {
+    const self = this;
+
     const chartData = this.props.chartData;
     delete chartData.Total;
 
     const data = {
-        series: this.state.data.map(x => parseInt(x[1]))
-      }
-      // labels: this.state.data.map(x => x[0]),
-
-    // new Chartist.Bar('.ct-chart', data, {
-    //   stackBars: true,
-    //   stackMode: 'accumulate',
-    //   distributeSeries: true,
-    //   width: '100%',
-    //   height: '150px',
-    //   chartPadding: {
-    //     top: 0,
-    //     right: 0,
-    //     bottom: 0,
-    //     left: 0
-    //   },
-    //   axisX: {
-    //     showLabel: false,
-    //     showGrid: false
-    //   },
-    //   axisY: {
-    //     showLabel: false,
-    //     showGrid: false
-    //   }
-    // });
-
-    new Chartist.Pie('.ct-chart', data, {
+      series: this.state.data.map(x => parseInt(x[1]))
+    };
+    // labels: this.state.data.map(x => x[0]),
+    let options = {
       width: '200px',
       height: '200px',
       chartPadding: 30,
       showLabel: false
-    });
+    };
+
+    let responsiveOptions = [
+      ['screen and (max-width: 400px)', {
+        padding: { top: 30, right: 0, bottom: 30, left: 30 }
+      }],
+      ['screen and (min-width: 401px)', {
+        padding: 30
+      }]
+    ];
+
+    let chart = new Chartist.Pie('.ct-chart', data, options);
+    chart.on('draw', function(argument) {
+      self.setColours();
+    })
   };
 
   renderLegend() {
