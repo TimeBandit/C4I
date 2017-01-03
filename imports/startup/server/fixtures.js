@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/charities/charities.js';
-import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, makeData, sleep, getCharityByRegisteredCharityNumber, parseData } from '../../api/charities/server/core';
+import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, sleep, getCharityByRegisteredCharityNumber} from '../../api/charities/server/core';
 // 
 const searchTerms = Meteor.settings.private.search_terms;
 const settings = Meteor.settings;
@@ -32,7 +32,7 @@ Meteor.startup(function() {
         .then(function(client) {
           // store the client on the function    
           scrapeCommission.client = client;
-          // return a list of charity numbers
+          // return a list of unique charity numbers
           return GetCharitiesByKeywordList(scrapeCommission.client, { APIKey }, ["islam", "islamic", "masjid", "madrassa", "mosque", "jamaat", "ummah"]);
           //  
         }).then(function(charityIds) {
@@ -47,7 +47,8 @@ Meteor.startup(function() {
               return getCharityByRegisteredCharityNumber(scrapeCommission.client, { APIKey, registeredCharityNumber: charityId })
             }).then(function(result) {
               // extract the important fields
-              return parseData(result);
+              // parseData(result);
+              return result.GetCharityByRegisteredCharityNumberResult;
             }).then(function(result) {
               // write a charity object to the db
               Charities.rawCollection().update({ RegisteredCharityNumber: result.RegisteredCharityNumber },

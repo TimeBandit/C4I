@@ -28,7 +28,7 @@ export const GetCharitiesByKeywordList = function(client, args, list) {
   }
   if (list.lenght > 0) {
     forEach(function(e, i, l) {
-      if (typeof e === 'string') {
+      if (typeof e !== 'string') {
         throw new Error('Search items can only be strings');
       }
     });
@@ -138,52 +138,50 @@ export const extractCurrentSubmission = function(list) {
 };
 
 
-export const makeData = function(list) {
+export const parseData = function(list) {
+
   let result = list.map(function(el) {
-    let data = {
-      CharityName: "",
-      RegisteredCharityNumber: "",
-      RegistrationHistory: "",
-      Address: "",
-      PublicTelephoneNumber: "",
-      PublicFaxNumber: "",
-      EmailAddress: "",
-      WebsiteAddress: "",
-      Activities: "",
-      Trustees: "",
-      GrossIncome: "",
-      TotalExpenditure: "",
-      Employees: "",
-      Volunteers: ""
-    };
 
     const res = el.GetCharityByRegisteredCharityNumberResult;
 
-    data.CharityName = res.CharityName;
-    data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-    data.RegistrationHistory = {
-      RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
-      RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
-      RemovalReason: res.RegistrationHistory[0].RemovalReason
-
+    let data = {
+      CharityName : res.CharityName,
+      RegisteredCharityNumber : res.RegisteredCharityNumber,
+      RegisteredCompanyNumber : res.RegisteredCompanyNumber,
+      Activities : res.Activities,
+      CharitableObjects : res.CharitableObjects,
+      Classification : res.Classification,
+      AreaOfOperation : res.AreaOfOperation,
+      InAdministration : res.InAdministration,
+      InSuspense : res. InSuspense,
+      Insolvent : res. Insolvent,
+      Address : res.Address,
+      PublicTelephoneNumber : res.PublicTelephoneNumber,
+      PublicFaxNumber : res.PublicFaxNumber,
+      EmailAddress : res.EmailAddress,
+      WebsiteAddress : res.WebsiteAddress,
+      RegistrationHistory : {
+        RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
+        RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
+        RemovalReason: res.RegistrationHistory[0].RemovalReason
+      },
+      LatestFiling : res.LatestFiling,
+      AccountListing : res.AccountListing,
+      SummaryInformationReturnListing : res.SummaryInformationReturnListing,
+      Trustees : res.Trustees,
+      GrossIncome : "",
+      TotalExpenditure : "",
+      Employees : "",
+      Volunteers : ""
     };
-    data.Address = res.Address;
-    data.PublicTelephoneNumber = res.PublicTelephoneNumber;
-    data.PublicFaxNumber = res.PublicFaxNumber;
-    data.EmailAddress = res.EmailAddress;
-    data.WebsiteAddress = res.WebsiteAddress;
-    data.Activities = res.Activities;
-    data.Trustees = res.Trustees;
 
     if (defined(res, 'Submission')) {
-
       const submission = extractCurrentSubmission(res.Submission);
       data.GrossIncome = parseInt(submission.GrossIncome);
       data.TotalExpenditure = parseInt(submission.TotalExpenditure);
     }
 
     if (defined(res, 'Returns')) {
-
       data.Employees = parseInt(res.Returns[0].Employees.NoEmployees);
       data.Volunteers = parseInt(res.Returns[0].Employees.NoVolunteers);
     }
@@ -194,57 +192,6 @@ export const makeData = function(list) {
   return result;
 };
 
-export const parseData = function(obj) {
-  let data = {
-    CharityName: "",
-    RegisteredCharityNumber: "",
-    RegistrationHistory: "",
-    Address: "",
-    PublicTelephoneNumber: "",
-    PublicFaxNumber: "",
-    EmailAddress: "",
-    WebsiteAddress: "",
-    Activities: "",
-    Trustees: "",
-    GrossIncome: "",
-    TotalExpenditure: "",
-    Employees: "",
-    Volunteers: ""
-  };
-
-  const res = obj.GetCharityByRegisteredCharityNumberResult;
-
-  data.CharityName = res.CharityName;
-  data.RegisteredCharityNumber = res.RegisteredCharityNumber;
-  data.RegistrationHistory = {
-    RegistrationDate: trueDate(res.RegistrationHistory[0].RegistrationDate),
-    RegistrationRemovalDate: trueDate(res.RegistrationHistory[0].RegistrationRemovalDate),
-    RemovalReason: res.RegistrationHistory[0].RemovalReason
-
-  };
-  data.Address = res.Address;
-  data.PublicTelephoneNumber = res.PublicTelephoneNumber;
-  data.PublicFaxNumber = res.PublicFaxNumber;
-  data.EmailAddress = res.EmailAddress;
-  data.WebsiteAddress = res.WebsiteAddress;
-  data.Activities = res.Activities;
-  data.Trustees = res.Trustees;
-
-  if (defined(res, 'Submission')) {
-
-    const submission = extractCurrentSubmission(res.Submission);
-    data.GrossIncome = parseInt(submission.GrossIncome);
-    data.TotalExpenditure = parseInt(submission.TotalExpenditure);
-  }
-
-  if (defined(res, 'Returns')) {
-
-    data.Employees = parseInt(res.Returns[0].Employees.NoEmployees);
-    data.Volunteers = parseInt(res.Returns[0].Employees.NoVolunteers);
-  }
-
-  return data;
-};
 // utility functions
 
 export const trueDate = function(dateTimeString) {

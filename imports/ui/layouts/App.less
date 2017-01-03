@@ -1,5 +1,68 @@
 @import "/imports/ui/stylesheets/util/variables.less";
+// keep the footer below the fold
+// #testy {
+//     background-image: url("img/bgrd/hero.jpeg");
+//     background-position: center center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+// }
+// .ct-series-a .ct-bar {
 
+/* The width of your bars */
+
+// stroke-width: 40px;
+// }
+.ct-series-a,
+.ct-series-b,
+.ct-series-c,
+.ct-series-d,
+.ct-series-e,
+.ct-series-f,
+.ct-series-g {
+    .ct-slice-pie {
+        stroke: white;
+        stroke-width: 4px;
+    }
+    margin: 5px;
+}
+
+.income-item {
+    margin: 0 auto !important;
+    .income-item-content {
+        margin-left: 3em !important;
+        .label {
+            width: 100px;
+        }
+    }
+}
+
+.horizontal.label {
+    color: white;
+}
+
+#icon-menu {
+    .mobile {
+        padding-bottom: 0;
+    }
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+    .column {
+        padding-left: 0;
+        padding-right: 0;
+        .menu {
+            border-radius: 0;
+        }
+    }
+}
+
+.masthead {
+    .segment {
+        background: rgba(0, 0, 0, 0.3) !important;
+    }
+}
+
+// 
 .hidden.menu {
     display: none;
 }
@@ -18,8 +81,8 @@
 }
 
 .masthead h1.ui.header {
-    margin-top: 3em;
-    margin-bottom: 0em;
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
     font-size: 4em;
     font-weight: normal;
 }
@@ -67,8 +130,28 @@
     padding: 5em 0em;
 }
 
-.secondary.pointing.menu .toc.item {
-    display: none;
+.secondary.inverted.pointing.menu {
+    border-color: rgba(0, 0, 0, 0) !important;
+    .toc.item {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .income-item {
+        margin: 0 auto !important;
+        .item {
+            .ct-chart-pie {
+                display: none;
+            }
+            .income-item-content {
+                margin-left: 0 !important;
+                .label {
+                    width: 100px;
+                }
+            }
+        }
+    }
 }
 
 @media only screen and (max-width: 700px) {
@@ -79,18 +162,23 @@
     .secondary.pointing.menu .menu {
         display: none;
     }
-    .secondary.pointing.menu .toc.item {
+    .secondary.inverted.pointing.menu .toc.item {
         display: block;
     }
     .masthead.segment {
-        min-height: 350px;
+        // min-height: 350px;
+        min-height: 90vh;
     }
     .masthead h1.ui.header {
         font-size: 2em;
-        margin-top: 1.5em;
+        margin-top: 0em;
+        margin-bottom: 0em;
     }
     .masthead h2 {
         margin-top: 0.5em;
         font-size: 1.5em;
+    }
+    .footer {
+        display: none;
     }
 }

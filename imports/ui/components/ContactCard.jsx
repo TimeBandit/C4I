@@ -4,7 +4,7 @@ import { adressObjToURI, parseAdressObject } from '../helpers/helpers'
 const GoogleMap = ({ contactData }) => {
 
   const { Address, PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = contactData;
-  // console.log(Address);
+  // console.log(Address));
 
   const buildAddress = () => {
   	// return Adress;
@@ -14,7 +14,7 @@ const GoogleMap = ({ contactData }) => {
         res += (Address[key] + ', ');
       }
     }
-    // console.log(res);
+    // console.log(res);;
     // remove final comma
     return res.slice(0, -2);
 

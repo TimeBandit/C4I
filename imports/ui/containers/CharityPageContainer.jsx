@@ -9,13 +9,12 @@ import { currentCharity } from '../../api/charities/queries';
 export default createContainer(( { params: { registeredCharityNumber }} ) => {
 	
   const charNum = parseInt(registeredCharityNumber);
-	console.log('ch page container ', charNum);
   const subscriptionHandle = Meteor.subscribe('current.charity', charNum);
-  console.log('the object ',currentCharity(charNum).fetch()[0]);
+  console.log('CHARITY OBJECT ',currentCharity(charNum).fetch()[0]);
   const loading = !subscriptionHandle.ready();
   return {
     subscriptionHandle,
     loading,
-    charData: currentCharity(charNum).fetch()[0]
+    charity: currentCharity(charNum).fetch()[0]
   };
 }, CharityPage);

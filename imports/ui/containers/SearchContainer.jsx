@@ -5,7 +5,7 @@ import { searchContent } from '../../api/charities/queries'
 import Search from '../components/Search'
 // creates a container around the app componenet
 export default createContainer(() => {
-	// const handle = Meteor.subscribe('search.data');
+	// const handle = Meteor.subscribe('search.data');;;
  //  const loading = !handle.ready();
  //  const res = searchContent.fetch();
  //  const resultExists = !loading && !!res;
