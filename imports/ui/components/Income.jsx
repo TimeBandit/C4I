@@ -39,7 +39,7 @@ export default class Income extends React.Component {
       }]
     ];
 
-    let chart = new Chartist.Pie('.ct-chart', data, options);
+    let chart = new Chartist.Pie('.income-chart', data, options);
     chart.on('draw', function(argument) {
       self.setColours();
     })
@@ -64,13 +64,13 @@ export default class Income extends React.Component {
     const colours = this.state.colours;
     // give enough time for the chart to be drawn
     setTimeout(function() {
-      const barChart = document.querySelectorAll('.ct-slice-pie');
+      const barChart = document.querySelectorAll('.income-chart .ct-slice-pie');
       let legendLabels = document.querySelectorAll('.income-legend');
       barChart.forEach(function(bar, index) {
         bar.style.fill = colours[index];
         legendLabels[index].style.backgroundColor = colours[colours.length - index - 1];
       });
-    }, 10);
+    }, 15);
 
   }
 
@@ -104,7 +104,7 @@ export default class Income extends React.Component {
     return (
       <div className="ui items income-item">
         <div className="item">
-          <div className="image ct-chart ct-perfect-fourth">
+          <div className="image ct-chart ct-perfect-fourth income-chart">
           </div>
           <div className="content income-item-content">
             <a className="header">
@@ -126,26 +126,4 @@ export default class Income extends React.Component {
       </div>
     )
   };
-}; {
-  /*<div className="column">
-                        <div className="ui segment">
-                          <div className="ui left floated basic segment">
-                            <div className="ui tiny statistic">
-                              <div className="value">
-                                {currencyFormat(this.props.data.slice(-1)[0].GrossIncome)}              
-                              </div>
-                              <div className="label">
-                                Income
-                              </div>
-                            </div>
-                            <div className="ct-chart ct-perfect-fourth">
-                            </div>
-                          </div>
-                          <div className="ui right floated basic segment">
-                            <div className="ui list">
-                              {this.renderLegend()}
-                            </div>
-                          </div>
-                        </div>
-                      </div>*/
-}
+};

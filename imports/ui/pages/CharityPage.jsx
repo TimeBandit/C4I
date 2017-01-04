@@ -11,6 +11,7 @@ import What from '../components/What';
 import Who from '../components/Who';
 import How from '../components/How';
 import Activities from '../components/Activities';
+import AssetsAndLiabilities from '../components/AssetsAndLiabilities';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -73,33 +74,18 @@ export default class CharityPage extends React.Component {
 	  				<How data={charity.Classification.How}/>
 			  	</div>
 			  	<div className="stretched row">
-						<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
-						{/*<Spending data={charity.Submission}/>*/}
-			  	</div>
-			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Income Chart</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Spending Chart</div>
+							<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
 			  		</div>
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Own Use</div>
+			  			<Spending data={charity.Submission} chartData={charity.Returns[0].Resources.Expended}/>
 			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Long Term Investments</div>
-			  		</div>			  		
-			  		<div className="column">
-			  			<div className="ui segment">Defined Benefit Pension Scheme Asset Or Liability</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Other Assets</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Total Liabilities</div>
-			  		</div>
+			  	</div>
+			  	<div className="stretched row">
+			  		
+			  			<AssetsAndLiabilities data={charity.Returns[0].AssetsAndLiabilities.Assets}/>
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
