@@ -11,7 +11,7 @@ import What from '../components/What';
 import Who from '../components/Who';
 import How from '../components/How';
 import Activities from '../components/Activities';
-import AssetsAndLiabilities from '../components/AssetsAndLiabilities';
+import UIStatistic from '../components/UIStatistic';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -29,22 +29,38 @@ export default class CharityPage extends React.Component {
 
     console.log(this.props)
     const { charity, loading } = this.props;
-    
+
     if (loading) {
-    	return (
-    			<div className="ui equal width stackable vertically divided grid container">
+      return (
+        <div className="ui equal width stackable vertically divided grid container">
 		      	<div className="center aligned row">
 				  		<div className="column">
 			    			<div className="ui active loader">Loading</div>
 			    		</div>
 			    	</div>
 			    </div>
-    		)
+      )
     }
 
-    let { RegisteredCharityNumber, RegisteredCompanyNumber} = charity;
+    let { RegisteredCharityNumber, RegisteredCompanyNumber } = charity;
     let { PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = charity;
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
+    // ASSETS
+    const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
+    const {
+      TotalFixedAssets,
+      FixedAssetInvestments,
+      PensionFundAssets,
+      TotalCurrentAssets,
+      CreditorsDueWithinOneYear,
+      LongTermCreditors
+    } = assets;
+    const OwnUseAssets = TotalFixedAssets + FixedAssetInvestments;
+    const LongTermInvestments = FixedAssetInvestments;
+    const PensionSchemeAssetLiability = PensionFundAssets;
+    const OtherAssets = TotalCurrentAssets;
+    const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
+    // 
 
     return (
       <div className="ui equal width stackable vertically divided grid container">
@@ -83,10 +99,23 @@ export default class CharityPage extends React.Component {
 			  			<Spending data={charity.Submission} chartData={charity.Returns[0].Resources.Expended}/>
 			  		</div>
 			  	</div>
-			  	<div className="stretched row">
-			  		
-			  			<AssetsAndLiabilities data={charity.Returns[0].AssetsAndLiabilities.Assets}/>
-			  	</div>
+		  		<div className="stretched row">
+			      <div className="column">
+			        <UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={LongTermInvestments} label={"Long Term Investments"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={PensionSchemeAssetLiability} label={"Pension Scheme Asset/Liability"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={OtherAssets} label={"Other Assets"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
+			      </div>
+			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
 			  			<div className="ui segment">Financial History</div>
