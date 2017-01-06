@@ -118,7 +118,9 @@ export default class CharityPage extends React.Component {
 			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Financial History</div>
+			  			<div className="ui segment">
+			  				<FinancialHistory data={charity.Submission}/>
+			  			</div>
 			  		</div>
 			  		<div className="column">
 			  			<div className="ui segment">Compliance History</div>
