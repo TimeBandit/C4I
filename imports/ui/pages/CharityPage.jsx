@@ -11,7 +11,8 @@ import What from '../components/What';
 import Who from '../components/Who';
 import How from '../components/How';
 import Activities from '../components/Activities';
-import UIStatistic from '../components/UIStatistic';
+import UIStatistic from '../components/UIStatistic'
+import FinancialHistory from '../components/FinancialHistory';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -122,59 +123,27 @@ export default class CharityPage extends React.Component {
 			  				<FinancialHistory data={charity.Submission}/>
 			  			</div>
 			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Compliance History</div>
-			  		</div>
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
+			  			<PublishedReports data={charity.AccountListing}/>
 			  			<div className="ui segment">Published Reports</div>
 			  		</div>
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Trustees</div>
+			  			<Trustees data={charity.Trustees} />
 			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Employees</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Volunteers</div>
-			  		</div>
+			  		{/*<div className="column">
+			  					  			<div className="ui segment">Employees</div>
+			  					  		</div>
+			  					  		<div className="column">
+			  					  			<div className="ui segment">Volunteers</div>
+			  					  		</div>*/}
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
-		  				<h3 className="ui top attached header">
-		  					Trustees
-		  				</h3>
-			  			<div className="ui attached segment">
-						  	<table className="ui very basic table">
-								  <thead>
-								    <tr>
-								      <th>Name</th>
-								      <th>Other Trusteeships</th>
-								      <th>Charity Status</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								    <tr>
-								      <td>John</td>
-								      <td>Approved</td>
-								      <td>None</td>
-								    </tr>
-								    <tr>
-								      <td>Jamie</td>
-								      <td>Approved</td>
-								      <td>Requires call</td>
-								    </tr>
-								    <tr>
-								      <td>Jill</td>
-								      <td>Denied</td>
-								      <td>None</td>
-								    </tr>
-								  </tbody>
-								</table>
-			  			</div>
+		  				
 			  		</div>
 			  	</div>
 			  </div>

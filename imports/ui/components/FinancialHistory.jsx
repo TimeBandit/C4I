@@ -15,21 +15,31 @@ export default class Income extends React.Component {
 
   renderChart() {
     const self = this;
-    const chartData = this.props.chartData;
+    const chartData = this.props.data;
 
-    function generateLabels (obj) {
-      const financialYear = obj;
-      const date = new Date(financialYear);
-      return date.getFullYear().toString;
+    function generateLabels(arr) {
+      return arr.map((obj) => {
+        const yearEnding = obj.FyEnd;
+        const date = new Date(yearEnding);
+        return date.getFullYear().toString();
+      });
     };
 
-    function generateIncomeSeries(obj){};
-    function generateExpenditureSeries(obj){};
+    function generateIncomeSeries(arr) {
+      return arr.map((obj) => {
+        return parseInt(obj.GrossIncome);
+      })
+    };
+
+    function generateExpenditureSeries(arr) {
+      return arr.map((obj) => {
+        return parseInt(obj.TotalExpenditure);
+      })
+    };
 
     let chart = new Chartist.Bar('.financial-history-chart', {
-      labels: chartData.map(generateLabels),
-      series: [chartData.map(generateIncomeSeries), chartData.map(generateExpenditureSeries)]
-      ]
+      labels: generateLabels(chartData),
+      series: [generateIncomeSeries(chartData), generateExpenditureSeries(chartData)]
     }, {
       seriesBarDistance: 10,
       axisX: {
@@ -38,7 +48,8 @@ export default class Income extends React.Component {
       axisY: {
         offset: 80,
         labelInterpolationFnc: function(value) {
-          return value + ' CHF'
+          // return '£' + value
+          return currencyFormat(value);
         },
         scaleMinSpace: 15
       }
@@ -56,8 +67,8 @@ export default class Income extends React.Component {
     const colours = this.state.colours;
     // give enough time for the chart to be drawn
     setTimeout(function() {
-      const barChart = document.querySelectorAll('.income-chart .ct-slice-pie');
-      let legendLabels = document.querySelectorAll('.income-legend');
+      const barChart = document.querySelectorAll('.financial-history-chart .ct-bar');
+      let legendLabels = document.querySelectorAll('.financial-history-legend');
       barChart.forEach(function(bar, index) {
         bar.style.fill = colours[index];
         legendLabels[index].style.backgroundColor = colours[colours.length - index - 1];
@@ -66,19 +77,22 @@ export default class Income extends React.Component {
 
   }
 
-  componentWillMount() {
-  };
+  componentWillMount() {};
 
   componentDidMount() {
     this.renderChart();
-    // this.setColours();
+    this.setColours();
   };
 
   render() {
 
     return (
-      <div className="image ct-chart ct-perfect-fourth financial-history-chart">
-      </div>
+      <span>
+        <div className="image ct-chart ct-perfect-fourth financial-history-chart">
+        </div>
+        <div className="ui horizontal label financial-history-legend">Income</div>
+        <div className="ui horizontal label financial-history-legend">Expediture</div>    
+      </span>
     )
   };
 };

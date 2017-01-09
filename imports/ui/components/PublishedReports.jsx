@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Trustees = ({ data }) => {
+const PublishedReports = ({ data }) => {
 
   const Item = function({ trustee }) {
     return (
@@ -43,4 +43,4 @@ const Trustees = ({ data }) => {
   );
 }
 
-export default Trustees;
+export default PublishedReports;
