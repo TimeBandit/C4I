@@ -3,12 +3,17 @@ import React from 'react'
 const PublishedReports = ({ data }) => {
 
   const Item = function({ trustee }) {
+  	const baseLink = "http://apps.charitycommission.gov.uk"
     return (
-      <tr>
-	      <td>{trustee.TrusteeName}</td>
-	      <td>{trustee.TrusteeNumber}</td>
-	      <td>{trustee.RelatedCharitiesCount > 0 ? "Yes" : "No"}</td>
-	    </tr>
+      <div className="item">
+		    <div className="right floated content">
+		      <a className="ui button" href={baseLink + trustee.HyperlinkReference} target="_blank">Download</a>
+		    </div>
+		    <i className="file pdf outline icon"></i>
+		    <div className="content">
+		      {trustee.AccountPeriodYearEndDate}
+		    </div>
+		  </div>
     );
   };
 
@@ -23,21 +28,12 @@ const PublishedReports = ({ data }) => {
   return (
     <span>
 	  	<h3 className="ui top attached header">
-				Trustees
+				Charity Reports
 			</h3>
 			<div className="ui attached segment">
-		  	<table className="ui very basic table">
-				  <thead>
-				    <tr>
-				      <th>Name</th>
-				      <th>Trustee Number</th>
-				      <th>Holding Trusteeships?</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    {trusteeList(data)}	
-				  </tbody>
-				</table>
+		  	<div className="ui middle aligned divided list">
+			    {trusteeList(data)}	
+				</div>
 			</div>  		
   	</span>
   );

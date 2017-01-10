@@ -12,7 +12,8 @@ import Who from '../components/Who';
 import How from '../components/How';
 import Activities from '../components/Activities';
 import UIStatistic from '../components/UIStatistic'
-import FinancialHistory from '../components/FinancialHistory';
+import FinancialHistory from '../components/FinancialHistory'
+import PublishedReports from '../components/PublishedReports';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -117,6 +118,17 @@ export default class CharityPage extends React.Component {
 			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
 			      </div>
 			    </div>
+			    <div className="stretched row">
+			    	<div className="colum">
+			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
+			    	</div>
+			    	<div className="colum">
+			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
+			    	</div>
+			    	<div className="colum">
+			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
+			    	</div>
+			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
 			  			<div className="ui segment">
@@ -127,7 +139,6 @@ export default class CharityPage extends React.Component {
 			  	<div className="stretched row">
 			  		<div className="column">
 			  			<PublishedReports data={charity.AccountListing}/>
-			  			<div className="ui segment">Published Reports</div>
 			  		</div>
 			  	</div>
 			  	<div className="stretched row">
