@@ -62,7 +62,9 @@ export default class CharityPage extends React.Component {
     const PensionSchemeAssetLiability = PensionFundAssets;
     const OtherAssets = TotalCurrentAssets;
     const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
-    // 
+    // PEOPLE
+    const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
+    const numTrustees = charity.Trustees.length || 0;
 
     return (
       <div className="ui equal width stackable vertically divided grid container">
@@ -118,17 +120,6 @@ export default class CharityPage extends React.Component {
 			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
 			      </div>
 			    </div>
-			    <div className="stretched row">
-			    	<div className="colum">
-			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
-			    	</div>
-			    	<div className="colum">
-			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
-			    	</div>
-			    	<div className="colum">
-			    		<UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
-			    	</div>
-			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
 			  			<div className="ui segment">
@@ -141,6 +132,17 @@ export default class CharityPage extends React.Component {
 			  			<PublishedReports data={charity.AccountListing}/>
 			  		</div>
 			  	</div>
+			    <div className="stretched row">
+			    	<div className="column">
+			    		<UIStatistic value={numTrustees} label={"Trustees"}/>
+			    	</div>
+			    	<div className="column">
+			    		<UIStatistic value={NoEmployees} label={"Employees"}/>
+			    	</div>
+			    	<div className="column">
+			    		<UIStatistic value={NoVolunteers} label={"Volunteers"}/>
+			    	</div>
+			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
 			  			<Trustees data={charity.Trustees} />
