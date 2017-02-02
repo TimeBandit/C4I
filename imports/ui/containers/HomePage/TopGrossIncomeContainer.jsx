@@ -10,6 +10,7 @@ export default createContainer(() => {
   const loading = !handle.ready();
   const result = topGrossIncomeQuery.fetch();
   const resultExists = !loading && !!result;
+  console.log(result);
 
   return {
     loading,
