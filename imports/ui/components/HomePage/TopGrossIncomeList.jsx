@@ -28,7 +28,7 @@ const ListItem = ({ item }) => {
 // }
 
 const TopGrossIncomeList = ({ loading, resultExists, result }) => {
-  console.log(loading, resultExists, result);
+  // console.log(loading, resultExists, result);
   if (resultExists) {
     return (
       <div className="card">

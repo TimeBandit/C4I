@@ -6,11 +6,14 @@ import TopGrossIncomeList from '../../components/HomePage/TopGrossIncomeList'
 
 // returns the top ten
 export default createContainer(() => {
+	Meteor.call('sayHi', 1, function (error, result) {
+		console.log(result);
+	});
+	// Meteor
   const handle = Meteor.subscribe('top.gross.income');
   const loading = !handle.ready();
   const result = topGrossIncomeQuery.fetch();
   const resultExists = !loading && !!result;
-  console.log(result);
 
   return {
     loading,
