@@ -1,22 +1,46 @@
 import React from 'react'
-import { currencyFormat } from '../helpers/helpers'
-import TrusteeCard from './TrusteeCard'
 
-const GoogleMap = ({ trusteesData }) => {
+const Trustees = ({ data }) => {
 
-	const buildTrusteeCards = () => {
-		
-			return trusteesData.map(function (el, idx, arr) {				
-				return <TrusteeCard key={idx} name={el.TrusteeName} 
-					number={el.TrusteeNumber} relateCharities={el.RelatedCharitiesCount} />
-			})
-	}
+  const Item = function({ trustee }) {
+    return (
+      <tr>
+	      <td>{trustee.TrusteeName}</td>
+	      <td>{trustee.TrusteeNumber}</td>
+	      <td>{trustee.RelatedCharitiesCount > 0 ? "Yes" : "No"}</td>
+	    </tr>
+    );
+  };
+
+  const trusteeList = (arr) => {
+    return arr.map((obj, index) => {
+      return (
+        <Item trustee={obj} key={index} />
+      )
+    })
+  }
 
   return (
-  	<div className="ui three stackable cards">
-  		{trusteesData === undefined ? "" : buildTrusteeCards()}
-  	</div>
+    <span>
+	  	<h3 className="ui top attached header">
+				Trustees
+			</h3>
+			<div className="ui attached segment">
+		  	<table className="ui very basic table">
+				  <thead>
+				    <tr>
+				      <th>Name</th>
+				      <th>Trustee Number</th>
+				      <th>Holding Trusteeships?</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    {trusteeList(data)}	
+				  </tbody>
+				</table>
+			</div>  		
+  	</span>
   );
 }
 
-export default GoogleMap;
+export default Trustees;

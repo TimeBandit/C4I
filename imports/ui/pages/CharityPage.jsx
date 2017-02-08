@@ -11,6 +11,9 @@ import What from '../components/What';
 import Who from '../components/Who';
 import How from '../components/How';
 import Activities from '../components/Activities';
+import UIStatistic from '../components/UIStatistic'
+import FinancialHistory from '../components/FinancialHistory'
+import PublishedReports from '../components/PublishedReports';
 
 export default class CharityPage extends React.Component {
   constructor(props) {
@@ -28,22 +31,40 @@ export default class CharityPage extends React.Component {
 
     console.log(this.props)
     const { charity, loading } = this.props;
-    
+
     if (loading) {
-    	return (
-    			<div className="ui equal width stackable vertically divided grid container">
+      return (
+        <div className="ui equal width stackable vertically divided grid container">
 		      	<div className="center aligned row">
 				  		<div className="column">
 			    			<div className="ui active loader">Loading</div>
 			    		</div>
 			    	</div>
 			    </div>
-    		)
+      )
     }
 
-    let { RegisteredCharityNumber, RegisteredCompanyNumber} = charity;
+    let { RegisteredCharityNumber, RegisteredCompanyNumber } = charity;
     let { PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = charity;
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
+    // ASSETS
+    const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
+    const {
+      TotalFixedAssets,
+      FixedAssetInvestments,
+      PensionFundAssets,
+      TotalCurrentAssets,
+      CreditorsDueWithinOneYear,
+      LongTermCreditors
+    } = assets;
+    const OwnUseAssets = TotalFixedAssets + FixedAssetInvestments;
+    const LongTermInvestments = FixedAssetInvestments;
+    const PensionSchemeAssetLiability = PensionFundAssets;
+    const OtherAssets = TotalCurrentAssets;
+    const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
+    // PEOPLE
+    const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
+    const numTrustees = charity.Trustees.length || 0;
 
     return (
       <div className="ui equal width stackable vertically divided grid container">
@@ -73,91 +94,69 @@ export default class CharityPage extends React.Component {
 	  				<How data={charity.Classification.How}/>
 			  	</div>
 			  	<div className="stretched row">
-						<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
-						{/*<Spending data={charity.Submission}/>*/}
-			  	</div>
-			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Income Chart</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Spending Chart</div>
+							<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
 			  		</div>
 			  	</div>
 			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Own Use</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Long Term Investments</div>
-			  		</div>			  		
-			  		<div className="column">
-			  			<div className="ui segment">Defined Benefit Pension Scheme Asset Or Liability</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Other Assets</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Total Liabilities</div>
+			  			<Spending data={charity.Submission} chartData={charity.Returns[0].Resources.Expended}/>
 			  		</div>
 			  	</div>
+		  		<div className="stretched row">
+			      <div className="column">
+			        <UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={LongTermInvestments} label={"Long Term Investments"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={PensionSchemeAssetLiability} label={"Pension Scheme Asset/Liability"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={OtherAssets} label={"Other Assets"}/>
+			      </div>
+			      <div className="column">
+			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
+			      </div>
+			    </div>
 			  	<div className="stretched row">
 			  		<div className="column">
-			  			<div className="ui segment">Financial History</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Compliance History</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<div className="ui segment">Published Reports</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<div className="ui segment">Trustees</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Employees</div>
-			  		</div>
-			  		<div className="column">
-			  			<div className="ui segment">Volunteers</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-		  				<h3 className="ui top attached header">
-		  					Trustees
-		  				</h3>
-			  			<div className="ui attached segment">
-						  	<table className="ui very basic table">
-								  <thead>
-								    <tr>
-								      <th>Name</th>
-								      <th>Other Trusteeships</th>
-								      <th>Charity Status</th>
-								    </tr>
-								  </thead>
-								  <tbody>
-								    <tr>
-								      <td>John</td>
-								      <td>Approved</td>
-								      <td>None</td>
-								    </tr>
-								    <tr>
-								      <td>Jamie</td>
-								      <td>Approved</td>
-								      <td>Requires call</td>
-								    </tr>
-								    <tr>
-								      <td>Jill</td>
-								      <td>Denied</td>
-								      <td>None</td>
-								    </tr>
-								  </tbody>
-								</table>
+			  			<div className="ui segment">
+			  				<FinancialHistory data={charity.Submission}/>
 			  			</div>
+			  		</div>
+			  	</div>
+			  	<div className="stretched row">
+			  		<div className="column">
+			  			<PublishedReports data={charity.AccountListing}/>
+			  		</div>
+			  	</div>
+			    <div className="stretched row">
+			    	<div className="column">
+			    		<UIStatistic value={numTrustees} label={"Trustees"}/>
+			    	</div>
+			    	<div className="column">
+			    		<UIStatistic value={NoEmployees} label={"Employees"}/>
+			    	</div>
+			    	<div className="column">
+			    		<UIStatistic value={NoVolunteers} label={"Volunteers"}/>
+			    	</div>
+			    </div>
+			  	<div className="stretched row">
+			  		<div className="column">
+			  			<Trustees data={charity.Trustees} />
+			  		</div>
+			  		{/*<div className="column">
+			  					  			<div className="ui segment">Employees</div>
+			  					  		</div>
+			  					  		<div className="column">
+			  					  			<div className="ui segment">Volunteers</div>
+			  					  		</div>*/}
+			  	</div>
+			  	<div className="stretched row">
+			  		<div className="column">
+		  				
 			  		</div>
 			  	</div>
 			  </div>

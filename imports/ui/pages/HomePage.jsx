@@ -24,18 +24,64 @@ export default class HomePage extends React.Component {
 
     return (
       <span>
-        <div className="ui vertical masthead center aligned segment">
-          <div className="ui text container">
-            <div className="ui inverted segment">
-              <h1 className="ui inverted header">
-                Islamic Charity Book
-                <div className="sub header">
-                  The #1 resource for finding Islamic charities based in the UK
-                </div>
-              </h1>
+        <div className="ui vertical basic segment box overlay green-filter masthead">
+            <div className="ui container">
+                <h1 className="header">
+                    🕌<br/>
+                    Islamic Charity
+                    <br/>
+                    Book
+                </h1>
+                <h2 className="motto">
+                    The #1 resource on all Islamic <br/>
+                    Charities registered in the UK
+                </h2>
             </div>
-            <p></p>
-          </div>
+        </div>
+        <div className="ui vertical basic segment">
+            <div className="ui text container custom">
+                <h3 className="ui sub header">
+                    The #1 resource on all Islamic Charities registered in the UK
+                </h3>
+            </div>
+        </div>
+        <div className="ui vertical basic segment">
+            <div className="ui container">
+                <div className="ui centered grid">
+                    <div className="twelve wide column homepage-stats">
+                        <div className="ui three stackable doubling cards">
+                            <TopGrossIncomeContainer />
+                            <TopEmployeesContainer />
+                            <TopVolunteersContainer />
+                            <TopTotalExpenditureContainer />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="ui vertical basic segment cto-group">
+            <div className="ui left aligned text container cto">
+                <h1 className="ui header">
+                    Looking for a charity?
+                    <div className="sub header">
+                        See how you favourite charity is funded <br/>
+                        and managed
+                    </div>
+                </h1>
+                <button className="ui large green button">
+                    Search Now
+                </button>
+                <h3 className="ui horizontal header divider">🕌</h3>
+                <h1 className="ui header">
+                            About this site
+                            <div className="sub header">
+                                The Islamic Charity Book is a directory of Islamic Charities registered in the UK. All the data you see here is publicly available. Missing a charity? Suggestions?
+                            </div>
+                        </h1>
+                <button className="ui large green button">
+                    Contact Us
+                </button>
+            </div>
         </div>        
       </span>
     )

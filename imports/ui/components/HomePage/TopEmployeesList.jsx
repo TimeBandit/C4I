@@ -1,39 +1,62 @@
-import React from 'react'
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
-import { currencyFormat } from '../../helpers/helpers'
+import { currencyFormat } from '../../helpers/helpers';
 
-const ListItem = ({ item }) => {
-  return (
-    <div className="item">
-      <div className="right floated content">
-        <div className="tiny ui button">
-          <Link to={"/charity/" + item.RegisteredCharityNumber}>View</Link>
+
+// export default TopGrossIncomeList;
+
+export default class TopEmployeesList extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        charity: {}
+      };
+      this.updateResult = this.updateResult.bind(this);
+    };
+
+    updateResult() {
+      let self = this;
+      Meteor.call('topEmployer', function(error, result) {
+        console.log('method call ', result);
+        if (result.hasOwnProperty('CharityName')) {
+          self.setState({ charity: result });
+        };
+      });
+    };
+
+    componentWillMount() {
+      this.updateResult();
+    };
+
+    componentDidMount() {};
+
+    render() {
+      if (this.state.charity.hasOwnProperty('CharityName')) {
+        return (
+          <div className="card">
+            <div className="content">
+                <div className="header"><i className="grey users icon"></i>{this.state.charity.NoEmployees}</div>
+                <div className="meta">Employees</div>
+                <div className="description">
+                    Last year, this Islamic Charity employed the greatest number
+                    of induvidals from all those that we surveyed
+                </div>
+            </div>
+            <div className="extra content">
+                <div className="ui large green fluid button">
+                    <Link to={"/charity/" + this.state.charity.RegisteredCharityNumber}>See Charity</Link>
+                </div>
+            </div>
         </div>
-      </div>
-      <div className="content">
-        <a className="header">
-          {item.Employees}
-        </a>
-        <div className="description">
-          {item.CharityName}
-        </div>        
-      </div>
-    </div>
-  );
-}
-
-const makeList = (result) => {
-  return result.map(function(el, idx, arr) {
-    return <ListItem key={idx} item={el} />
-  })
-}
-
-const TopEmployeesList = ({ loading, resultExists, result }) => {
-  return (
-    <div className="ui middle aligned divided list">
-      {resultExists ? makeList(result) : "loading"}
-    </div>
-  );
-}
-
-export default TopEmployeesList;
+        );
+      }
+      return (
+        <div className="card">
+          <div className="content">
+              <div className="ui active centered inline loader"></div>
+          </div>
+        </div>
+      );
+    };
+  };

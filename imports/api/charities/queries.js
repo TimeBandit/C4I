@@ -1,14 +1,22 @@
 // set of homepage queries to be used on client & server
+//1125833 
+//328158
 import { Charities } from './charities';
 
 // top 10 queries
-export const topGrossIncomeQuery = Charities.find({
-  $or: [{ "GrossIncome": { $type: 1 } }, { "GrossIncome": { $type: 16 } }, { "GrossIncome": { $type: 18 } }],
-  "RegistrationHistory.RemovalReason": { $eq: "" }
-}, {
-  sort: { "GrossIncome": -1 },
-  limit: 10
-});
+// export const topGrossIncomeQuery = Charities.find({
+//   $or: [{ "GrossIncome": { $type: 1 } }, { "GrossIncome": { $type: 16 } }, { "GrossIncome": { $type: 18 } }],
+//   "RegistrationHistory.RemovalReason": { $eq: "" }
+// }, {
+//   sort: { "GrossIncome": -1 },
+//   limit: 10
+// });
+export const topGrossIncomeQuery = Charities.find(
+  { "RegistrationHistory.RemovalReason": { $eq: "" } }, 
+  {
+    sort: { "Submission.GrossIncome > 1": -1 },
+    limit: 10
+  });
 
 export const topTotalExpenditureQuery = Charities.find({
   $or: [{ "TotalExpenditure": { $type: 1 } }, { "TotalExpenditure": { $type: 16 } }, { "TotalExpenditure": { $type: 18 } }],
