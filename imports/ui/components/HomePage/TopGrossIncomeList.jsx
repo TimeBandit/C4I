@@ -43,9 +43,9 @@ export default class TopGrossIncomeList extends React.Component {
                 </div>
             </div>
             <div className="extra content">
-                <button className="ui large green fluid button">
+                <div className="ui large green fluid button">
                     <Link to={"/charity/" + this.state.charity.RegisteredCharityNumber}>See Charity</Link>
-                </button>
+                </div>
             </div>
         </div>
         );
@@ -53,7 +53,7 @@ export default class TopGrossIncomeList extends React.Component {
       return (
         <div className="card">
           <div className="content">
-              <div className="header">NO DATA</div>
+              <div className="ui active centered inline loader"></div>
           </div>
         </div>
       );

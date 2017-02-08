@@ -51,90 +51,9 @@ export default class HomePage extends React.Component {
                     <div className="twelve wide column homepage-stats">
                         <div className="ui three stackable doubling cards">
                             <TopGrossIncomeContainer />
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">200</div>
-                                    <div className="meta">Employees</div>
-                                    <div className="description">
-                                        Number of employees of the Islamic charity with the greatest number of people working for them
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">16000</div>
-                                    <div className="meta">Volunteers</div>
-                                    <div className="description">
-                                        Number of volunteers of the Islamic charity with the greatest number enrolled
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">£1.9M</div>
-                                    <div className="meta">Total Income</div>
-                                    <div className="description">
-                                        The gross income of the Islamic charity with the greatest yearly income last year
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">£1.9M</div>
-                                    <div className="meta">Total Income</div>
-                                    <div className="description">
-                                        The gross income of the Islamic charity with the greatest yearly income last year
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">£1.9M</div>
-                                    <div className="meta">Total Income</div>
-                                    <div className="description">
-                                        The gross income of the Islamic charity with the greatest yearly income last year
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="content">
-                                    <div className="header">£1.9M</div>
-                                    <div className="meta">Total Income</div>
-                                    <div className="description">
-                                        The gross income of the Islamic charity with the greatest yearly income last year
-                                    </div>
-                                </div>
-                                <div className="extra content">
-                                    <button className="ui large green fluid button">
-                                        See Charity
-                                    </button>
-                                </div>
-                            </div>
+                            <TopEmployeesContainer />
+                            <TopVolunteersContainer />
+                            <TopTotalExpenditureContainer />
                         </div>
                     </div>
                 </div>
@@ -150,7 +69,7 @@ export default class HomePage extends React.Component {
                     </div>
                 </h1>
                 <button className="ui large green button">
-                    See Charity
+                    Search Now
                 </button>
                 <h3 className="ui horizontal header divider">🕌</h3>
                 <h1 className="ui header">
@@ -160,7 +79,7 @@ export default class HomePage extends React.Component {
                             </div>
                         </h1>
                 <button className="ui large green button">
-                    See Charity
+                    Contact Us
                 </button>
             </div>
         </div>        

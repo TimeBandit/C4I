@@ -1,39 +1,61 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { currencyFormat } from '../../helpers/helpers'
+import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { Link } from 'react-router';
+import { currencyFormat } from '../../helpers/helpers';
 
-const ListItem = ({ item }) => {
-  return (
-    <div className="item">
-      <div className="right floated content">
-        <div className="tiny ui button">
-          <Link to={"/charity/" + item.RegisteredCharityNumber}>View</Link>
+// export default TopGrossIncomeList;
+
+export default class TopTotalExpenditureList extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        charity: {}
+      };
+      this.updateResult = this.updateResult.bind(this);
+    };
+
+    updateResult() {
+      let self = this;
+      Meteor.call('topTotalExpenditure', function(error, result) {
+        console.log('method call ', result);
+        if (result.hasOwnProperty('CharityName')) {
+          self.setState({ charity: result });
+        };
+      });
+    };
+
+    componentWillMount() {
+      this.updateResult();
+    };
+
+    componentDidMount() {};
+
+    render() {
+      if (this.state.charity.hasOwnProperty('CharityName')) {
+        return (
+          <div className="card">
+            <div className="content">
+                <div className="header">{currencyFormat(this.state.charity.TotalExpenditure)}</div>
+                <div className="meta">Volunteers</div>
+                <div className="description">
+                     The Gross Income of the Islamic Charity with the greatest 
+                     total spend reported last year
+                </div>
+            </div>
+            <div className="extra content">
+                <div className="ui large green fluid button">
+                    <Link to={"/charity/" + this.state.charity.RegisteredCharityNumber}>See Charity</Link>
+                </div>
+            </div>
         </div>
-      </div>
-      <div className="content">
-        <a className="header">
-          {currencyFormat(item.TotalExpenditure)}
-        </a>
-        <div className="description">
-          {item.CharityName}
-        </div>        
-      </div>
-    </div>
-  );
-}
-
-const makeList = (result) => {
-  return result.map(function(el, idx, arr) {
-    return <ListItem key={idx} item={el} />
-  })
-}
-
-const TopTotalExpenditureList = ({ loading, resultExists, result }) => {
-  return (
-    <div className="ui middle aligned divided list">
-      {resultExists ? makeList(result) : "loading"}
-    </div>
-  );
-}
-
-export default TopTotalExpenditureList;
+        );
+      }
+      return (
+        <div className="card">
+          <div className="content">
+              <div className="ui active centered inline loader"></div>
+          </div>
+        </div>
+      );
+    };
+  };
