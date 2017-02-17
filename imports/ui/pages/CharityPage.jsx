@@ -29,9 +29,12 @@ export default class CharityPage extends React.Component {
       height: "100%"
     };
 
+    const humanizeText = {
+      textTransform: 'capitalize'
+    }
+
     console.log(this.props)
     const { charity, loading } = this.props;
-
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">
@@ -44,8 +47,12 @@ export default class CharityPage extends React.Component {
       )
     }
 
-    let { RegisteredCharityNumber, RegisteredCompanyNumber } = charity;
-    let { PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = charity;
+    const CharityName = charity.CharityName || "";
+    const Address = charity.Address || "";
+    const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
+    const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
+    const { PublicTelephoneNumber = "-", PublicFaxNumber = "-", EmailAddress = "-", WebsiteAddress = "-" } = charity;
+    // 
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
     const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
@@ -67,125 +74,551 @@ export default class CharityPage extends React.Component {
     const numTrustees = charity.Trustees.length || 0;
 
     return (
-      <div className="ui equal width stackable vertically divided grid container">
-	      	<div className="center aligned row">
-			  		<div className="column">
-			  			<div className="ui segment">
-			  				<h1  className="ui header" >
-				 			  	{charity.CharityName}				 			  	
-				 			  </h1>
-				 			  <div className={upToDate ? "ui bottom right attached green label" : "ui bottom right attached grey label"}>
-				 			  	{ upToDate ? "Up-to-date" : "Out-of-date"}
-				 			  </div>
-			  			</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<Numbers RegisteredCharityNumber={RegisteredCharityNumber} RegisteredCompanyNumber={RegisteredCompanyNumber}/>
-			  		<Address data={charity.Address}/>
-			  		<ContactList PublicTelephoneNumber={PublicTelephoneNumber} PublicFaxNumber={PublicFaxNumber} EmailAddress={EmailAddress} WebsiteAddress={WebsiteAddress}/>
-			  	</div>
-			  	<div className="row">
-			  		{<Activities data={charity.Activities}/>}
-			  	</div>
-			  	<div className="row">
-	  				<What data={charity.Classification.What}/>
-	  				<Who data={charity.Classification.Who}/>
-	  				<How data={charity.Classification.How}/>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-							<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<Spending data={charity.Submission} chartData={charity.Returns[0].Resources.Expended}/>
-			  		</div>
-			  	</div>
-		  		<div className="stretched row">
-			      <div className="column">
-			        <UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={LongTermInvestments} label={"Long Term Investments"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={PensionSchemeAssetLiability} label={"Pension Scheme Asset/Liability"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={OtherAssets} label={"Other Assets"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
-			      </div>
-			    </div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<div className="ui segment">
-			  				<FinancialHistory data={charity.Submission}/>
-			  			</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<PublishedReports data={charity.AccountListing}/>
-			  		</div>
-			  	</div>
-			    <div className="stretched row">
-			    	<div className="column">
-			    		<UIStatistic value={numTrustees} label={"Trustees"}/>
-			    	</div>
-			    	<div className="column">
-			    		<UIStatistic value={NoEmployees} label={"Employees"}/>
-			    	</div>
-			    	<div className="column">
-			    		<UIStatistic value={NoVolunteers} label={"Volunteers"}/>
-			    	</div>
-			    </div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<Trustees data={charity.Trustees} />
-			  		</div>
-			  		{/*<div className="column">
-			  					  			<div className="ui segment">Employees</div>
-			  					  		</div>
-			  					  		<div className="column">
-			  					  			<div className="ui segment">Volunteers</div>
-			  					  		</div>*/}
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-		  				
-			  		</div>
-			  	</div>
-			  </div>
+      <span>
+    		<div className="ui vertical basic segment charity-main">
+        <div className="ui container">
+            <div className="ui equal width stackable grid">
+                <div className="ui stretched row">
+                    <div className="eleven wide column">
+                        <div className="ui basic segment test">
+                            <div className="ui basic inverted segment">
+                                <h1 className="ui inverted header">
+                                {CharityName}                              
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="column">
+                        <div className="ui inverted segment charity-main-sidebar">
+                            <div className="ui basic segment">
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        <i className="marker icon"></i>
+                                    </div>
+                                    <div className="label">
+                                        contact
+                                    </div>
+                                </div>
+                                <div className="ui list address" style={humanizeText}>
+                                    <div className="item">{Address.Line1 ? Address.Line1.toLowerCase() : ""}</div>
+                                    <div className="item">{Address.Line2 ? Address.Line2.toLowerCase() : ""}</div>
+                                    <div className="item">{Address.Line3 ? Address.Line3.toLowerCase() : ""}</div>
+                                    <div className="item">{Address.Line4 ? Address.Line4.toLowerCase() : ""}</div>
+                                    <div className="item">{Address.Line5 ? Address.Line5.toLowerCase() : ""}</div>
+                                    <div className="item">{Address.Postcode ? Address.Postcode : ""}</div>
+                                </div>
+                                <div className="ui inverted horizontal divider">
+                                    -
+                                </div>
+                                {/*<div className="ui mini horizontal inverted statistic">
+	                                  <div className="value">
+	                                      📘
+	                                  </div>
+	                                  <div className="label">
+	                                      contact
+	                                  </div>
+	                              </div>*/}
+                                <div className="ui list contact">
+																  <div className="item" style={humanizeText}>
+																    <i className="user icon"></i>
+																    <div className="content">
+																      {CharityRoleName}
+																    </div>
+																  </div>
+																  <div className="item">
+																    <i className="mobile icon"></i>
+																    <div className="content">
+																      {PublicTelephoneNumber}
+																    </div>
+																  </div>
+																  <div className="item">
+																    <i className="fax icon"></i>
+																    <div className="content">
+																      {PublicFaxNumber}
+																    </div>
+																  </div>
+																  <div className="item">
+																    <i className="mail icon"></i>
+																    <div className="content">
+																      <a href={"mailto:" + EmailAddress.toLowerCase()}>{EmailAddress.toLowerCase()}</a>
+																    </div>
+																  </div>
+																  <div className="item">
+																    <i className="linkify icon"></i>
+																    <div className="content">
+																      <a href={"http://www." + WebsiteAddress.toLowerCase().replace('www.',"")}>WebsiteAddress.toLowerCase().replace('www.',"")</a>
+																    </div>
+																  </div>
+																</div>
+                                {/*<div className="ui list contact">
+                                  <div className="item" style={humanizeText}>
+                                      {CharityRoleName}
+                                  </div>
+                                  <div className="item">
+                                    {PublicTelephoneNumber}
+                                  </div>
+                                  <div className="item">
+                                    {PublicFaxNumber}
+                                  </div>
+                                  <div className="item">
+                                    {EmailAddress.toLowerCase()}
+                                  </div>
+                                  <div className="item">
+                                    {WebsiteAddress.toLowerCase().replace('www.',"")}
+                                  </div>
+                              </div>*/}
+                                <div className="ui inverted horizontal divider">
+                                    -
+                                </div>
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        🔢
+                                    </div>
+                                    <div className="label">
+                                        Charity No.
+                                    </div>
+                                </div>
+                                <div className="ui list refNumber">
+                                    <div className="item">
+                                        {RegisteredCharityNumber}
+                                    </div>
+                                </div>
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        🔢
+                                    </div>
+                                    <div className="label">
+                                        Reg No.
+                                    </div>
+                                </div>
+                                <div className="ui list refNumber">
+                                    <div className="item">
+                                        {RegisteredCompanyNumber}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div className="ui vertical basic segment">
+        <div className="ui container">
+            <div className="ui equal width stackable grid">
+                <div className="ui stretched row">
+                    <div className="eleven wide column">
+                        <div className="ui basic segment">
+                            <h1 className="ui header overview">
+                            Overview
+                        </h1>
+                            <div className="ui divided items">
+                                <div className="item">
+                                    <div className="content">
+                                        <a className="header">Activities</a>
+                                        <div className="description">
+                                            Green Lane Masjid and Community Centre operates a mosque and an Islamic community centre on Green Lane, Small Heath in Birmingham.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="content">
+                                        <a className="header">What we do</a>
+                                        <div className="description">
+                                            <div className="ui list">
+                                                <div className="item">
+                                                    General charitable purposes
+                                                </div>
+                                                <div className="item">
+                                                    Edducation/training
+                                                </div>
+                                                <div className="item">
+                                                    The prevention or relief of poverty
+                                                </div>
+                                                <div className="item">
+                                                    Overseas aid/famine relief
+                                                </div>
+                                                <div className="item">
+                                                    Religious activities
+                                                </div>
+                                                <div className="item">
+                                                    Amateur sport
+                                                </div>
+                                                <div className="item">
+                                                    Economic/community development/employment
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="content">
+                                        <a className="header">Who We Serve</a>
+                                        <div className="description">
+                                            <div className="ui list">
+                                                <div className="item">
+                                                    Children/young people
+                                                </div>
+                                                <div className="item">
+                                                    Other charities or voluntary bodies
+                                                </div>
+                                                <div className="item">
+                                                    The general public/mankind
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="content">
+                                        <a className="header">How we work</a>
+                                        <div className="description">
+                                            <div className="ui list">
+                                                <div className="item">
+                                                    General charitable purposes
+                                                </div>
+                                                <div className="item">
+                                                    Education/training
+                                                </div>
+                                                <div className="item">
+                                                    The prevention or relief of poverty
+                                                </div>
+                                                <div className="item">
+                                                    Overseas aid/famine relief
+                                                </div>
+                                                <div className="item">
+                                                    Religious activities
+                                                </div>
+                                                <div className="item">
+                                                    Amateur sport
+                                                </div>
+                                                <div className="item">
+                                                    Economic/community development/employment
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="column">
+                        <div className="ui inverted segment charity-main-sidebar">
+                            <div className="ui basic segment">
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        🛐
+                                    </div>
+                                    <div className="label">
+                                        area of benefit
+                                    </div>
+                                </div>
+                                <div className="ui list benefit">
+                                    <div className="item">
+                                        Undefined, In practice, local
+                                    </div>
+                                </div>
+                                <div className="ui inverted horizontal divider">
+                                    🌙
+                                </div>
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        🗺
+                                    </div>
+                                    <div className="label">
+                                        area of operation
+                                    </div>
+                                </div>
+                                <div className="ui list operation">
+                                    <div className="item">
+                                        Birmingham City
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div className="ui vertical basic segment">
+        <div className="ui container">
+            <div className="ui equal width stackable grid">
+                <div className="ui stretched row">
+                    <div className="eleven wide column">
+                        <div className="ui basic segment">
+                            <h1 className="ui header overview">
+                            Financials
+                        </h1>
+                            <div className="ui divided items">
+                                <div className="item">
+                                    <div className="image">
+                                        <img src="/images/wireframe/image.png" />
+                                    </div>
+                                    <div className="content">
+                                        <a className="header">Income</a>
+                                        <div className="meta">
+                                            <span>Income for the previous financial year</span>
+                                        </div>
+                                        <div className="description">
+                                            <div className="ui list">
+                                                <div className="item">🍲</div>
+                                                <div className="item">🍔</div>
+                                                <div className="item">🍔</div>
+                                                <div className="item">🍔</div>
+                                                <div className="item">🍔</div>
+                                            </div>
+                                        </div>
+                                        <div className="extra">
+                                            Additional Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="image">
+                                        <img src="/images/wireframe/image.png" />
+                                    </div>
+                                    <div className="content">
+                                        <a className="header">Spending</a>
+                                        <div className="meta">
+                                            <span>Spending for the previous financial year</span>
+                                        </div>
+                                        <div className="description">
+                                            <p></p>
+                                        </div>
+                                        <div className="extra">
+                                            Additional Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="image">
+                                        <img src="/images/wireframe/image.png" />
+                                    </div>
+                                    <div className="content">
+                                        <a className="header">Financial History</a>
+                                        <div className="meta">
+                                            <span>Histroical Income/Spending</span>
+                                        </div>
+                                        <div className="description">
+                                            <p></p>
+                                        </div>
+                                        <div className="extra">
+                                            Additional Details
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="column">
+                        <div className="ui inverted segment charity-main-sidebar">
+                            <div className="ui basic segment">
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        £24.87
+                                    </div>
+                                    <div className="label">
+                                        ASSETS
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        0
+                                    </div>
+                                    <div className="label">
+                                        invesments
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        0
+                                    </div>
+                                    <div className="label">
+                                        pensions
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        £1.10M
+                                    </div>
+                                    <div className="label">
+                                        other
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        £1.43
+                                    </div>
+                                    <div className="label">
+                                        total
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div className="ui vertical basic segment">
+        <div className="ui container">
+            <div className="ui equal width stackable grid">
+                <div className="ui stretched row">
+                    <div className="eleven wide column">
+                        <div className="ui basic segment">
+                            <h1 className="ui header overview">
+                            Governance
+                        </h1>
+                            <table className="ui stackable table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Trustee</th>
+                                        <th className="right aligned">Holds Other Trusteeships</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mr Mohammed Saeed</td>
+                                        <td>236015</td>
+                                        <td className="right aligned">Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mr Mohammed Saeed</td>
+                                        <td>236015</td>
+                                        <td className="right aligned">Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mr Mohammed Saeed</td>
+                                        <td>236015</td>
+                                        <td className="right aligned">Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mr Mohammed Saeed</td>
+                                        <td>236015</td>
+                                        <td className="right aligned">Yes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="column">
+                        <div className="ui inverted segment charity-main-sidebar">
+                            <div className="ui basic segment">
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        4
+                                    </div>
+                                    <div className="label">
+                                        trustees
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        20
+                                    </div>
+                                    <div className="label">
+                                        employees
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        0
+                                    </div>
+                                    <div className="label">
+                                        volunteers
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ui inverted horizontal divider">
+                                🌙
+                            </div>
+                            <div className="ui basic segment">
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                        📁
+                                    </div>
+                                    <div className="label">
+                                        View Reports
+                                    </div>
+                                </div>
+                                <div className="ui inverted middle aligned list reports">
+                                    <div className="item">
+                                        <div className="right floated content">
+                                            <div className="ui basic vertical inverted animated button" tabIndex="0">
+                                                <div className="hidden content">
+                                                    <i className="down arrow icon"></i>
+                                                </div>
+                                                <div className="visible content">
+                                                    Get it
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            2015
+                                        </div>
+                                    </div>
+                                    <div className="item">
+                                        <div className="right floated content">
+                                            <div className="ui basic vertical inverted animated button" tabIndex="0">
+                                                <div className="hidden content">
+                                                    <i className="down arrow icon"></i>
+                                                </div>
+                                                <div className="visible content">
+                                                    Get it
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            2015
+                                        </div>
+                                    </div>
+                                    <div className="item">
+                                        <div className="right floated content">
+                                            <div className="ui basic vertical inverted animated button" tabIndex="0">
+                                                <div className="hidden content">
+                                                    <i className="down arrow icon"></i>
+                                                </div>
+                                                <div className="visible content">
+                                                    Get it
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            2015
+                                        </div>
+                                    </div>
+                                    <div className="item">
+                                        <div className="right floated content">
+                                            <div className="ui basic vertical inverted animated button" tabIndex="0">
+                                                <div className="hidden content">
+                                                    <i className="down arrow icon"></i>
+                                                </div>
+                                                <div className="visible content">
+                                                    Get it
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            2015
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    	</span>
     )
   }
-}
-
-// <GoogleMap key={charity.RegisteredCharityNumber} adressObj={charity.Address}/>}
-//    <ui className="ui stackable container grid">
-// 		<div className="sixteen wide column">
-// 			<div className="ui padded segment">
-// 				<h1  className="ui header" >
-// 			  	{charity === undefined ? "" : charity.CharityName === undefined ? "" : charity.CharityName}
-// 			  	<div className="sub header">{charity === undefined ? "" : charity.Activities }</div>
-// 			  </h1>
-// 			</div>
-// 		</div>
-// 		<div className="ten wide column">
-// 			{charity === undefined ? "" : charity.Address.Line1 === "" ? "" : <iframe src={"https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=" + parseAdressObject(charity.Address)} frameBorder="0" style = {style}></iframe>}
-// 		</div>
-// 		<div className="six wide column">
-// 			{charity === undefined ? "" : <ContactCard contactData={charity}/>}
-
-// 		</div>
-// 		<div className="sixteen wide centered column">
-// 			<h2 className="ui header">Fixed & Figures</h2>
-// 			{charity === undefined ? "" :  isNaN(charity.GrossIncome) ? "" : <FinancialFacts financialData={charity}/>}	
-// 		</div>
-// 		<h2 className="ui header">Trustees</h2>
-// 		{charity === undefined ? "" : charity.Trustees === null ? "" : <Trustees trusteesData={charity.Trustees}/>}	
-// </ui>
-;
+};
