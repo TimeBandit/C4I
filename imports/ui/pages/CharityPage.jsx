@@ -93,10 +93,10 @@ export default class CharityPage extends React.Component {
                             <div className="ui basic segment">
                                 <div className="ui mini horizontal inverted statistic">
                                     <div className="value">
-                                        <i className="marker icon"></i>
+                                        <i className="info icon"></i>
                                     </div>
                                     <div className="label">
-                                        contact
+                                        charity info
                                     </div>
                                 </div>
                                 <div className="ui list address" style={humanizeText}>
@@ -107,17 +107,13 @@ export default class CharityPage extends React.Component {
                                     <div className="item">{Address.Line5 ? Address.Line5.toLowerCase() : ""}</div>
                                     <div className="item">{Address.Postcode ? Address.Postcode : ""}</div>
                                 </div>
-                                <div className="ui inverted horizontal divider">
-                                    -
+                                <div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                    </div>
+                                    <div className="label">
+                                        
+                                    </div>
                                 </div>
-                                {/*<div className="ui mini horizontal inverted statistic">
-	                                  <div className="value">
-	                                      📘
-	                                  </div>
-	                                  <div className="label">
-	                                      contact
-	                                  </div>
-	                              </div>*/}
                                 <div className="ui list contact">
 																  <div className="item" style={humanizeText}>
 																    <i className="user icon"></i>
@@ -146,56 +142,26 @@ export default class CharityPage extends React.Component {
 																  <div className="item">
 																    <i className="linkify icon"></i>
 																    <div className="content">
-																      <a href={"http://www." + WebsiteAddress.toLowerCase().replace('www.',"")}>WebsiteAddress.toLowerCase().replace('www.',"")</a>
+																      <a href={"http://" + WebsiteAddress.toLowerCase()}>{WebsiteAddress.toLowerCase().replace('www.',"")}</a>
 																    </div>
 																  </div>
 																</div>
-                                {/*<div className="ui list contact">
-                                  <div className="item" style={humanizeText}>
-                                      {CharityRoleName}
-                                  </div>
-                                  <div className="item">
-                                    {PublicTelephoneNumber}
-                                  </div>
-                                  <div className="item">
-                                    {PublicFaxNumber}
-                                  </div>
-                                  <div className="item">
-                                    {EmailAddress.toLowerCase()}
-                                  </div>
-                                  <div className="item">
-                                    {WebsiteAddress.toLowerCase().replace('www.',"")}
-                                  </div>
-                              </div>*/}
-                                <div className="ui inverted horizontal divider">
-                                    -
-                                </div>
-                                <div className="ui mini horizontal inverted statistic">
-                                    <div className="value">
-                                        🔢
-                                    </div>
-                                    <div className="label">
-                                        Charity No.
-                                    </div>
-                                </div>
-                                <div className="ui list refNumber">
-                                    <div className="item">
-                                        {RegisteredCharityNumber}
-                                    </div>
-                                </div>
-                                <div className="ui mini horizontal inverted statistic">
-                                    <div className="value">
-                                        🔢
-                                    </div>
-                                    <div className="label">
-                                        Reg No.
-                                    </div>
-                                </div>
-                                <div className="ui list refNumber">
-                                    <div className="item">
-                                        {RegisteredCompanyNumber}
-                                    </div>
-                                </div>
+                                <div className="ui mini inverted statistic stat1">
+																  <div className="value">
+																    {RegisteredCharityNumber}
+																  </div>
+																  <div className="label" style={humanizeText}>
+																    Charity Number
+																  </div>
+																</div>
+																<div className="ui mini inverted statistic stat2">
+																  <div className="value">
+																    {RegisteredCompanyNumber}
+																  </div>
+																  <div className="label" style={humanizeText}>
+																    Company Number
+																  </div>
+																</div>
                             </div>
                         </div>
                     </div>
