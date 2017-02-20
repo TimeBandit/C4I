@@ -19,7 +19,37 @@ export default class CharityPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
+    this.emailButton = this.emailButton.bind(this);
+    this.websiteButton = this.websiteButton.bind(this);
+  };
+
+  emailButton(EmailAddress) {
+    if (EmailAddress !== "") {
+      return (
+        <a href={"mailto:" + EmailAddress.toLowerCase()}>
+			      <button className="ui labeled icon tiny green button">
+						  <i className="mail icon"></i>
+						  Email Them
+						</button>	
+		      </a>
+      )
+    }
+    return "";
+  };
+
+  websiteButton(WebsiteAddress) {
+    if (WebsiteAddress !== "") {
+      return (
+        <a href={"http://" + WebsiteAddress.toLowerCase()}>
+	      	<button className="ui labeled icon tiny green button">
+					  <i className="linkify icon"></i>
+					  Visit Website
+					</button>																      	
+	      </a>
+      )
+    }
+    return "";
+  };
 
   render() {
 
@@ -51,7 +81,8 @@ export default class CharityPage extends React.Component {
     const Address = charity.Address || "";
     const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
     const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
-    const { PublicTelephoneNumber = "-", PublicFaxNumber = "-", EmailAddress = "-", WebsiteAddress = "-" } = charity;
+    const { PublicTelephoneNumber = "", PublicFaxNumber = "", EmailAddress = "", WebsiteAddress = "" } = charity;
+
     // 
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
@@ -91,14 +122,10 @@ export default class CharityPage extends React.Component {
                     <div className="column">
                         <div className="ui inverted segment charity-main-sidebar">
                             <div className="ui basic segment">
-                                <div className="ui mini horizontal inverted statistic">
-                                    <div className="value">
-                                        <i className="info icon"></i>
-                                    </div>
-                                    <div className="label">
-                                        charity info
-                                    </div>
-                                </div>
+	                            	<div className="ui small inverted header">
+		                            	<i className="info icon"></i>
+		                            	CHARITY INFO
+	                            	</div>
                                 <div className="ui list address" style={humanizeText}>
                                     <div className="item">{Address.Line1 ? Address.Line1.toLowerCase() : ""}</div>
                                     <div className="item">{Address.Line2 ? Address.Line2.toLowerCase() : ""}</div>
@@ -122,7 +149,7 @@ export default class CharityPage extends React.Component {
 																    </div>
 																  </div>
 																  <div className="item">
-																    <i className="mobile icon"></i>
+																    <i className="phone icon"></i>
 																    <div className="content">
 																      {PublicTelephoneNumber}
 																    </div>
@@ -134,33 +161,35 @@ export default class CharityPage extends React.Component {
 																    </div>
 																  </div>
 																  <div className="item">
-																    <i className="mail icon"></i>
 																    <div className="content">
-																      <a href={"mailto:" + EmailAddress.toLowerCase()}>{EmailAddress.toLowerCase()}</a>
+																    	{this.emailButton(EmailAddress)}
 																    </div>
 																  </div>
 																  <div className="item">
-																    <i className="linkify icon"></i>
 																    <div className="content">
-																      <a href={"http://" + WebsiteAddress.toLowerCase()}>{WebsiteAddress.toLowerCase().replace('www.',"")}</a>
+																    	{this.websiteButton(WebsiteAddress)}
 																    </div>
 																  </div>
 																</div>
-                                <div className="ui mini inverted statistic stat1">
-																  <div className="value">
-																    {RegisteredCharityNumber}
-																  </div>
-																  <div className="label" style={humanizeText}>
-																    Charity Number
-																  </div>
-																</div>
-																<div className="ui mini inverted statistic stat2">
-																  <div className="value">
-																    {RegisteredCompanyNumber}
-																  </div>
-																  <div className="label" style={humanizeText}>
-																    Company Number
-																  </div>
+																<div className="ui mini horizontal inverted statistic">
+                                    <div className="value">
+                                    </div>
+                                    <div className="label">
+                                    </div>
+                                </div>
+																<div className="ui mini list numbers">
+																	<div className="item">
+																		<i className="info circle icon"></i>
+																		<div className="content ">
+																			Charity Number: {RegisteredCharityNumber}
+																		</div>
+																	</div>
+																	<div className="item">
+																		<i className="info circle icon"></i>
+																			<div className="content">
+																				Company Number: {RegisteredCompanyNumber}
+																			</div>
+																	</div>
 																</div>
                             </div>
                         </div>
