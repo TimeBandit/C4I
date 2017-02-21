@@ -21,6 +21,7 @@ export default class CharityPage extends React.Component {
     this.state = {};
     this.emailButton = this.emailButton.bind(this);
     this.websiteButton = this.websiteButton.bind(this);
+    this.whoWhatHow = this.whoWhatHow.bind(this);
   };
 
   emailButton(EmailAddress) {
@@ -29,7 +30,7 @@ export default class CharityPage extends React.Component {
         <a href={"mailto:" + EmailAddress.toLowerCase()}>
 			      <button className="ui labeled icon tiny green button">
 						  <i className="mail icon"></i>
-						  Email Them
+						  Email
 						</button>	
 		      </a>
       )
@@ -37,19 +38,35 @@ export default class CharityPage extends React.Component {
     return "";
   };
 
-  websiteButton(WebsiteAddress) {
-    if (WebsiteAddress !== "") {
+  websiteButton(webAddress) {
+    if (webAddress !== "") {
       return (
-        <a href={"http://" + WebsiteAddress.toLowerCase()}>
+        <a href={"http://" + webAddress.toLowerCase()}>
 	      	<button className="ui labeled icon tiny green button">
 					  <i className="linkify icon"></i>
-					  Visit Website
+					  Website
 					</button>																      	
 	      </a>
       )
     }
     return "";
   };
+
+  whoWhatHow(who) {
+
+    const list = who.map(function(x, i, arr) {
+      return (
+        <div className="item" key={i}>
+      		{x[0].toUpperCase() + x.slice(1).toLowerCase()}
+      	</div>
+      )
+    });
+    return (
+      <div className="ui list">
+      	{list}
+  		</div>
+    )
+  }
 
   render() {
 
@@ -82,7 +99,9 @@ export default class CharityPage extends React.Component {
     const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
     const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
     const { PublicTelephoneNumber = "", PublicFaxNumber = "", EmailAddress = "", WebsiteAddress = "" } = charity;
-
+    const { Activities, Classification } = charity;
+    const { AreaOfBenefit } = charity;
+    const { AreaOfOperation } = charity;
     // 
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
@@ -212,37 +231,7 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">Activities</a>
                                         <div className="description">
-                                            Green Lane Masjid and Community Centre operates a mosque and an Islamic community centre on Green Lane, Small Heath in Birmingham.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="item">
-                                    <div className="content">
-                                        <a className="header">What we do</a>
-                                        <div className="description">
-                                            <div className="ui list">
-                                                <div className="item">
-                                                    General charitable purposes
-                                                </div>
-                                                <div className="item">
-                                                    Edducation/training
-                                                </div>
-                                                <div className="item">
-                                                    The prevention or relief of poverty
-                                                </div>
-                                                <div className="item">
-                                                    Overseas aid/famine relief
-                                                </div>
-                                                <div className="item">
-                                                    Religious activities
-                                                </div>
-                                                <div className="item">
-                                                    Amateur sport
-                                                </div>
-                                                <div className="item">
-                                                    Economic/community development/employment
-                                                </div>
-                                            </div>
+                                            {Activities}
                                         </div>
                                     </div>
                                 </div>
@@ -250,17 +239,15 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">Who We Serve</a>
                                         <div className="description">
-                                            <div className="ui list">
-                                                <div className="item">
-                                                    Children/young people
-                                                </div>
-                                                <div className="item">
-                                                    Other charities or voluntary bodies
-                                                </div>
-                                                <div className="item">
-                                                    The general public/mankind
-                                                </div>
-                                            </div>
+                                        	{this.whoWhatHow(Classification.Who)}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="item">
+                                    <div className="content">
+                                        <a className="header">What we do</a>
+                                        <div className="description">
+                                        		{this.whoWhatHow(Classification.What)}
                                         </div>
                                     </div>
                                 </div>
@@ -268,29 +255,7 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">How we work</a>
                                         <div className="description">
-                                            <div className="ui list">
-                                                <div className="item">
-                                                    General charitable purposes
-                                                </div>
-                                                <div className="item">
-                                                    Education/training
-                                                </div>
-                                                <div className="item">
-                                                    The prevention or relief of poverty
-                                                </div>
-                                                <div className="item">
-                                                    Overseas aid/famine relief
-                                                </div>
-                                                <div className="item">
-                                                    Religious activities
-                                                </div>
-                                                <div className="item">
-                                                    Amateur sport
-                                                </div>
-                                                <div className="item">
-                                                    Economic/community development/employment
-                                                </div>
-                                            </div>
+                                        	{this.whoWhatHow(Classification.How)}
                                         </div>
                                     </div>
                                 </div>
@@ -300,35 +265,20 @@ export default class CharityPage extends React.Component {
                     <div className="column">
                         <div className="ui inverted segment charity-main-sidebar">
                             <div className="ui basic segment">
-                                <div className="ui mini horizontal inverted statistic">
-                                    <div className="value">
-                                        🛐
-                                    </div>
-                                    <div className="label">
-                                        area of benefit
-                                    </div>
-                                </div>
-                                <div className="ui list benefit">
-                                    <div className="item">
-                                        Undefined, In practice, local
-                                    </div>
-                                </div>
-                                <div className="ui inverted horizontal divider">
-                                    🌙
-                                </div>
-                                <div className="ui mini horizontal inverted statistic">
-                                    <div className="value">
-                                        🗺
-                                    </div>
-                                    <div className="label">
-                                        area of operation
-                                    </div>
-                                </div>
-                                <div className="ui list operation">
-                                    <div className="item">
-                                        Birmingham City
-                                    </div>
-                                </div>
+                            	<div className="ui mini list numbers">
+																<div className="item">
+																	<i className="info circle icon"></i>
+																	<div className="content ">
+																		Area Of Benefit: {AreaOfBenefit[0] + AreaOfBenefit.slice(1).toLowerCase()}
+																	</div>
+																</div>
+																<div className="item">
+																	<i className="info circle icon"></i>
+																		<div className="content">
+																			Area Of Operation: {AreaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+																		</div>
+																</div>
+															</div>
                             </div>
                         </div>
                     </div>
