@@ -9,6 +9,7 @@
     "autoprefixer": "^6.5.1",
     "babel-polyfill": "^6.13.0",
     "charity-commission-api": "^1.11.0",
+    "chart.js": "^2.5.0",
     "masonry": "0.0.2",
     "masonry-layout": "^4.1.0",
     "meteor-node-stubs": "~0.2.0",

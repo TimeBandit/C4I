@@ -14,25 +14,35 @@ import Activities from '../components/Activities';
 import UIStatistic from '../components/UIStatistic'
 import FinancialHistory from '../components/FinancialHistory'
 import PublishedReports from '../components/PublishedReports';
+import Chart from 'chart.js'
+// colours
+const teal = "#00B5AD";
+const blue = "#2185D0";
+const violet = "#6435C9";
+const purple = "#A333C8";
+const pink = "#E03997";
+const colours = [teal, blue, violet, purple, pink];
 
 export default class CharityPage extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {};
     this.emailButton = this.emailButton.bind(this);
     this.websiteButton = this.websiteButton.bind(this);
     this.whoWhatHow = this.whoWhatHow.bind(this);
+    this.renderChart = this.renderChart.bind(this);
   };
 
   emailButton(EmailAddress) {
     if (EmailAddress !== "") {
       return (
         <a href={"mailto:" + EmailAddress.toLowerCase()}>
-			      <button className="ui labeled icon tiny green button">
-						  <i className="mail icon"></i>
-						  Email
-						</button>	
-		      </a>
+                  <button className="ui labeled icon tiny green button">
+                          <i className="mail icon"></i>
+                          Email
+                        </button>   
+              </a>
       )
     }
     return "";
@@ -42,11 +52,11 @@ export default class CharityPage extends React.Component {
     if (webAddress !== "") {
       return (
         <a href={"http://" + webAddress.toLowerCase()}>
-	      	<button className="ui labeled icon tiny green button">
-					  <i className="linkify icon"></i>
-					  Website
-					</button>																      	
-	      </a>
+            <button className="ui labeled icon tiny green button">
+                      <i className="linkify icon"></i>
+                      Website
+                    </button>                                                                       
+          </a>
       )
     }
     return "";
@@ -57,17 +67,56 @@ export default class CharityPage extends React.Component {
     const list = who.map(function(x, i, arr) {
       return (
         <div className="item" key={i}>
-      		{x[0].toUpperCase() + x.slice(1).toLowerCase()}
-      	</div>
+            {x[0].toUpperCase() + x.slice(1).toLowerCase()}
+        </div>
       )
     });
     return (
       <div className="ui list">
-      	{list}
-  		</div>
+        {list}
+        </div>
     )
-  }
+  };
 
+  renderChart(data, id) {
+    console.log('trying to render the chart');
+
+    console.log(document.body);
+    setTimeout(function() {
+      const ctx = document.getElementById("myChart");
+      console.log(document.getElementsByTagName('canvas'));
+      const chartData = {
+        labels: [
+          "Donations and legacies",
+          "Othe trading activities",
+          "Investments",
+          "Charitable activities",
+          "Other"
+        ],
+        datasets: [{
+          label: 'Income',
+          data: [732000, 21000, 52000, 15000, 10000],
+          backgroundColor: colours,
+          hoverBackgroundColor: colours
+        }]
+      };
+      const myChart = new Chart(ctx, {
+        type: 'pie',
+        data: chartData,
+        options: {
+          legend: {
+            display: false,
+            position: 'right'
+          }
+        }
+      });
+
+    }, 1000);
+  };
+
+  componentDidMount() {
+    this.renderChart();
+  }
   render() {
 
     const style = {
@@ -85,12 +134,12 @@ export default class CharityPage extends React.Component {
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">
-		      	<div className="center aligned row">
-				  		<div className="column">
-			    			<div className="ui active loader">Loading</div>
-			    		</div>
-			    	</div>
-			    </div>
+                <div className="center aligned row">
+                        <div className="column">
+                            <div className="ui active loader">Loading</div>
+                        </div>
+                    </div>
+                </div>
       )
     }
 
@@ -102,6 +151,7 @@ export default class CharityPage extends React.Component {
     const { Activities, Classification } = charity;
     const { AreaOfBenefit } = charity;
     const { AreaOfOperation } = charity;
+    // const {};
     // 
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
@@ -125,7 +175,7 @@ export default class CharityPage extends React.Component {
 
     return (
       <span>
-    		<div className="ui vertical basic segment charity-main">
+            <div className="ui vertical basic segment charity-main">
         <div className="ui container">
             <div className="ui equal width stackable grid">
                 <div className="ui stretched row">
@@ -141,10 +191,10 @@ export default class CharityPage extends React.Component {
                     <div className="column">
                         <div className="ui inverted segment charity-main-sidebar">
                             <div className="ui basic segment">
-	                            	<div className="ui small inverted header">
-		                            	<i className="info icon"></i>
-		                            	CHARITY INFO
-	                            	</div>
+                                    <div className="ui small inverted header">
+                                        <i className="info icon"></i>
+                                        CHARITY INFO
+                                    </div>
                                 <div className="ui list address" style={humanizeText}>
                                     <div className="item">{Address.Line1 ? Address.Line1.toLowerCase() : ""}</div>
                                     <div className="item">{Address.Line2 ? Address.Line2.toLowerCase() : ""}</div>
@@ -161,55 +211,55 @@ export default class CharityPage extends React.Component {
                                     </div>
                                 </div>
                                 <div className="ui list contact">
-																  <div className="item" style={humanizeText}>
-																    <i className="user icon"></i>
-																    <div className="content">
-																      {CharityRoleName}
-																    </div>
-																  </div>
-																  <div className="item">
-																    <i className="phone icon"></i>
-																    <div className="content">
-																      {PublicTelephoneNumber}
-																    </div>
-																  </div>
-																  <div className="item">
-																    <i className="fax icon"></i>
-																    <div className="content">
-																      {PublicFaxNumber}
-																    </div>
-																  </div>
-																  <div className="item">
-																    <div className="content">
-																    	{this.emailButton(EmailAddress)}
-																    </div>
-																  </div>
-																  <div className="item">
-																    <div className="content">
-																    	{this.websiteButton(WebsiteAddress)}
-																    </div>
-																  </div>
-																</div>
-																<div className="ui mini horizontal inverted statistic">
+                                                                  <div className="item" style={humanizeText}>
+                                                                    <i className="user icon"></i>
+                                                                    <div className="content">
+                                                                      {CharityRoleName}
+                                                                    </div>
+                                                                  </div>
+                                                                  <div className="item">
+                                                                    <i className="phone icon"></i>
+                                                                    <div className="content">
+                                                                      {PublicTelephoneNumber}
+                                                                    </div>
+                                                                  </div>
+                                                                  <div className="item">
+                                                                    <i className="fax icon"></i>
+                                                                    <div className="content">
+                                                                      {PublicFaxNumber}
+                                                                    </div>
+                                                                  </div>
+                                                                  <div className="item">
+                                                                    <div className="content">
+                                                                        {this.emailButton(EmailAddress)}
+                                                                    </div>
+                                                                  </div>
+                                                                  <div className="item">
+                                                                    <div className="content">
+                                                                        {this.websiteButton(WebsiteAddress)}
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div className="ui mini horizontal inverted statistic">
                                     <div className="value">
                                     </div>
                                     <div className="label">
                                     </div>
                                 </div>
-																<div className="ui mini list numbers">
-																	<div className="item">
-																		<i className="info circle icon"></i>
-																		<div className="content ">
-																			Charity Number: {RegisteredCharityNumber}
-																		</div>
-																	</div>
-																	<div className="item">
-																		<i className="info circle icon"></i>
-																			<div className="content">
-																				Company Number: {RegisteredCompanyNumber}
-																			</div>
-																	</div>
-																</div>
+                                                                <div className="ui mini list numbers">
+                                                                    <div className="item">
+                                                                        <i className="info circle icon"></i>
+                                                                        <div className="content ">
+                                                                            Charity Number: {RegisteredCharityNumber}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="item">
+                                                                        <i className="info circle icon"></i>
+                                                                            <div className="content">
+                                                                                Company Number: {RegisteredCompanyNumber}
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
                             </div>
                         </div>
                     </div>
@@ -239,7 +289,7 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">Who We Serve</a>
                                         <div className="description">
-                                        	{this.whoWhatHow(Classification.Who)}
+                                            {this.whoWhatHow(Classification.Who)}
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +297,7 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">What we do</a>
                                         <div className="description">
-                                        		{this.whoWhatHow(Classification.What)}
+                                                {this.whoWhatHow(Classification.What)}
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +305,7 @@ export default class CharityPage extends React.Component {
                                     <div className="content">
                                         <a className="header">How we work</a>
                                         <div className="description">
-                                        	{this.whoWhatHow(Classification.How)}
+                                            {this.whoWhatHow(Classification.How)}
                                         </div>
                                     </div>
                                 </div>
@@ -265,20 +315,20 @@ export default class CharityPage extends React.Component {
                     <div className="column">
                         <div className="ui inverted segment charity-main-sidebar">
                             <div className="ui basic segment">
-                            	<div className="ui mini list numbers">
-																<div className="item">
-																	<i className="info circle icon"></i>
-																	<div className="content ">
-																		Area Of Benefit: {AreaOfBenefit[0] + AreaOfBenefit.slice(1).toLowerCase()}
-																	</div>
-																</div>
-																<div className="item">
-																	<i className="info circle icon"></i>
-																		<div className="content">
-																			Area Of Operation: {AreaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
-																		</div>
-																</div>
-															</div>
+                                <div className="ui mini list numbers">
+                                                                <div className="item">
+                                                                    <i className="info circle icon"></i>
+                                                                    <div className="content ">
+                                                                        Area Of Benefit: {AreaOfBenefit[0] + AreaOfBenefit.slice(1).toLowerCase()}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="item">
+                                                                    <i className="info circle icon"></i>
+                                                                        <div className="content">
+                                                                            Area Of Operation: {AreaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+                                                                        </div>
+                                                                </div>
+                                                            </div>
                             </div>
                         </div>
                     </div>
@@ -297,8 +347,8 @@ export default class CharityPage extends React.Component {
                         </h1>
                             <div className="ui divided items">
                                 <div className="item">
-                                    <div className="image">
-                                        <img src="/images/wireframe/image.png" />
+                                    <div className="ui small image">
+                                        <canvas className="myChart" id="myChart" width="350" height="350"></canvas>
                                     </div>
                                     <div className="content">
                                         <a className="header">Income</a>
@@ -563,7 +613,7 @@ export default class CharityPage extends React.Component {
             </div>
         </div>
     </div>
-    	</span>
+        </span>
     )
   }
 };
