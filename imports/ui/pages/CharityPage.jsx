@@ -15,22 +15,135 @@ import UIStatistic from '../components/UIStatistic'
 import FinancialHistory from '../components/FinancialHistory'
 import PublishedReports from '../components/PublishedReports';
 import Chart from 'chart.js'
-// colours
 /*---  Colors  ---*/
-const red    = "#DB2828";
+const red = "#DB2828";
 const orange = "#F2711C";
 const yellow = "#FBBD08";
-const olive  = "#B5CC18";
-const green  = "#21BA45";
-const teal   = "#00B5AD";
-const blue   = "#2185D0";
+const olive = "#B5CC18";
+const green = "#21BA45";
+const teal = "#00B5AD";
+const blue = "#2185D0";
 const violet = "#6435C9";
 const purple = "#A333C8";
-const pink   = "#E03997";
-const brown  = "#A5673F";
-const grey   = "#767676";
-const black  = "#1B1C1D";
+const pink = "#E03997";
+const brown = "#A5673F";
+const grey = "#767676";
+const black = "#1B1C1D";
 const colours = [olive, green, teal, blue, violet, purple, pink];
+
+const Test = function({ title, data, description, colours }) {
+
+  let dataCopy = data.slice(0);
+
+  const labels = data.map(val => val.FyEnd);
+  const grossIncomeValues = data.map(val => parseInt(val.GrossIncome));
+  const totalExpenditureValues = data.map(val => parseInt(val.TotalExpenditure));
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+        {
+            label: "Gross Income",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            data: grossIncomeValues,
+        },
+        {
+            label: "Total Expenditure",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            data: totalExpenditureValues,
+        }
+    ]
+};
+
+  const displayChart = function displayChart(dom) {
+    const myChart = new Chart(dom, {
+      type: 'bar',
+      data: chartData,
+      options: {
+        legend: {
+          display: false,
+          position: 'right'
+        }
+      }
+    });
+  };
+
+  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+    return string.match(/[A-Z][a-z]+/g);
+  };
+
+  const DisplayLegend = function DisplayLegend() {
+    console.log(labels);
+    return labels.map(function(label, index) {
+      console.log(label);
+      return (
+        <div className="item legend-item" key={index}>
+            <a className="ui empty circular
+                label" style={{backgroundColor: colours[index]}}>
+            </a>
+                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+        </div>
+      )
+    })
+  };
+
+  if (data === {}) {
+    return (<span></span>);
+  }
+  return (
+    <div className="item">
+        <div className="ui small image">
+            <canvas id="myChart" ref={displayChart} width="350" height="700"></canvas>
+        </div>
+        <div className="content">
+            <a className="header">{title}</a>
+            <div className="meta">
+                <span>{description}</span>
+            </div>
+            <div className="description">
+                <div className="ui divided selection list">
+                    {/*DisplayLegend()*/}
+                </div>
+            </div>
+            <div className="extra">
+                Additional Details
+            </div>
+        </div>
+    </div>
+  )
+};
 
 const Financial = function({ title, data, description, colours }) {
 
@@ -40,7 +153,7 @@ const Financial = function({ title, data, description, colours }) {
 
   const labels = Object.keys(dataCopy);
   const values = Object.values(dataCopy).map(x => parseInt(x));
-  console.log(data, dataCopy, labels, values);
+  // console.log(data, dataCopy, labels, values);
 
   const chartData = {
     labels: labels,
@@ -65,6 +178,23 @@ const Financial = function({ title, data, description, colours }) {
     });
   };
 
+  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+    return string.match(/[A-Z][a-z]+/g);
+  };
+
+  const DisplayLegend = function DisplayLegend() {
+    return labels.map(function(label, index) {
+      return (
+        <div className="item legend-item" key={index}>
+            <a className="ui empty circular
+                label" style={{backgroundColor: colours[index]}}>
+            </a>
+                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+        </div>
+      )
+    })
+  };
+
   if (data === {}) {
     return (<span></span>);
   }
@@ -74,20 +204,13 @@ const Financial = function({ title, data, description, colours }) {
             <canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>
         </div>
         <div className="content">
-            <a className="header">{title}</a>
+            <a className="header">{`${title}: ${currencyFormat(total)}`}</a>
             <div className="meta">
                 <span>{description}</span>
             </div>
             <div className="description">
                 <div className="ui divided selection list">
-                    <div className="item legend-item">
-                        <a className="ui empty circular label"></a>
-                        Kumquats
-                    </div>
-                    <div className="item legend-item">
-                        <a className="ui empty circular label"></a>
-                        Kumquats
-                    </div>
+                    {DisplayLegend()}
                 </div>
             </div>
             <div className="extra">
@@ -189,7 +312,13 @@ export default class CharityPage extends React.Component {
     const { AreaOfBenefit } = charity;
     const { AreaOfOperation } = charity;
     const { Incoming = {} } = charity.Returns[0].Resources;
-    console.log('****', Incoming);
+    const { Expended = {} } = charity.Returns[0].Resources;
+    let { Funds = {} } = charity.Returns[0].AssetsAndLiabilities;
+    Funds.Total = Funds.TotalFunds;
+    delete Funds.TotalFunds;
+    const { Submission = [] } = charity;
+
+    console.log('****', Submission);
     /* declartions above this are new and with defaults, those below need reviewing */
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
@@ -391,23 +520,24 @@ export default class CharityPage extends React.Component {
                                             description={"Income for the previous financial year"}
                                             colours={colours} 
                                         />
-                                        <div className="item">
-                                            <div className="image">
-                                                <img src="/images/wireframe/image.png" />
-                                            </div>
-                                            <div className="content">
-                                                <a className="header">Spending</a>
-                                                <div className="meta">
-                                                    <span>Spending for the previous financial year</span>
-                                                </div>
-                                                <div className="description">
-                                                    <p></p>
-                                                </div>
-                                                <div className="extra">
-                                                    Additional Details
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <Financial 
+                                            title={"Expenditure"} 
+                                            data={Expended}
+                                            description={"What money was spent on during the previous financial year"}
+                                            colours={colours} 
+                                        />
+                                        <Financial 
+                                            title={"Funds"} 
+                                            data={Funds}
+                                            description={"Funds"}
+                                            colours={colours} 
+                                        />
+                                        <Test 
+                                            title={"History"} 
+                                            data={Submission}
+                                            description={"Histroical Income v Spending"}
+                                            colours={colours} 
+                                        />
                                         <div className="item">
                                             <div className="image">
                                                 <img src="/images/wireframe/image.png" />
