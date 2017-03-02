@@ -16,19 +16,19 @@ import FinancialHistory from '../components/FinancialHistory'
 import PublishedReports from '../components/PublishedReports';
 import Chart from 'chart.js'
 /*---  Colors  ---*/
-const red = "#DB2828";
-const orange = "#F2711C";
-const yellow = "#FBBD08";
-const olive = "#B5CC18";
-const green = "#21BA45";
-const teal = "#00B5AD";
-const blue = "#2185D0";
-const violet = "#6435C9";
-const purple = "#A333C8";
-const pink = "#E03997";
-const brown = "#A5673F";
-const grey = "#767676";
-const black = "#1B1C1D";
+const red = "#FF695E";
+const orange = "#FF851B";
+const yellow = "#FFE21F";
+const olive = "#D9E778";
+const green = "#2ECC40";
+const teal = "#6DFFFF";
+const blue = "#54C8FF";
+const violet = "#A291FB";
+const purple = "#DC73FF";
+const pink = "#FF8EDF";
+const brown = "#D67C1C";
+const grey = "#DCDDDE";
+const black = "#545454";
 const colours = [olive, green, teal, blue, violet, purple, pink];
 
 const Test = function({ title, data, description, colours }) {
@@ -36,56 +36,40 @@ const Test = function({ title, data, description, colours }) {
   let dataCopy = data.slice(0);
 
   const labels = data.map(val => val.FyEnd);
+
   const grossIncomeValues = data.map(val => parseInt(val.GrossIncome));
   const totalExpenditureValues = data.map(val => parseInt(val.TotalExpenditure));
+  const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
+
+  const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
+  const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
+  const netIncomeColour = "#FF695E";
 
   const chartData = {
     labels: labels,
-    datasets: [
-        {
-            label: "Gross Income",
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1,
-            data: grossIncomeValues,
-        },
-        {
-            label: "Total Expenditure",
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1,
-            data: totalExpenditureValues,
-        }
-    ]
-};
+    datasets: [{
+      type: 'bar',
+      label: "Income",
+      backgroundColor: incomeColour,
+      borderColor: incomeColour,
+      borderWidth: 1,
+      data: grossIncomeValues,
+    }, {
+      type: 'bar',
+      label: "Spending",
+      backgroundColor: expenditureColour,
+      borderColor: expenditureColour,
+      borderWidth: 1,
+      data: totalExpenditureValues,
+    }, {
+      type: 'bar',
+      label: "Net Income",
+      backgroundColor: netIncomeColour,
+      borderColor: netIncomeColour,
+      borderWidth: 1,
+      data: netIncomeValues
+    }]
+  };
 
   const displayChart = function displayChart(dom) {
     const myChart = new Chart(dom, {
@@ -93,8 +77,26 @@ const Test = function({ title, data, description, colours }) {
       data: chartData,
       options: {
         legend: {
-          display: false,
-          position: 'right'
+          display: true,
+          position: 'bottom'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Create scientific notation labels
+              callback: function(value, index, values) {
+                return currencyFormat(value);
+              }
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              // Create scientific notation labels
+              callback: function(value, index, values) {
+                return new Date(value).getFullYear();
+              }
+            }
+          }]
         }
       }
     });
@@ -124,17 +126,17 @@ const Test = function({ title, data, description, colours }) {
   }
   return (
     <div className="item">
-        <div className="ui small image">
-            <canvas id="myChart" ref={displayChart} width="350" height="700"></canvas>
-        </div>
+        {/*<div className="ui small image">*/}
+            {/*<canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>*/}
+        {/*</div>*/}
         <div className="content">
             <a className="header">{title}</a>
             <div className="meta">
                 <span>{description}</span>
             </div>
             <div className="description">
-                <div className="ui divided selection list">
-                    {/*DisplayLegend()*/}
+                <div className="ui large image">
+                    <canvas id="myChart" ref={displayChart} height="350"></canvas>
                 </div>
             </div>
             <div className="extra">
@@ -538,23 +540,6 @@ export default class CharityPage extends React.Component {
                                             description={"Histroical Income v Spending"}
                                             colours={colours} 
                                         />
-                                        <div className="item">
-                                            <div className="image">
-                                                <img src="/images/wireframe/image.png" />
-                                            </div>
-                                            <div className="content">
-                                                <a className="header">Financial History</a>
-                                                <div className="meta">
-                                                    <span>Histroical Income/Spending</span>
-                                                </div>
-                                                <div className="description">
-                                                    <p></p>
-                                                </div>
-                                                <div className="extra">
-                                                    Additional Details
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
