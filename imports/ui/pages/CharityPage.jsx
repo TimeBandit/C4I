@@ -1,6 +1,6 @@
 import React from 'react'
 import GoogleMap from '../components/GoogleMap'
-import Trustees from '../components/Trustees'
+// import Trustees from '../components/Trustees'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Income from '../components/Income';
 import Spending from '../components/Spending';
@@ -30,6 +30,64 @@ const brown = "#D67C1C";
 const grey = "#DCDDDE";
 const black = "#545454";
 const colours = [olive, green, teal, blue, violet, purple, pink];
+
+const Trustees = function(props) {
+
+  const trusteesCopy = props.trustees.slice(0);
+
+  const isMale = function isMale({ TrusteeName }) {
+    const honorific = TrusteeName.split(" ")[0].toLowerCase();
+    if (honorific === "mr") {
+      return true;
+    } else {
+      return false;
+    };
+  };
+
+  const genderIconPath = function genderIconPath(obj) {
+    const objcopy = Object.assign({}, obj);
+    if (isMale(objcopy)) {
+      return "../img/icons/musman.svg"
+    } else {
+      return "../img/icons/muswoman.svg"
+    }
+  };
+
+  const Item = function Item({ name, number, path, count }) {
+    return (
+      <div className="item">
+        <img className="ui avatar image" src={path} />
+        <div className="content">
+          <a className="header">{name}</a>
+          <div className="description">{`Trustee Number: ${number}`}</div>
+          <div className="description">{`This trusee is also a trustee at ${count} other charities`}</div>
+        </div>
+      </div>
+    )
+  };
+
+  const result = trusteesCopy.map(function(trusteeObject, index) {
+    let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
+    TrusteeName = TrusteeName.toLowerCase();
+    const path = genderIconPath(trusteeObject);
+    console.table[index, TrusteeName, path];
+    return (
+      <Item 
+            key={index} 
+            name={TrusteeName} 
+            number={TrusteeNumber} 
+            path={path} 
+            count={RelatedCharitiesCount} 
+        />
+    )
+  })
+
+  return (
+        <div className="ui very relaxed list">
+            {result}
+        </div>
+    )
+}
 
 const Test = function({ title, data, description, colours }) {
 
@@ -128,15 +186,15 @@ const Test = function({ title, data, description, colours }) {
     <div className="item">
         {/*<div className="ui small image">*/}
             {/*<canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>*/}
-        {/*</div>*/}
+                                           {/*  </div>*/}
         <div className="content">
             <a className="header">{title}</a>
             <div className="meta">
                 <span>{description}</span>
             </div>
             <div className="description">
-                <div className="ui large image">
-                    <canvas id="myChart" ref={displayChart} height="350"></canvas>
+                <div className="ui fluid image">
+                    <canvas id="myChart" ref={displayChart} width="66%"></canvas>
                 </div>
             </div>
             <div className="extra">
@@ -305,6 +363,7 @@ export default class CharityPage extends React.Component {
       )
     }
 
+    // var level3 = (((test || {}).level1 || {}).level2 || {}).level3;
     const CharityName = charity.CharityName || "";
     const Address = charity.Address || "";
     const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
@@ -319,10 +378,6 @@ export default class CharityPage extends React.Component {
     Funds.Total = Funds.TotalFunds;
     delete Funds.TotalFunds;
     const { Submission = [] } = charity;
-
-    console.log('****', Submission);
-    /* declartions above this are new and with defaults, those below need reviewing */
-    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // ASSETS
     const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
     const {
@@ -338,6 +393,9 @@ export default class CharityPage extends React.Component {
     const PensionSchemeAssetLiability = PensionFundAssets;
     const OtherAssets = TotalCurrentAssets;
     const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
+
+    /* declartions above this are new and with defaults, those below need reviewing */
+    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // PEOPLE
     const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
     const numTrustees = charity.Trustees.length || 0;
@@ -546,48 +604,36 @@ export default class CharityPage extends React.Component {
                             <div className="column">
                                 <div className="ui inverted segment charity-main-sidebar">
                                     <div className="ui basic segment">
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                £24.87
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Own Use Assets: {currencyFormat(OwnUseAssets)}
+                                                </div>
                                             </div>
-                                            <div className="label">
-                                                ASSETS
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Long Term Investments: {currencyFormat(LongTermInvestments)}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                0
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Pension Scheme Asset Liability: {currencyFormat(PensionSchemeAssetLiability)}
+                                                </div>
                                             </div>
-                                            <div className="label">
-                                                invesments
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Other Assets: {currencyFormat(OtherAssets)}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                0
-                                            </div>
-                                            <div className="label">
-                                                pensions
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                £1.10M
-                                            </div>
-                                            <div className="label">
-                                                other
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                £1.43
-                                            </div>
-                                            <div className="label">
-                                                total
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Total Liability: {currencyFormat(TotalLiability)}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -606,6 +652,7 @@ export default class CharityPage extends React.Component {
                                     <h1 className="ui header overview">
                                     Governance
                                 </h1>
+                                    <Trustees trustees={charity.Trustees} />
                                     <table className="ui stackable table">
                                         <thead>
                                             <tr>
