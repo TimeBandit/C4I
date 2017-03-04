@@ -58,9 +58,9 @@ const Trustees = function(props) {
       <div className="item">
         <img className="ui avatar image" src={path} />
         <div className="content">
-          <a className="header">{name}</a>
+          <a className="header trustee-name">{name}</a>
           <div className="description">{`Trustee Number: ${number}`}</div>
-          <div className="description">{`This trusee is also a trustee at ${count} other charities`}</div>
+          <div className="description">{`Other trusteeships: ${count}`}</div>
         </div>
       </div>
     )
@@ -83,7 +83,7 @@ const Trustees = function(props) {
   })
 
   return (
-        <div className="ui very relaxed list">
+        <div className="ui relaxed list">
             {result}
         </div>
     )
@@ -409,7 +409,7 @@ export default class CharityPage extends React.Component {
                             <div className="eleven wide column">
                                 <div className="ui basic segment test">
                                     <div className="ui basic inverted segment">
-                                        <h1 className="ui inverted header">
+                                        <h1 className="ui inverted header masthead">
                                         {CharityName}                              
                                         </h1>
                                     </div>
@@ -653,37 +653,6 @@ export default class CharityPage extends React.Component {
                                     Governance
                                 </h1>
                                     <Trustees trustees={charity.Trustees} />
-                                    <table className="ui stackable table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Trustee</th>
-                                                <th className="right aligned">Holds Other Trusteeships</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Mr Mohammed Saeed</td>
-                                                <td>236015</td>
-                                                <td className="right aligned">Yes</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mr Mohammed Saeed</td>
-                                                <td>236015</td>
-                                                <td className="right aligned">Yes</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mr Mohammed Saeed</td>
-                                                <td>236015</td>
-                                                <td className="right aligned">Yes</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mr Mohammed Saeed</td>
-                                                <td>236015</td>
-                                                <td className="right aligned">Yes</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                             <div className="column">
