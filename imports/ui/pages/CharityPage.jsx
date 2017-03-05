@@ -31,13 +31,41 @@ const grey = "#DCDDDE";
 const black = "#545454";
 const colours = [olive, green, teal, blue, violet, purple, pink];
 
+const CharityReports = function CharityReports({ accountListing }) {
+
+  const Item = function Item({ listing }) {
+
+    const { AccountPeriodYearEndDate, HyperlinkReference } = listing;
+    const baseUrl = "http://apps.charitycommission.gov.uk";
+    return (
+      <a className="item" href= {baseUrl + HyperlinkReference}>
+        <i className="file icon"></i>
+        <div className="content">
+          <div className="header">{AccountPeriodYearEndDate}</div>
+          <div className="description"></div>
+        </div>
+      </a>
+    )
+  }
+
+  const items = accountListing.map(function(listing, index) {
+    return (<Item listing={listing} key={index} />)
+  })
+  console.log(accountListing.length, items);
+  return (
+    <div className="ui inverted middle aligned list reports">
+        {items}
+    </div>
+  )
+};
+
 const Trustees = function(props) {
 
   const trusteesCopy = props.trustees.slice(0);
 
   const isMale = function isMale({ TrusteeName }) {
     const honorific = TrusteeName.split(" ")[0].toLowerCase();
-    if (honorific === "mr") {
+    if (honorific === "mr"||honorific === "dr") {
       return true;
     } else {
       return false;
@@ -83,10 +111,10 @@ const Trustees = function(props) {
   })
 
   return (
-        <div className="ui relaxed list">
+    <div className="ui relaxed list">
             {result}
         </div>
-    )
+  )
 }
 
 const Test = function({ title, data, description, colours }) {
@@ -366,6 +394,7 @@ export default class CharityPage extends React.Component {
     // var level3 = (((test || {}).level1 || {}).level2 || {}).level3;
     const CharityName = charity.CharityName || "";
     const Address = charity.Address || "";
+    let postCode = Address.PostCode.replace(" ", "replaceValue: string");
     const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
     const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
     const { PublicTelephoneNumber = "", PublicFaxNumber = "", EmailAddress = "", WebsiteAddress = "" } = charity;
@@ -393,13 +422,20 @@ export default class CharityPage extends React.Component {
     const PensionSchemeAssetLiability = PensionFundAssets;
     const OtherAssets = TotalCurrentAssets;
     const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
-
-    /* declartions above this are new and with defaults, those below need reviewing */
-    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
     // PEOPLE
     const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
     const numTrustees = charity.Trustees.length || 0;
+    // Accounts Listing
+    const { AccountListing = [] } = charity;
 
+    /* declartions above this are new and with defaults, those below need reviewing */
+    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
+    const mapUrl =  `https://maps.googleapis.com/maps/api/staticmap?center=${postCode}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
+    const test = new URL(mapUrl);
+    const mapStyle = {
+        backgroundImage: mapUrl
+    }
+    console.log(mapUrl, mapStyle, test);
     return (
       <span>
             <div className="ui vertical basic segment charity-main">
@@ -407,7 +443,7 @@ export default class CharityPage extends React.Component {
                     <div className="ui equal width stackable grid">
                         <div className="ui stretched row">
                             <div className="eleven wide column">
-                                <div className="ui basic segment test">
+                                <div className="ui basic segment test" style={mapStyle}>
                                     <div className="ui basic inverted segment">
                                         <h1 className="ui inverted header masthead">
                                         {CharityName}                              
@@ -658,30 +694,18 @@ export default class CharityPage extends React.Component {
                             <div className="column">
                                 <div className="ui inverted segment charity-main-sidebar">
                                     <div className="ui basic segment">
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                4
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Employees: {NoEmployees}
+                                                </div>
                                             </div>
-                                            <div className="label">
-                                                trustees
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                20
-                                            </div>
-                                            <div className="label">
-                                                employees
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                0
-                                            </div>
-                                            <div className="label">
-                                                volunteers
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Volunteers: {NoVolunteers}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -689,76 +713,14 @@ export default class CharityPage extends React.Component {
                                         🌙
                                     </div>
                                     <div className="ui basic segment">
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                                📁
-                                            </div>
-                                            <div className="label">
-                                                View Reports
-                                            </div>
-                                        </div>
-                                        <div className="ui inverted middle aligned list reports">
-                                            <div className="item">
-                                                <div className="right floated content">
-                                                    <div className="ui basic vertical inverted animated button" tabIndex="0">
-                                                        <div className="hidden content">
-                                                            <i className="down arrow icon"></i>
-                                                        </div>
-                                                        <div className="visible content">
-                                                            Get it
-                                                        </div>
-                                                    </div>
+                                        <h4 className="ui inverted header">
+                                            Download Reports
+                                                <div className="sub header">
+                                                    As submitted by the charity 
+                                                    to the Charity Commission
                                                 </div>
-                                                <div className="content">
-                                                    2015
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <div className="right floated content">
-                                                    <div className="ui basic vertical inverted animated button" tabIndex="0">
-                                                        <div className="hidden content">
-                                                            <i className="down arrow icon"></i>
-                                                        </div>
-                                                        <div className="visible content">
-                                                            Get it
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="content">
-                                                    2015
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <div className="right floated content">
-                                                    <div className="ui basic vertical inverted animated button" tabIndex="0">
-                                                        <div className="hidden content">
-                                                            <i className="down arrow icon"></i>
-                                                        </div>
-                                                        <div className="visible content">
-                                                            Get it
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="content">
-                                                    2015
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <div className="right floated content">
-                                                    <div className="ui basic vertical inverted animated button" tabIndex="0">
-                                                        <div className="hidden content">
-                                                            <i className="down arrow icon"></i>
-                                                        </div>
-                                                        <div className="visible content">
-                                                            Get it
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="content">
-                                                    2015
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </h4>
+                                        <CharityReports accountListing={AccountListing} />
                                     </div>
                                 </div>
                             </div>
