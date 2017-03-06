@@ -64,11 +64,10 @@ const Trustees = function(props) {
   const trusteesCopy = props.trustees.slice(0);
 
   const isMale = function isMale({ TrusteeName }) {
-    const honorific = TrusteeName.split(" ")[0].toLowerCase();
-    if (honorific === "mr"||honorific === "dr") {
-      return true;
-    } else {
+    if (TrusteeName.toLowerCase().match(/^(mrs|miss|ms)/)) {
       return false;
+    } else {
+      return true;
     };
   };
 
@@ -391,10 +390,31 @@ export default class CharityPage extends React.Component {
       )
     }
 
-    // var level3 = (((test || {}).level1 || {}).level2 || {}).level3;
+    const theMainMan = function theMainMan(charityObject) {
+        const data = JSON.parse(JSON.stringify(charityObject));
+
+        const name = data.CharityName || "",
+          address = data.Address || {},
+          postCode = address.hasOwnProperty('Postcode') ? address.Postcode.replace(" ", "") : "",
+          charityRoleName = ((data.ContactName || {}).CharityRoleName || "").toLowerCase(),
+          registeredCharityNumber = data.RegisteredCharityNumber || "",
+          publicTelephoneNumber = data.PublicTelephoneNumber || "",
+          publicFaxNumber = data.PublicFaxNumber || "",
+          emailAddress = data.EmailAddress || "",
+          webSiteAddress = data.WebsiteAddress || "",
+          activities = data.Activities || "",
+          how = ((data.Classification || {}).How || []),
+          what = ((data.Classification || {}).What || []),
+          who = ((data.Classification || {}).Who || []),
+          areaOfbenefit = data.AreaOfBenefit || "",
+          areaOfOperation = data.AreaOfOperation || "",
+          income = ((((data.Returns || [])[0] || {}).Resources || {}).Income || {}),
+          expended = ((((data.Returns || [])[0] || {}).Resources || {}).Expended || {}),
+      }
+      // var level3 = (((test || {}).level1 || {}).level2 || {}).level3;
     const CharityName = charity.CharityName || "";
     const Address = charity.Address || "";
-    let postCode = Address.PostCode.replace(" ", "replaceValue: string");
+    let postCode = Address.Postcode.replace(" ", "");
     const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
     const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
     const { PublicTelephoneNumber = "", PublicFaxNumber = "", EmailAddress = "", WebsiteAddress = "" } = charity;
@@ -430,10 +450,10 @@ export default class CharityPage extends React.Component {
 
     /* declartions above this are new and with defaults, those below need reviewing */
     let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
-    const mapUrl =  `https://maps.googleapis.com/maps/api/staticmap?center=${postCode}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${postCode}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const test = new URL(mapUrl);
     const mapStyle = {
-        backgroundImage: mapUrl
+      backgroundImage: `url(${mapUrl})`
     }
     console.log(mapUrl, mapStyle, test);
     return (
