@@ -18,15 +18,15 @@ Meteor.methods({
     };
 
     function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('Submission');
+      return x.hasOwnProperty('submission');
     };
 
     function grossIncomeToInt(x) {
-      const lastSubmission = Array.from(x.Submission).pop();
+      const lastSubmission = Array.from(x.submission).pop();
       const GrossIncome = lastSubmission.GrossIncome === '' ? 0 : parseInt(lastSubmission.GrossIncome);
       const res = {
-        CharityName: x.CharityName,
-        RegisteredCharityNumber: x.RegisteredCharityNumber,
+        CharityName: x.name,
+        RegisteredCharityNumber: x.registeredCharityNumber,
         GrossIncome: GrossIncome
       };
       return res;
@@ -142,20 +142,23 @@ Meteor.methods({
       "Submission": { $exists: true }
     };
 
-    function totalExpenditureStringToNumber(doc) {
-      const latestSubmission = Array.from(doc.Submission).pop();
-      const totalexpenditureString = latestSubmission.TotalExpenditure;
-      const TotalExpenditure = totalexpenditureString === "" ? 0 : parseInt(totalexpenditureString);
-      let { CharityName, RegisteredCharityNumber } = doc;
-
-      return {
-        CharityName,
-        RegisteredCharityNumber,
-        TotalExpenditure
-      };
+    function withSubmissionsOnly(x) {
+      return x.hasOwnProperty('submission');
     };
 
-    function sortByGrossTotalExpenditure(a, b) {
+    function totalExpenditureToInt(x) {
+      const lastSubmission = Array.from(x.submission).pop();
+      const TotalExpenditure = lastSubmission.TotalExpenditure === '' ? 0 : parseInt(lastSubmission.TotalExpenditure);
+      const res = {
+        CharityName: x.name,
+        RegisteredCharityNumber: x.registeredCharityNumber,
+        TotalExpenditure: TotalExpenditure
+      };
+      // console.log(res);
+      return res;
+    };
+
+    function sortByTotalExpenditure(a, b) {
       if (a.TotalExpenditure > b.TotalExpenditure) {
         return -1
       };
@@ -166,11 +169,12 @@ Meteor.methods({
     }
 
     const res = Charities.find(findParams, {
-        limit: 10,
-        fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 },
-        transform: totalExpenditureStringToNumber
+        // limit: 10,
+        fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 }
       }).fetch()
-      .sort(sortByGrossTotalExpenditure);
+      .filter(withSubmissionsOnly)
+      .map(totalExpenditureToInt)
+      .sort(sortByTotalExpenditure);
     return res[0];
   }
 });

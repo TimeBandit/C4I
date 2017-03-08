@@ -1,19 +1,5 @@
 import React from 'react'
-import GoogleMap from '../components/GoogleMap'
-// import Trustees from '../components/Trustees'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
-import Income from '../components/Income';
-import Spending from '../components/Spending';
-import Numbers from '../components/Numbers';
-import ContactList from '../components/ContactList';
-import Address from '../components/Address';
-import What from '../components/What';
-import Who from '../components/Who';
-import How from '../components/How';
-import Activities from '../components/Activities';
-import UIStatistic from '../components/UIStatistic'
-import FinancialHistory from '../components/FinancialHistory'
-import PublishedReports from '../components/PublishedReports';
 import Chart from 'chart.js'
 /*---  Colors  ---*/
 const red = "#FF695E";
@@ -51,7 +37,6 @@ const CharityReports = function CharityReports({ accountListing }) {
   const items = accountListing.map(function(listing, index) {
     return (<Item listing={listing} key={index} />)
   })
-  console.log(accountListing.length, items);
   return (
     <div className="ui inverted middle aligned list reports">
         {items}
@@ -59,7 +44,7 @@ const CharityReports = function CharityReports({ accountListing }) {
   )
 };
 
-const Trustees = function(props) {
+const Trustees = function Trustees(props) {
 
   const trusteesCopy = props.trustees.slice(0);
 
@@ -111,12 +96,12 @@ const Trustees = function(props) {
 
   return (
     <div className="ui relaxed list">
-            {result}
-        </div>
+        {result}
+    </div>
   )
 }
 
-const Test = function({ title, data, description, colours }) {
+const Submission = function Submission({ title, data, description, colours }) {
 
   let dataCopy = data.slice(0);
 
@@ -192,9 +177,7 @@ const Test = function({ title, data, description, colours }) {
   };
 
   const DisplayLegend = function DisplayLegend() {
-    console.log(labels);
     return labels.map(function(label, index) {
-      console.log(label);
       return (
         <div className="item legend-item" key={index}>
             <a className="ui empty circular
@@ -211,9 +194,6 @@ const Test = function({ title, data, description, colours }) {
   }
   return (
     <div className="item">
-        {/*<div className="ui small image">*/}
-            {/*<canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>*/}
-                                           {/*  </div>*/}
         <div className="content">
             <a className="header">{title}</a>
             <div className="meta">
@@ -232,15 +212,24 @@ const Test = function({ title, data, description, colours }) {
   )
 };
 
-const Financial = function({ title, data, description, colours }) {
+const Financial = function Financial({ title, data, description, colours }) {
 
   let dataCopy = Object.assign({}, data);
-  const total = parseInt(data.Total);
-  delete dataCopy.Total;
+
+  const total = (function getAndremoveTotal(d) {
+    let res;
+    if (d.hasOwnProperty('TotalFunds')) {
+      res = parseInt(data.TotalFunds);
+      delete d.TotalFunds;
+    } else {
+      res = parseInt(data.Total);
+      delete d.Total;
+    }
+    return res;
+  })(dataCopy);
 
   const labels = Object.keys(dataCopy);
   const values = Object.values(dataCopy).map(x => parseInt(x));
-  // console.log(data, dataCopy, labels, values);
 
   const chartData = {
     labels: labels,
@@ -308,62 +297,59 @@ const Financial = function({ title, data, description, colours }) {
   )
 };
 
+const EmailButton = function EmailButton({ emailAddress }) {
+  if (emailAddress !== "") {
+    return (
+      <a href={"mailto:" + emailAddress.toLowerCase()}>
+                  <button className="ui labeled icon tiny green button">
+                          <i className="mail icon"></i>
+                          Email
+                        </button>   
+              </a>
+    )
+  }
+  return (<span></span>);
+};
+
+const WebsiteButton = function WebsiteButton({ webSiteAddress }) {
+  if (webSiteAddress !== "") {
+    return (
+      <a href={"http://" + webSiteAddress.toLowerCase()}>
+            <button className="ui labeled icon tiny green button">
+                      <i className="linkify icon"></i>
+                      Website
+                    </button>                                                                       
+          </a>
+    )
+  }
+  return (<span></span>);
+};
+
+const WhoWhatHow = function WhoWhatHow({ classification }) {
+
+  const list = classification.map(function(x, i, arr) {
+    return (
+      <div className="item" key={i}>
+            {x[0].toUpperCase() + x.slice(1).toLowerCase()}
+        </div>
+    )
+  });
+  return (
+    <div className="ui list">
+        {list}
+        </div>
+  )
+};
 
 export default class CharityPage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {};
-    this.emailButton = this.emailButton.bind(this);
-    this.websiteButton = this.websiteButton.bind(this);
-    this.whoWhatHow = this.whoWhatHow.bind(this);
   };
 
-  emailButton(EmailAddress) {
-    if (EmailAddress !== "") {
-      return (
-        <a href={"mailto:" + EmailAddress.toLowerCase()}>
-                  <button className="ui labeled icon tiny green button">
-                          <i className="mail icon"></i>
-                          Email
-                        </button>   
-              </a>
-      )
-    }
-    return "";
-  };
+  componentDidMount() {};
 
-  websiteButton(webAddress) {
-    if (webAddress !== "") {
-      return (
-        <a href={"http://" + webAddress.toLowerCase()}>
-            <button className="ui labeled icon tiny green button">
-                      <i className="linkify icon"></i>
-                      Website
-                    </button>                                                                       
-          </a>
-      )
-    }
-    return "";
-  };
-
-  whoWhatHow(who) {
-
-    const list = who.map(function(x, i, arr) {
-      return (
-        <div className="item" key={i}>
-            {x[0].toUpperCase() + x.slice(1).toLowerCase()}
-        </div>
-      )
-    });
-    return (
-      <div className="ui list">
-        {list}
-        </div>
-    )
-  };
-
-  componentDidMount() {}
   render() {
 
     const style = {
@@ -376,8 +362,9 @@ export default class CharityPage extends React.Component {
       textTransform: 'capitalize'
     }
 
-    console.log(this.props)
+    console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
+
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">
@@ -390,72 +377,11 @@ export default class CharityPage extends React.Component {
       )
     }
 
-    const theMainMan = function theMainMan(charityObject) {
-        const data = JSON.parse(JSON.stringify(charityObject));
-
-        const name = data.CharityName || "",
-          address = data.Address || {},
-          postCode = address.hasOwnProperty('Postcode') ? address.Postcode.replace(" ", "") : "",
-          charityRoleName = ((data.ContactName || {}).CharityRoleName || "").toLowerCase(),
-          registeredCharityNumber = data.RegisteredCharityNumber || "",
-          publicTelephoneNumber = data.PublicTelephoneNumber || "",
-          publicFaxNumber = data.PublicFaxNumber || "",
-          emailAddress = data.EmailAddress || "",
-          webSiteAddress = data.WebsiteAddress || "",
-          activities = data.Activities || "",
-          how = ((data.Classification || {}).How || []),
-          what = ((data.Classification || {}).What || []),
-          who = ((data.Classification || {}).Who || []),
-          areaOfbenefit = data.AreaOfBenefit || "",
-          areaOfOperation = data.AreaOfOperation || "",
-          income = ((((data.Returns || [])[0] || {}).Resources || {}).Income || {}),
-          expended = ((((data.Returns || [])[0] || {}).Resources || {}).Expended || {}),
-      }
-      // var level3 = (((test || {}).level1 || {}).level2 || {}).level3;
-    const CharityName = charity.CharityName || "";
-    const Address = charity.Address || "";
-    let postCode = Address.Postcode.replace(" ", "");
-    const CharityRoleName = charity.ContactName.CharityRoleName.toLowerCase() || "";
-    const { RegisteredCharityNumber = "-", RegisteredCompanyNumber = "-" } = charity;
-    const { PublicTelephoneNumber = "", PublicFaxNumber = "", EmailAddress = "", WebsiteAddress = "" } = charity;
-    const { Activities, Classification } = charity;
-    const { AreaOfBenefit } = charity;
-    const { AreaOfOperation } = charity;
-    const { Incoming = {} } = charity.Returns[0].Resources;
-    const { Expended = {} } = charity.Returns[0].Resources;
-    let { Funds = {} } = charity.Returns[0].AssetsAndLiabilities;
-    Funds.Total = Funds.TotalFunds;
-    delete Funds.TotalFunds;
-    const { Submission = [] } = charity;
-    // ASSETS
-    const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
-    const {
-      TotalFixedAssets,
-      FixedAssetInvestments,
-      PensionFundAssets,
-      TotalCurrentAssets,
-      CreditorsDueWithinOneYear,
-      LongTermCreditors
-    } = assets;
-    const OwnUseAssets = TotalFixedAssets + FixedAssetInvestments;
-    const LongTermInvestments = FixedAssetInvestments;
-    const PensionSchemeAssetLiability = PensionFundAssets;
-    const OtherAssets = TotalCurrentAssets;
-    const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
-    // PEOPLE
-    const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
-    const numTrustees = charity.Trustees.length || 0;
-    // Accounts Listing
-    const { AccountListing = [] } = charity;
-
-    /* declartions above this are new and with defaults, those below need reviewing */
-    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
-    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${postCode}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
-    const test = new URL(mapUrl);
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
-    }
-    console.log(mapUrl, mapStyle, test);
+    };
+
     return (
       <span>
             <div className="ui vertical basic segment charity-main">
@@ -466,7 +392,7 @@ export default class CharityPage extends React.Component {
                                 <div className="ui basic segment test" style={mapStyle}>
                                     <div className="ui basic inverted segment">
                                         <h1 className="ui inverted header masthead">
-                                        {CharityName}                              
+                                        {charity.name}                              
                                         </h1>
                                     </div>
                                 </div>
@@ -479,12 +405,12 @@ export default class CharityPage extends React.Component {
                                                 CHARITY INFO
                                             </div>
                                         <div className="ui list address" style={humanizeText}>
-                                            <div className="item">{Address.Line1 ? Address.Line1.toLowerCase() : ""}</div>
-                                            <div className="item">{Address.Line2 ? Address.Line2.toLowerCase() : ""}</div>
-                                            <div className="item">{Address.Line3 ? Address.Line3.toLowerCase() : ""}</div>
-                                            <div className="item">{Address.Line4 ? Address.Line4.toLowerCase() : ""}</div>
-                                            <div className="item">{Address.Line5 ? Address.Line5.toLowerCase() : ""}</div>
-                                            <div className="item">{Address.Postcode ? Address.Postcode : ""}</div>
+                                            <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.postCode}</div>
                                         </div>
                                         <div className="ui mini horizontal inverted statistic">
                                             <div className="value">
@@ -497,29 +423,29 @@ export default class CharityPage extends React.Component {
                                           <div className="item" style={humanizeText}>
                                             <i className="user icon"></i>
                                             <div className="content">
-                                              {CharityRoleName}
+                                              {charity.charityRoleName}
                                             </div>
                                           </div>
                                           <div className="item">
                                             <i className="phone icon"></i>
                                             <div className="content">
-                                              {PublicTelephoneNumber}
+                                              {charity.publicTelephoneNumber}
                                             </div>
                                           </div>
                                           <div className="item">
                                             <i className="fax icon"></i>
                                             <div className="content">
-                                              {PublicFaxNumber}
+                                              {charity.publicFaxNumber}
                                             </div>
                                           </div>
                                           <div className="item">
                                             <div className="content">
-                                                {this.emailButton(EmailAddress)}
+                                                <EmailButton emailAddress={charity.emailAddress} />
                                             </div>
                                           </div>
                                           <div className="item">
                                             <div className="content">
-                                                {this.websiteButton(WebsiteAddress)}
+                                                <WebsiteButton webSiteAddress={charity.webSiteAddress} />
                                             </div>
                                           </div>
                                         </div>
@@ -533,13 +459,13 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Charity Number: {RegisteredCharityNumber}
+                                                    Charity Number: {charity.registeredCharityNumber}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Company Number: {RegisteredCompanyNumber}
+                                                    Company Number: {charity.registeredCompanyNumber}
                                                 </div>
                                             </div>
                                         </div>
@@ -564,7 +490,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">Activities</a>
                                                 <div className="description">
-                                                    {Activities}
+                                                    {charity.Activities}
                                                 </div>
                                             </div>
                                         </div>
@@ -572,7 +498,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">Who We Serve</a>
                                                 <div className="description">
-                                                    {this.whoWhatHow(Classification.Who)}
+                                                    <WhoWhatHow classification={charity.who} />
                                                 </div>
                                             </div>
                                         </div>
@@ -580,7 +506,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">What we do</a>
                                                 <div className="description">
-                                                        {this.whoWhatHow(Classification.What)}
+                                                    <WhoWhatHow classification={charity.what} />
                                                 </div>
                                             </div>
                                         </div>
@@ -588,7 +514,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">How we work</a>
                                                 <div className="description">
-                                                    {this.whoWhatHow(Classification.How)}
+                                                    <WhoWhatHow classification={charity.how} />
                                                 </div>
                                             </div>
                                         </div>
@@ -602,13 +528,13 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Area Of Benefit: {AreaOfBenefit[0] + AreaOfBenefit.slice(1).toLowerCase()}
+                                                    Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Area Of Operation: {AreaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+                                                    Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
                                                 </div>
                                             </div>
                                         </div>
@@ -632,25 +558,25 @@ export default class CharityPage extends React.Component {
                                     <div className="ui divided items">
                                         <Financial 
                                             title={"Income"} 
-                                            data={Incoming}
+                                            data={charity.incoming}
                                             description={"Income for the previous financial year"}
                                             colours={colours} 
                                         />
                                         <Financial 
                                             title={"Expenditure"} 
-                                            data={Expended}
+                                            data={charity.expended}
                                             description={"What money was spent on during the previous financial year"}
                                             colours={colours} 
                                         />
                                         <Financial 
                                             title={"Funds"} 
-                                            data={Funds}
+                                            data={charity.funds}
                                             description={"Funds"}
                                             colours={colours} 
                                         />
-                                        <Test 
+                                        <Submission 
                                             title={"History"} 
-                                            data={Submission}
+                                            data={charity.submission}
                                             description={"Histroical Income v Spending"}
                                             colours={colours} 
                                         />
@@ -664,31 +590,31 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Own Use Assets: {currencyFormat(OwnUseAssets)}
+                                                    Own Use Assets: {currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Long Term Investments: {currencyFormat(LongTermInvestments)}
+                                                    Long Term Investments: {currencyFormat(parseInt(charity.assets.FixedAssetInvestments))}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Pension Scheme Asset Liability: {currencyFormat(PensionSchemeAssetLiability)}
+                                                    Pension Scheme Asset Liability: {currencyFormat(parseInt(charity.assets.PensionFundAssets))}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Other Assets: {currencyFormat(OtherAssets)}
+                                                    Other Assets: {currencyFormat(parseInt(charity.assets.TotalCurrentAssets))}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Total Liability: {currencyFormat(TotalLiability)}
+                                                    Total Liability: {currencyFormat(parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))}
                                                 </div>
                                             </div>
                                         </div>
@@ -708,7 +634,7 @@ export default class CharityPage extends React.Component {
                                     <h1 className="ui header overview">
                                     Governance
                                 </h1>
-                                    <Trustees trustees={charity.Trustees} />
+                                    <Trustees trustees={charity.trustees} />
                                 </div>
                             </div>
                             <div className="column">
@@ -718,13 +644,13 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Employees: {NoEmployees}
+                                                    Employees: {charity.employees.NoEmployees}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Volunteers: {NoVolunteers}
+                                                    Volunteers: {charity.employees.NoVolunteers}
                                                 </div>
                                             </div>
                                         </div>
@@ -740,7 +666,7 @@ export default class CharityPage extends React.Component {
                                                     to the Charity Commission
                                                 </div>
                                         </h4>
-                                        <CharityReports accountListing={AccountListing} />
+                                        <CharityReports accountListing={charity.accountListing} />
                                     </div>
                                 </div>
                             </div>

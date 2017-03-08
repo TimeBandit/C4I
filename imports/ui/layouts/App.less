@@ -98,7 +98,6 @@
 //     justify-content: flex-start;
 //     align-items: center;
 // }
-
 .box * {
     position: relative;
     /* hack */
@@ -107,25 +106,25 @@
 .masthead {
     color: white;
     // font-family: 'Raleway', sans-serif;
-    /* https://mzl.la/2jRruHJ*/
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    /* http://bit.ly/2jRvLen*/
-    font-size: ~"calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
-    font-size: ~"-moz-calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+    text-align: center;
     line-height: 1.7;
-}
-
-.motto {
-    // font-family: 'Raleway', sans-serif;
-    text-transform: uppercase;
-    /* https://mzl.la/2jRruHJ*/
-    font-weight: 400 !important;
-    color: white;
-    /* http://bit.ly/2jRvLen*/
-    font-size: ~"calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
-    font-size: ~"-moz-calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
-    line-height: 1.7
+    .home-page-title {
+        /* https://mzl.la/2jRruHJ*/
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        /* http://bit.ly/2jRvLen*/
+        font-size: ~"calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+        font-size: ~"-moz-calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+    }
+    .motto {
+        // font-family: 'Raleway', sans-serif;
+        text-transform: uppercase;
+        /* https://mzl.la/2jRruHJ*/
+        font-weight: 400 !important;
+        /* http://bit.ly/2jRvLen*/
+        font-size: ~"calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
+        font-size: ~"-moz-calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
+    }
 }
 
 .custom {
@@ -230,7 +229,8 @@ button {
                 border: 0.5rem solid rgba(255, 255, 255, 0.5)
             }
         }
-    };
+    }
+    ;
     margin-top: 2rem !important;
     margin-bottom: 2rem !important;
 }

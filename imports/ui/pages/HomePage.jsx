@@ -26,7 +26,7 @@ export default class HomePage extends React.Component {
       <span>
         <div className="ui vertical basic segment box overlay green-filter masthead">
             <div className="ui container">
-                <h1 className="header">
+                <h1 className="header home-page-title">
                     🕌<br/>
                     Islamic Charity
                     <br/>

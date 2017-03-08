@@ -5,7 +5,42 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-export const Charities = new Mongo.Collection('charities');
+const transformer = function transformer(doc) {
+  const data = JSON.parse(JSON.stringify(doc));
+  console.info(data);
+  return {
+    name: data.CharityName || "",
+    address: data.Address || {},
+    postCode: ((data.Address || {}).Postcode || ""),
+    charityRoleName: ((data.ContactName || {}).CharityRoleName || "").toLowerCase(),
+    registeredCharityNumber: data.RegisteredCharityNumber || "",
+    registeredCompanyNumber: data.RegisteredCompanyNumber || "",
+    registrationHistory: ((data.RegistrationHistory || [])[0] || {}),
+    publicTelephoneNumber: data.PublicTelephoneNumber || "",
+    publicFaxNumber: data.PublicFaxNumber || "",
+    emailAddress: data.EmailAddress || "",
+    webSiteAddress: data.WebsiteAddress || "",
+    activities: data.Activities || "",
+    how: ((data.Classification || {}).How || []),
+    what: ((data.Classification || {}).What || []),
+    who: ((data.Classification || {}).Who || []),
+    areaOfBenefit: data.AreaOfBenefit || "",
+    areaOfOperation: data.AreaOfOperation || [],
+    assets: ((((data.Returns || [])[0] || {}).AssetsAndLiabilities || {}).Assets || {}),
+    funds: ((((data.Returns || [])[0] || {}).AssetsAndLiabilities || {}).Funds || {}),
+    incoming: ((((data.Returns || [])[0] || {}).Resources || {}).Incoming || {}),
+    expended: ((((data.Returns || [])[0] || {}).Resources || {}).Expended || {}),
+    accountListing: data.AccountListing || [],
+    submission: data.Submission || [],
+    employees: (((data.Returns || [])[0] || {}).Employees || {}),
+    trustees: data.Trustees || []
+  };
+
+};
+
+export const Charities = new Mongo.Collection('charities', {
+  transform: transformer
+});
 // create & attach schema
 
 const RegistrationHistorySchema = new SimpleSchema({
