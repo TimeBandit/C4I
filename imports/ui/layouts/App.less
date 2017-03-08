@@ -2,7 +2,6 @@
 // defs
 @bgColor : rgba(113, 200, 55, 1);
 @bgColorLight : rgba(90, 160, 44, 0.8);
-
 .ct-series-a,
 .ct-series-b,
 .ct-series-c,
@@ -26,6 +25,7 @@
 .menu-segment {
     background-color: @bgColorLight !important;
 }
+
 .ui.large.menu {
     border: none;
     border-radius: 0px;
@@ -50,10 +50,6 @@
 }
 
 //
-body {
-    text-align: center;
-}
-
 .box {
     border: 1px solid grey;
     vertical-align: top;
@@ -92,44 +88,43 @@ body {
     background-color: @bgColorLight;
 }
 
-.masthead {
-    // height: 40rem;
-    padding : 5rem 0 !important;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
+// .masthead {
+//     // height: 40rem;
+//     padding: 5rem 0 !important;
+//     display: -webkit-box;
+//     display: -ms-flexbox;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     align-items: center;
+// }
 .box * {
     position: relative;
     /* hack */
 }
 
-.header {
+.masthead {
     color: white;
     // font-family: 'Raleway', sans-serif;
-    /* https://mzl.la/2jRruHJ*/
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    /* http://bit.ly/2jRvLen*/
-    font-size: ~"calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
-    font-size: ~"-moz-calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+    text-align: center;
     line-height: 1.7;
-}
-
-.motto {
-    // font-family: 'Raleway', sans-serif;
-    text-transform: uppercase;
-    /* https://mzl.la/2jRruHJ*/
-    font-weight: 400 !important;
-    color: white;
-    /* http://bit.ly/2jRvLen*/
-    font-size: ~"calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
-    font-size: ~"-moz-calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
-    line-height: 1.7
+    .home-page-title {
+        /* https://mzl.la/2jRruHJ*/
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        /* http://bit.ly/2jRvLen*/
+        font-size: ~"calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+        font-size: ~"-moz-calc( 32px + (48 - 32) * ( 100vw - 320px) / ( 960 - 320))";
+    }
+    .motto {
+        // font-family: 'Raleway', sans-serif;
+        text-transform: uppercase;
+        /* https://mzl.la/2jRruHJ*/
+        font-weight: 400 !important;
+        /* http://bit.ly/2jRvLen*/
+        font-size: ~"calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
+        font-size: ~"-moz-calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
+    }
 }
 
 .custom {
@@ -157,7 +152,7 @@ body {
 }
 
 .footer {
-    padding : 5rem 0 !important;
+    padding: 5rem 0 !important;
 }
 
 .button,
@@ -215,5 +210,89 @@ button {
     }
 }
 
+// charity page styles
+.charity-main {
+    .test {
+        // background-image: url("https://maps.googleapis.com/maps/api/staticmap?center=b95db&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ") !important;
+        background-size: cover !important;
+        background-repeat: no-repeat;
+        min-height: 550px;
+        .inverted {
+            background-color: rgba(90, 160, 44, 0.5);
+            padding: 0;
+            h1.header {
+                font-size: ~"calc( 32px + (40 - 32) * ( 100vw - 320px) / ( 960 - 320))" !important;
+                font-size: ~"-moz-calc( 32px + (40 - 32) * ( 100vw - 320px) / ( 960 - 320))" !important;
+                padding: 2rem;
+                line-height: 1.5;
+                text-transform: uppercase;
+                border: 0.5rem solid rgba(255, 255, 255, 0.5)
+            }
+        }
+    }
+    ;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
 
+.charity-main-sidebar {
+    background-color: @bgColorLight !important;
+    // display: flex !important;
+    // flex-direction: column !important;
+    // justify-content: space-between !important;
+    .small.header {
+        margin-left: -0.5rem;
+    }
+    .reports,
+    .address,
+    .contact,
+    .benefit,
+    .operation,
+    .numbers {
+        .item {
+            color: white !important;
+            i {
+                margin: 0 !important;
+            }
+            margin-bottom: 0.5rem !important;
+        }
+    }
+    .stat1,
+    .stat2 {
+        color: white !important;
+        margin-left: 0 !important;
+        margin-bottom: 0.5rem;
+        .value {
+            text-align: left;
+            font-weight: normal !important;
+        }
+        .label {
+            text-transform: lowercase;
+            text-align: left;
+            font-weight: normal !important;
+        }
+    }
+    .stat1 {
+        margin-top: 3rem !important;
+    }
+}
 
+.header.overview {
+    // padding: 2rem;
+    color: @bgColor;
+    // line-height: 1.5;
+    text-transform: uppercase;
+    font-size: ~"calc( 32px + (40 - 32) * ( 100vw - 320px) / ( 960 - 320))" !important;
+    font-size: ~"-moz-calc( 32px + (40 - 32) * ( 100vw - 320px) / ( 960 - 320))" !important;
+    margin-bottom: 2rem !important;
+}
+
+.legend-item {
+    a {
+        margin: 0 0.5rem 0 auto !important;
+    }
+}
+
+.trustee-name {
+    text-transform: capitalize;
+}

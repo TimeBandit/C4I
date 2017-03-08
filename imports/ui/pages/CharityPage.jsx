@@ -1,25 +1,354 @@
 import React from 'react'
-import GoogleMap from '../components/GoogleMap'
-import Trustees from '../components/Trustees'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
-import Income from '../components/Income';
-import Spending from '../components/Spending';
-import Numbers from '../components/Numbers';
-import ContactList from '../components/ContactList';
-import Address from '../components/Address';
-import What from '../components/What';
-import Who from '../components/Who';
-import How from '../components/How';
-import Activities from '../components/Activities';
-import UIStatistic from '../components/UIStatistic'
-import FinancialHistory from '../components/FinancialHistory'
-import PublishedReports from '../components/PublishedReports';
+import Chart from 'chart.js'
+/*---  Colors  ---*/
+const red = "#FF695E";
+const orange = "#FF851B";
+const yellow = "#FFE21F";
+const olive = "#D9E778";
+const green = "#2ECC40";
+const teal = "#6DFFFF";
+const blue = "#54C8FF";
+const violet = "#A291FB";
+const purple = "#DC73FF";
+const pink = "#FF8EDF";
+const brown = "#D67C1C";
+const grey = "#DCDDDE";
+const black = "#545454";
+const colours = [olive, green, teal, blue, violet, purple, pink];
+
+const CharityReports = function CharityReports({ accountListing }) {
+
+  const Item = function Item({ listing }) {
+
+    const { AccountPeriodYearEndDate, HyperlinkReference } = listing;
+    const baseUrl = "http://apps.charitycommission.gov.uk";
+    return (
+      <a className="item" href= {baseUrl + HyperlinkReference}>
+        <i className="file icon"></i>
+        <div className="content">
+          <div className="header">{AccountPeriodYearEndDate}</div>
+          <div className="description"></div>
+        </div>
+      </a>
+    )
+  }
+
+  const items = accountListing.map(function(listing, index) {
+    return (<Item listing={listing} key={index} />)
+  })
+  return (
+    <div className="ui inverted middle aligned list reports">
+        {items}
+    </div>
+  )
+};
+
+const Trustees = function Trustees(props) {
+
+  const trusteesCopy = props.trustees.slice(0);
+
+  const isMale = function isMale({ TrusteeName }) {
+    if (TrusteeName.toLowerCase().match(/^(mrs|miss|ms)/)) {
+      return false;
+    } else {
+      return true;
+    };
+  };
+
+  const genderIconPath = function genderIconPath(obj) {
+    const objcopy = Object.assign({}, obj);
+    if (isMale(objcopy)) {
+      return "../img/icons/musman.svg"
+    } else {
+      return "../img/icons/muswoman.svg"
+    }
+  };
+
+  const Item = function Item({ name, number, path, count }) {
+    return (
+      <div className="item">
+        <img className="ui avatar image" src={path} />
+        <div className="content">
+          <a className="header trustee-name">{name}</a>
+          <div className="description">{`Trustee Number: ${number}`}</div>
+          <div className="description">{`Other trusteeships: ${count}`}</div>
+        </div>
+      </div>
+    )
+  };
+
+  const result = trusteesCopy.map(function(trusteeObject, index) {
+    let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
+    TrusteeName = TrusteeName.toLowerCase();
+    const path = genderIconPath(trusteeObject);
+    console.table[index, TrusteeName, path];
+    return (
+      <Item 
+            key={index} 
+            name={TrusteeName} 
+            number={TrusteeNumber} 
+            path={path} 
+            count={RelatedCharitiesCount} 
+        />
+    )
+  })
+
+  return (
+    <div className="ui relaxed list">
+        {result}
+    </div>
+  )
+}
+
+const Submission = function Submission({ title, data, description, colours }) {
+
+  let dataCopy = data.slice(0);
+
+  const labels = data.map(val => val.FyEnd);
+
+  const grossIncomeValues = data.map(val => parseInt(val.GrossIncome));
+  const totalExpenditureValues = data.map(val => parseInt(val.TotalExpenditure));
+  const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
+
+  const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
+  const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
+  const netIncomeColour = "#FF695E";
+
+  const chartData = {
+    labels: labels,
+    datasets: [{
+      type: 'bar',
+      label: "Income",
+      backgroundColor: incomeColour,
+      borderColor: incomeColour,
+      borderWidth: 1,
+      data: grossIncomeValues,
+    }, {
+      type: 'bar',
+      label: "Spending",
+      backgroundColor: expenditureColour,
+      borderColor: expenditureColour,
+      borderWidth: 1,
+      data: totalExpenditureValues,
+    }, {
+      type: 'bar',
+      label: "Net Income",
+      backgroundColor: netIncomeColour,
+      borderColor: netIncomeColour,
+      borderWidth: 1,
+      data: netIncomeValues
+    }]
+  };
+
+  const displayChart = function displayChart(dom) {
+    const myChart = new Chart(dom, {
+      type: 'bar',
+      data: chartData,
+      options: {
+        legend: {
+          display: true,
+          position: 'bottom'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              // Create scientific notation labels
+              callback: function(value, index, values) {
+                return currencyFormat(value);
+              }
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              // Create scientific notation labels
+              callback: function(value, index, values) {
+                return new Date(value).getFullYear();
+              }
+            }
+          }]
+        }
+      }
+    });
+  };
+
+  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+    return string.match(/[A-Z][a-z]+/g);
+  };
+
+  const DisplayLegend = function DisplayLegend() {
+    return labels.map(function(label, index) {
+      return (
+        <div className="item legend-item" key={index}>
+            <a className="ui empty circular
+                label" style={{backgroundColor: colours[index]}}>
+            </a>
+                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+        </div>
+      )
+    })
+  };
+
+  if (data === {}) {
+    return (<span></span>);
+  }
+  return (
+    <div className="item">
+        <div className="content">
+            <a className="header">{title}</a>
+            <div className="meta">
+                <span>{description}</span>
+            </div>
+            <div className="description">
+                <div className="ui fluid image">
+                    <canvas id="myChart" ref={displayChart} width="66%"></canvas>
+                </div>
+            </div>
+            <div className="extra">
+                Additional Details
+            </div>
+        </div>
+    </div>
+  )
+};
+
+const Financial = function Financial({ title, data, description, colours }) {
+
+  let dataCopy = Object.assign({}, data);
+
+  const total = (function getAndremoveTotal(d) {
+    let res;
+    if (d.hasOwnProperty('TotalFunds')) {
+      res = parseInt(data.TotalFunds);
+      delete d.TotalFunds;
+    } else {
+      res = parseInt(data.Total);
+      delete d.Total;
+    }
+    return res;
+  })(dataCopy);
+
+  const labels = Object.keys(dataCopy);
+  const values = Object.values(dataCopy).map(x => parseInt(x));
+
+  const chartData = {
+    labels: labels,
+    datasets: [{
+      label: 'Income',
+      data: values,
+      backgroundColor: colours,
+      hoverBackgroundColor: colours
+    }]
+  };
+
+  const displayChart = function displayChart(dom) {
+    const myChart = new Chart(dom, {
+      type: 'pie',
+      data: chartData,
+      options: {
+        legend: {
+          display: false,
+          position: 'right'
+        }
+      }
+    });
+  };
+
+  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+    return string.match(/[A-Z][a-z]+/g);
+  };
+
+  const DisplayLegend = function DisplayLegend() {
+    return labels.map(function(label, index) {
+      return (
+        <div className="item legend-item" key={index}>
+            <a className="ui empty circular
+                label" style={{backgroundColor: colours[index]}}>
+            </a>
+                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+        </div>
+      )
+    })
+  };
+
+  if (data === {}) {
+    return (<span></span>);
+  }
+  return (
+    <div className="item">
+        <div className="ui small image">
+            <canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>
+        </div>
+        <div className="content">
+            <a className="header">{`${title}: ${currencyFormat(total)}`}</a>
+            <div className="meta">
+                <span>{description}</span>
+            </div>
+            <div className="description">
+                <div className="ui divided selection list">
+                    {DisplayLegend()}
+                </div>
+            </div>
+            <div className="extra">
+                Additional Details
+            </div>
+        </div>
+    </div>
+  )
+};
+
+const EmailButton = function EmailButton({ emailAddress }) {
+  if (emailAddress !== "") {
+    return (
+      <a href={"mailto:" + emailAddress.toLowerCase()}>
+                  <button className="ui labeled icon tiny green button">
+                          <i className="mail icon"></i>
+                          Email
+                        </button>   
+              </a>
+    )
+  }
+  return (<span></span>);
+};
+
+const WebsiteButton = function WebsiteButton({ webSiteAddress }) {
+  if (webSiteAddress !== "") {
+    return (
+      <a href={"http://" + webSiteAddress.toLowerCase()}>
+            <button className="ui labeled icon tiny green button">
+                      <i className="linkify icon"></i>
+                      Website
+                    </button>                                                                       
+          </a>
+    )
+  }
+  return (<span></span>);
+};
+
+const WhoWhatHow = function WhoWhatHow({ classification }) {
+
+  const list = classification.map(function(x, i, arr) {
+    return (
+      <div className="item" key={i}>
+            {x[0].toUpperCase() + x.slice(1).toLowerCase()}
+        </div>
+    )
+  });
+  return (
+    <div className="ui list">
+        {list}
+        </div>
+  )
+};
 
 export default class CharityPage extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {};
-  }
+  };
+
+  componentDidMount() {};
 
   render() {
 
@@ -29,163 +358,323 @@ export default class CharityPage extends React.Component {
       height: "100%"
     };
 
-    console.log(this.props)
+    const humanizeText = {
+      textTransform: 'capitalize'
+    }
+
+    console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
 
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">
-		      	<div className="center aligned row">
-				  		<div className="column">
-			    			<div className="ui active loader">Loading</div>
-			    		</div>
-			    	</div>
-			    </div>
+            <div className="center aligned row">
+                <div className="column">
+                    <div className="ui active loader">Loading</div>
+                </div>
+            </div>
+        </div>
       )
     }
 
-    let { RegisteredCharityNumber, RegisteredCompanyNumber } = charity;
-    let { PublicTelephoneNumber, PublicFaxNumber, EmailAddress, WebsiteAddress } = charity;
-    let upToDate = charity.LatestFiling.HasRecieveAnnualReturnForDue;
-    // ASSETS
-    const assets = charity.Returns[0].AssetsAndLiabilities.Assets;
-    const {
-      TotalFixedAssets,
-      FixedAssetInvestments,
-      PensionFundAssets,
-      TotalCurrentAssets,
-      CreditorsDueWithinOneYear,
-      LongTermCreditors
-    } = assets;
-    const OwnUseAssets = TotalFixedAssets + FixedAssetInvestments;
-    const LongTermInvestments = FixedAssetInvestments;
-    const PensionSchemeAssetLiability = PensionFundAssets;
-    const OtherAssets = TotalCurrentAssets;
-    const TotalLiability = CreditorsDueWithinOneYear + LongTermCreditors;
-    // PEOPLE
-    const { NoEmployees = 0, NoVolunteers = 0 } = charity.Returns[0].Employees;
-    const numTrustees = charity.Trustees.length || 0;
+    const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
+    const mapStyle = {
+      backgroundImage: `url(${mapUrl})`
+    };
 
     return (
-      <div className="ui equal width stackable vertically divided grid container">
-	      	<div className="center aligned row">
-			  		<div className="column">
-			  			<div className="ui segment">
-			  				<h1  className="ui header" >
-				 			  	{charity.CharityName}				 			  	
-				 			  </h1>
-				 			  <div className={upToDate ? "ui bottom right attached green label" : "ui bottom right attached grey label"}>
-				 			  	{ upToDate ? "Up-to-date" : "Out-of-date"}
-				 			  </div>
-			  			</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<Numbers RegisteredCharityNumber={RegisteredCharityNumber} RegisteredCompanyNumber={RegisteredCompanyNumber}/>
-			  		<Address data={charity.Address}/>
-			  		<ContactList PublicTelephoneNumber={PublicTelephoneNumber} PublicFaxNumber={PublicFaxNumber} EmailAddress={EmailAddress} WebsiteAddress={WebsiteAddress}/>
-			  	</div>
-			  	<div className="row">
-			  		{<Activities data={charity.Activities}/>}
-			  	</div>
-			  	<div className="row">
-	  				<What data={charity.Classification.What}/>
-	  				<Who data={charity.Classification.Who}/>
-	  				<How data={charity.Classification.How}/>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-							<Income data={charity.Submission} chartData={charity.Returns[0].Resources.Incoming}/>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<Spending data={charity.Submission} chartData={charity.Returns[0].Resources.Expended}/>
-			  		</div>
-			  	</div>
-		  		<div className="stretched row">
-			      <div className="column">
-			        <UIStatistic value={OwnUseAssets} label={"Own Use Assets"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={LongTermInvestments} label={"Long Term Investments"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={PensionSchemeAssetLiability} label={"Pension Scheme Asset/Liability"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={OtherAssets} label={"Other Assets"}/>
-			      </div>
-			      <div className="column">
-			        <UIStatistic value={TotalLiability} label={"Total Liability"}/>
-			      </div>
-			    </div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<div className="ui segment">
-			  				<FinancialHistory data={charity.Submission}/>
-			  			</div>
-			  		</div>
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<PublishedReports data={charity.AccountListing}/>
-			  		</div>
-			  	</div>
-			    <div className="stretched row">
-			    	<div className="column">
-			    		<UIStatistic value={numTrustees} label={"Trustees"}/>
-			    	</div>
-			    	<div className="column">
-			    		<UIStatistic value={NoEmployees} label={"Employees"}/>
-			    	</div>
-			    	<div className="column">
-			    		<UIStatistic value={NoVolunteers} label={"Volunteers"}/>
-			    	</div>
-			    </div>
-			  	<div className="stretched row">
-			  		<div className="column">
-			  			<Trustees data={charity.Trustees} />
-			  		</div>
-			  		{/*<div className="column">
-			  					  			<div className="ui segment">Employees</div>
-			  					  		</div>
-			  					  		<div className="column">
-			  					  			<div className="ui segment">Volunteers</div>
-			  					  		</div>*/}
-			  	</div>
-			  	<div className="stretched row">
-			  		<div className="column">
-		  				
-			  		</div>
-			  	</div>
-			  </div>
+      <span>
+            <div className="ui vertical basic segment charity-main">
+                <div className="ui container">
+                    <div className="ui equal width stackable grid">
+                        <div className="ui stretched row">
+                            <div className="eleven wide column">
+                                <div className="ui basic segment test" style={mapStyle}>
+                                    <div className="ui basic inverted segment">
+                                        <h1 className="ui inverted header masthead">
+                                        {charity.name}                              
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="column">
+                                <div className="ui inverted segment charity-main-sidebar">
+                                    <div className="ui basic segment">
+                                            <div className="ui small inverted header">
+                                                <i className="info icon"></i>
+                                                CHARITY INFO
+                                            </div>
+                                        <div className="ui list address" style={humanizeText}>
+                                            <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
+                                            <div className="item">{charity.postCode}</div>
+                                        </div>
+                                        <div className="ui mini horizontal inverted statistic">
+                                            <div className="value">
+                                            </div>
+                                            <div className="label">
+                                                
+                                            </div>
+                                        </div>
+                                        <div className="ui list contact">
+                                          <div className="item" style={humanizeText}>
+                                            <i className="user icon"></i>
+                                            <div className="content">
+                                              {charity.charityRoleName}
+                                            </div>
+                                          </div>
+                                          <div className="item">
+                                            <i className="phone icon"></i>
+                                            <div className="content">
+                                              {charity.publicTelephoneNumber}
+                                            </div>
+                                          </div>
+                                          <div className="item">
+                                            <i className="fax icon"></i>
+                                            <div className="content">
+                                              {charity.publicFaxNumber}
+                                            </div>
+                                          </div>
+                                          <div className="item">
+                                            <div className="content">
+                                                <EmailButton emailAddress={charity.emailAddress} />
+                                            </div>
+                                          </div>
+                                          <div className="item">
+                                            <div className="content">
+                                                <WebsiteButton webSiteAddress={charity.webSiteAddress} />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="ui mini horizontal inverted statistic">
+                                            <div className="value">
+                                            </div>
+                                            <div className="label">
+                                            </div>
+                                        </div>
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Charity Number: {charity.registeredCharityNumber}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Company Number: {charity.registeredCompanyNumber}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="ui vertical basic segment">
+                <div className="ui container">
+                    <div className="ui equal width stackable grid">
+                        <div className="ui stretched row">
+                            <div className="eleven wide column">
+                                <div className="ui basic segment">
+                                    <h1 className="ui header overview">
+                                    Overview
+                                </h1>
+                                    <div className="ui divided items">
+                                        <div className="item">
+                                            <div className="content">
+                                                <a className="header">Activities</a>
+                                                <div className="description">
+                                                    {charity.Activities}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="item">
+                                            <div className="content">
+                                                <a className="header">Who We Serve</a>
+                                                <div className="description">
+                                                    <WhoWhatHow classification={charity.who} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="item">
+                                            <div className="content">
+                                                <a className="header">What we do</a>
+                                                <div className="description">
+                                                    <WhoWhatHow classification={charity.what} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="item">
+                                            <div className="content">
+                                                <a className="header">How we work</a>
+                                                <div className="description">
+                                                    <WhoWhatHow classification={charity.how} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="column">
+                                <div className="ui inverted segment charity-main-sidebar">
+                                    <div className="ui basic segment">
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="ui vertical basic segment">
+                <div className="ui container">
+                    <div className="ui equal width stackable grid">
+                        <div className="ui stretched row">
+                            <div className="eleven wide column">
+                                <div className="ui basic segment">
+                                    <h1 className="ui header overview">
+                                    Financials
+                                </h1>
+                                    
+                                    <div className="ui divided items">
+                                        <Financial 
+                                            title={"Income"} 
+                                            data={charity.incoming}
+                                            description={"Income for the previous financial year"}
+                                            colours={colours} 
+                                        />
+                                        <Financial 
+                                            title={"Expenditure"} 
+                                            data={charity.expended}
+                                            description={"What money was spent on during the previous financial year"}
+                                            colours={colours} 
+                                        />
+                                        <Financial 
+                                            title={"Funds"} 
+                                            data={charity.funds}
+                                            description={"Funds"}
+                                            colours={colours} 
+                                        />
+                                        <Submission 
+                                            title={"History"} 
+                                            data={charity.submission}
+                                            description={"Histroical Income v Spending"}
+                                            colours={colours} 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="column">
+                                <div className="ui inverted segment charity-main-sidebar">
+                                    <div className="ui basic segment">
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Own Use Assets: {currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Long Term Investments: {currencyFormat(parseInt(charity.assets.FixedAssetInvestments))}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Pension Scheme Asset Liability: {currencyFormat(parseInt(charity.assets.PensionFundAssets))}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Other Assets: {currencyFormat(parseInt(charity.assets.TotalCurrentAssets))}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Total Liability: {currencyFormat(parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="ui vertical basic segment">
+                <div className="ui container">
+                    <div className="ui equal width stackable grid">
+                        <div className="ui stretched row">
+                            <div className="eleven wide column">
+                                <div className="ui basic segment">
+                                    <h1 className="ui header overview">
+                                    Governance
+                                </h1>
+                                    <Trustees trustees={charity.trustees} />
+                                </div>
+                            </div>
+                            <div className="column">
+                                <div className="ui inverted segment charity-main-sidebar">
+                                    <div className="ui basic segment">
+                                        <div className="ui mini list numbers">
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content ">
+                                                    Employees: {charity.employees.NoEmployees}
+                                                </div>
+                                            </div>
+                                            <div className="item">
+                                                <i className="info circle icon"></i>
+                                                <div className="content">
+                                                    Volunteers: {charity.employees.NoVolunteers}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="ui inverted horizontal divider">
+                                        🌙
+                                    </div>
+                                    <div className="ui basic segment">
+                                        <h4 className="ui inverted header">
+                                            Download Reports
+                                                <div className="sub header">
+                                                    As submitted by the charity 
+                                                    to the Charity Commission
+                                                </div>
+                                        </h4>
+                                        <CharityReports accountListing={charity.accountListing} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
     )
   }
-}
-
-// <GoogleMap key={charity.RegisteredCharityNumber} adressObj={charity.Address}/>}
-//    <ui className="ui stackable container grid">
-// 		<div className="sixteen wide column">
-// 			<div className="ui padded segment">
-// 				<h1  className="ui header" >
-// 			  	{charity === undefined ? "" : charity.CharityName === undefined ? "" : charity.CharityName}
-// 			  	<div className="sub header">{charity === undefined ? "" : charity.Activities }</div>
-// 			  </h1>
-// 			</div>
-// 		</div>
-// 		<div className="ten wide column">
-// 			{charity === undefined ? "" : charity.Address.Line1 === "" ? "" : <iframe src={"https://www.google.com/maps/embed/v1/place?key=AIzaSyCeYDxojDuSv5WoqvAubgzIElDuknExNpI&q=" + parseAdressObject(charity.Address)} frameBorder="0" style = {style}></iframe>}
-// 		</div>
-// 		<div className="six wide column">
-// 			{charity === undefined ? "" : <ContactCard contactData={charity}/>}
-
-// 		</div>
-// 		<div className="sixteen wide centered column">
-// 			<h2 className="ui header">Fixed & Figures</h2>
-// 			{charity === undefined ? "" :  isNaN(charity.GrossIncome) ? "" : <FinancialFacts financialData={charity}/>}	
-// 		</div>
-// 		<h2 className="ui header">Trustees</h2>
-// 		{charity === undefined ? "" : charity.Trustees === null ? "" : <Trustees trusteesData={charity.Trustees}/>}	
-// </ui>
-;
+};

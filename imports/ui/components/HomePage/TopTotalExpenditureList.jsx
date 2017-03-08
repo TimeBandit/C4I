@@ -36,7 +36,7 @@ export default class TopTotalExpenditureList extends React.Component {
           <div className="card">
             <div className="content">
                 <div className="header">{currencyFormat(this.state.charity.TotalExpenditure)}</div>
-                <div className="meta">Volunteers</div>
+                <div className="meta">Total Expenditure</div>
                 <div className="description">
                      The Gross Income of the Islamic Charity with the greatest 
                      total spend reported last year
