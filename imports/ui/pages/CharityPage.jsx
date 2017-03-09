@@ -17,6 +17,14 @@ const grey = "#DCDDDE";
 const black = "#545454";
 const colours = [olive, green, teal, blue, violet, purple, pink];
 
+const NoData = function NoData({ text }) {
+  return (
+    <div className="ui large yellow label">
+        {text}
+    </div>
+  );
+}
+
 const CharityReports = function CharityReports({ accountListing }) {
 
   const Item = function Item({ listing }) {
@@ -215,7 +223,7 @@ const Submission = function Submission({ title, data, description, colours }) {
 const Financial = function Financial({ title, data, description, colours }) {
 
   let dataCopy = Object.assign({}, data);
-
+  console.log(dataCopy);
   const total = (function getAndremoveTotal(d) {
     let res;
     if (d.hasOwnProperty('TotalFunds')) {
@@ -271,7 +279,7 @@ const Financial = function Financial({ title, data, description, colours }) {
     })
   };
 
-  if (data === {}) {
+  if (labels.length === 0) {
     return (<span></span>);
   }
   return (
@@ -590,31 +598,31 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Own Use Assets: {currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))}
+                                                    Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Long Term Investments: {currencyFormat(parseInt(charity.assets.FixedAssetInvestments))}
+                                                    Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Pension Scheme Asset Liability: {currencyFormat(parseInt(charity.assets.PensionFundAssets))}
+                                                    Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Other Assets: {currencyFormat(parseInt(charity.assets.TotalCurrentAssets))}
+                                                    Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Total Liability: {currencyFormat(parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))}
+                                                    Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                         </div>

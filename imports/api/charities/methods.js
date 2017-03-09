@@ -1,35 +1,43 @@
 import { Meteor } from 'meteor/meteor';
 import { Charities } from './charities';
 
-Meteor.methods({
-  getSearchContent() {
-    let cursor = Charities.find({}, { fields: { _id: 1, CharityName: 1, RegisteredCharityNumber: 1 } })
-    return cursor.fetch().map(function(el, idx, arr) {
-      return {
-        title: el.CharityName,
-        description: (el.RegisteredCharityNumber).toString()
-      }
-    })
-  },
-  topGrossIncome() {
-    const findParams = {
-      "RegistrationHistory.RemovalReason": { $eq: "" },
-      "Submission": { $exists: true }
-    };
+const hasSubmission = {
+  "RegistrationHistory.RemovalReason": { $eq: "" },
+  "Submission": { $exists: true }
+};
 
-    function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('submission');
+const hasReturns = {
+  "RegistrationHistory.RemovalReason": { $eq: "" },
+  "Returns": { $exists: true }
+};
+
+Meteor.methods({
+  // getSearchContent() {
+  //   let cursor = Charities.find({}, { fields: { _id: 1, CharityName: 1, RegisteredCharityNumber: 1 } })
+  //   return cursor.fetch().map(function(el, idx, arr) {
+  //     return {
+  //       title: el.CharityName,
+  //       description: (el.RegisteredCharityNumber).toString()
+  //     }
+  //   })
+  // },
+
+
+  topGrossIncome() {
+
+    const withSubmissionsOnly = function withSubmissionsOnly(x) {
+      return x.hasOwnProperty('Submission');
     };
 
     function grossIncomeToInt(x) {
-      const lastSubmission = Array.from(x.submission).pop();
+      const lastSubmission = Array.from(x.Submission).pop();
       const GrossIncome = lastSubmission.GrossIncome === '' ? 0 : parseInt(lastSubmission.GrossIncome);
-      const res = {
-        CharityName: x.name,
-        RegisteredCharityNumber: x.registeredCharityNumber,
+      const grossIncomeResult = {
+        CharityName: x.CharityName,
+        RegisteredCharityNumber: x.RegisteredCharityNumber,
         GrossIncome: GrossIncome
       };
-      return res;
+      return grossIncomeResult;
     };
 
     function sortByGrossIncome(a, b) {
@@ -42,116 +50,27 @@ Meteor.methods({
       return 0;
     };
 
-    const res = Charities.find(findParams, {
-        // limit: 10,
+    const res = Charities.find(hasSubmission, {
         fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 }
       }).fetch()
       .filter(withSubmissionsOnly)
       .map(grossIncomeToInt)
       .sort(sortByGrossIncome);
+
     return res[0];
   },
-
-  topEmployer() {
-    const findParams = {
-      "RegistrationHistory.RemovalReason": { $eq: "" },
-      "Returns": { $exists: true }
-    };
-
-    function stringToNumber(doc) {
-      // doc.Returns[0].doc.Returns[0].
-      const NoEmployees = parseInt(doc.Returns[0].Employees.NoEmployees);
-      let { CharityName, RegisteredCharityNumber } = doc;
-      // doc.Employees.NoEmployees = parseInt(numEmployees);
-      return {
-        CharityName,
-        RegisteredCharityNumber,
-        NoEmployees
-      };
-    };
-
-    function sortByNumEmployees(a, b) {
-      if (a.NoEmployees > b.NoEmployees) {
-        return -1
-      };
-      if (a.NoEmployees < b.NoEmployees) {
-        return 1
-      };
-      return 0;
-    }
-
-    const res = Charities.find(findParams, {
-        // limit: 10,
-        fields: { CharityName: 1, RegisteredCharityNumber: 1, Returns: 1 },
-        transform: stringToNumber
-          // sort: {"Returns[0].NoEmployees"},
-          // skip: Number,
-          // reactive: Boolean,
-
-      }).fetch()
-      .sort(sortByNumEmployees);
-    // console.log(res);
-    return res[0];
-  },
-
-  topVolunteerPlaces() {
-    const findParams = {
-      "RegistrationHistory.RemovalReason": { $eq: "" },
-      "Returns": { $exists: true }
-    };
-
-    function stringToNumber(doc) {
-      // doc.Returns[0].doc.Returns[0].
-      const NoVolunteers = parseInt(doc.Returns[0].Employees.NoVolunteers);
-      let { CharityName, RegisteredCharityNumber } = doc;
-      // doc.Employees.NoEmployees = parseInt(numEmployees);
-      return {
-        CharityName,
-        RegisteredCharityNumber,
-        NoVolunteers
-      };
-    };
-
-    function sortByNumVolunteers(a, b) {
-      if (a.NoVolunteers > b.NoVolunteers) {
-        return -1
-      };
-      if (a.NoVolunteers < b.NoVolunteers) {
-        return 1
-      };
-      return 0;
-    }
-
-    const res = Charities.find(findParams, {
-        // limit: 10,
-        fields: { CharityName: 1, RegisteredCharityNumber: 1, Returns: 1 },
-        transform: stringToNumber
-          // sort: {"Returns[0].NoEmployees"},
-          // skip: Number,
-          // reactive: Boolean,
-
-      }).fetch()
-      .sort(sortByNumVolunteers);
-    // console.log(res);
-    return res[0];
-  },
-
   topTotalExpenditure() {
-    const findParams = {
-      "RegistrationHistory.RemovalReason": { $eq: "" },
-      "Submission": { $exists: true }
-    };
 
     function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('submission');
+      return x.hasOwnProperty('Submission');
     };
 
     function totalExpenditureToInt(x) {
-      const lastSubmission = Array.from(x.submission).pop();
+      const lastSubmission = Array.from(x.Submission).pop();
       const TotalExpenditure = lastSubmission.TotalExpenditure === '' ? 0 : parseInt(lastSubmission.TotalExpenditure);
       const res = {
-        CharityName: x.name,
-        RegisteredCharityNumber: x.registeredCharityNumber,
+        CharityName: x.CharityName,
+        RegisteredCharityNumber: x.RegisteredCharityNumber,
         TotalExpenditure: TotalExpenditure
       };
       // console.log(res);
@@ -168,13 +87,76 @@ Meteor.methods({
       return 0;
     }
 
-    const res = Charities.find(findParams, {
-        // limit: 10,
+    const res = Charities.find(hasSubmission, {
         fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 }
       }).fetch()
       .filter(withSubmissionsOnly)
       .map(totalExpenditureToInt)
       .sort(sortByTotalExpenditure);
+    return res[0];
+  },
+  topEmployer() {
+
+    function employeeToInt(x) {
+      const value = x.Returns[0].Employees.NoEmployees;
+      const NoEmployees = value === "" ? 0 : parseInt(value);
+
+      return {
+        CharityName: x.CharityName,
+        RegisteredCharityNumber: x.RegisteredCharityNumber,
+        NoEmployees: NoEmployees
+      };
+    };
+
+    function sortByNumEmployees(a, b) {
+      if (a.NoEmployees > b.NoEmployees) {
+        return -1
+      };
+      if (a.NoEmployees < b.NoEmployees) {
+        return 1
+      };
+      return 0;
+    }
+
+    const res = Charities.find(hasReturns, {
+        fields: { CharityName: 1, RegisteredCharityNumber: 1, Returns: 1 }
+
+      }).fetch()
+      .map(employeeToInt)
+      .sort(sortByNumEmployees);
+    // console.log(res);
+    return res[0];
+  },
+  topVolunteerPlaces() {
+
+    function volunteerToInt(x) {
+      const value = x.Returns[0].Employees.NoVolunteers;
+      const NoVolunteers = value === "" ? 0 : parseInt(value);
+
+      return {
+        CharityName: x.CharityName,
+        RegisteredCharityNumber: x.RegisteredCharityNumber,
+        NoVolunteers: NoVolunteers
+      };
+    };
+
+    function sortByNumVolunteers(a, b) {
+      if (a.NoVolunteers > b.NoVolunteers) {
+        return -1
+      };
+      if (a.NoVolunteers < b.NoVolunteers) {
+        return 1
+      };
+      return 0;
+    }
+
+    const res = Charities.find(hasReturns, {
+        fields: { CharityName: 1, RegisteredCharityNumber: 1, Returns: 1 }
+
+      }).fetch()
+      .map(volunteerToInt)
+      .sort(sortByNumVolunteers);
+    // console.log(res);
     return res[0];
   }
 });

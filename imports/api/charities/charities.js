@@ -3,7 +3,7 @@
 // collection holding charity commission data
 // server only, no client side cache needed
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+// import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
 const transformer = function transformer(doc) {
   const data = JSON.parse(JSON.stringify(doc));
@@ -32,101 +32,101 @@ const transformer = function transformer(doc) {
     expended: ((((data.Returns || [])[0] || {}).Resources || {}).Expended || {}),
     accountListing: data.AccountListing || [],
     submission: data.Submission || [],
-    employees: (((data.Returns || [])[0] || {}).Employees || {}),
+    employees: (((data.Returns || [])[0] || {}).Employees || { NoEmployees: "0", NoVolunteers: "0" }),
     trustees: data.Trustees || []
   };
 
 };
 
 export const Charities = new Mongo.Collection('charities', {
-  transform: transformer
+  // transform: transformer
 });
 // create & attach schema
 
-const RegistrationHistorySchema = new SimpleSchema({
-  RegistrationDate: {
-    type: Date
-  },
-  RegistrationRemovalDate: {
-    type: Date
-  },
-  RemovalReason: {
-    type: String
-  }
-});
+// const RegistrationHistorySchema = new SimpleSchema({
+//   RegistrationDate: {
+//     type: Date
+//   },
+//   RegistrationRemovalDate: {
+//     type: Date
+//   },
+//   RemovalReason: {
+//     type: String
+//   }
+// });
 
-const AddressSchema = new SimpleSchema({
-  Line1: {
-    type: String
-  },
-  Line2: {
-    type: String
-  },
-  Line3: {
-    type: String
-  },
-  Line4: {
-    type: String
-  },
-  Line5: {
-    type: String
-  },
-  Postcode: {
-    type: String
-  }
-});
+// const AddressSchema = new SimpleSchema({
+//   Line1: {
+//     type: String
+//   },
+//   Line2: {
+//     type: String
+//   },
+//   Line3: {
+//     type: String
+//   },
+//   Line4: {
+//     type: String
+//   },
+//   Line5: {
+//     type: String
+//   },
+//   Postcode: {
+//     type: String
+//   }
+// });
 
-const TrusteesSchema = new SimpleSchema({
-  TrusteeNumber: {
-    type: Number
-  },
-  TrusteeName: {
-    type: String
-  },
-  RelatedCharitiesCount: {
-    type: Number
-  }
-});
+// const TrusteesSchema = new SimpleSchema({
+//   TrusteeNumber: {
+//     type: Number
+//   },
+//   TrusteeName: {
+//     type: String
+//   },
+//   RelatedCharitiesCount: {
+//     type: Number
+//   }
+// });
 
-Charities.schema = new SimpleSchema({
-  CharityName: {
-    type: Number
-  },
-  RegisteredCharityNumber: {
-    type: Number
-  },
-  RegistrationHistory: {
-    type: [RegistrationHistorySchema]
-  },
-  Address: {
-    type: AddressSchema
-  },
-  Activities: {
-    type: String
-  },
-  Trustees: {
-    type: [TrusteesSchema]
-  },
-  GrossIncome: {
-    type: Number
-  },
-  TotalExpenditure: {
-    type: Number
-  },
-  Employees: {
-    type: Number
-  },
-  Volunteers: {
-    type: Number
-  },
-  created: {
-    type: Date,
-    autoValue: function() {
-      if (this.isInsert) {
-        return new Date();
-      }
-    }
-  }
-});
+// Charities.schema = new SimpleSchema({
+//   CharityName: {
+//     type: Number
+//   },
+//   RegisteredCharityNumber: {
+//     type: Number
+//   },
+//   RegistrationHistory: {
+//     type: [RegistrationHistorySchema]
+//   },
+//   Address: {
+//     type: AddressSchema
+//   },
+//   Activities: {
+//     type: String
+//   },
+//   Trustees: {
+//     type: [TrusteesSchema]
+//   },
+//   GrossIncome: {
+//     type: Number
+//   },
+//   TotalExpenditure: {
+//     type: Number
+//   },
+//   Employees: {
+//     type: Number
+//   },
+//   Volunteers: {
+//     type: Number
+//   },
+//   created: {
+//     type: Date,
+//     autoValue: function() {
+//       if (this.isInsert) {
+//         return new Date();
+//       }
+//     }
+//   }
+// });
 
-Charities.attachSchema(Charities.schema);
+// Charities.attachSchema(Charities.schema);
