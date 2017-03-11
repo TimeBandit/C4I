@@ -1,7 +1,40 @@
 // set of homepage queries to be used on client & server
 //1125833 
 //328158
-// import { Charities } from './charities';
+import { Charities } from './charities';
+
+const transformer = function transformer(doc) {
+  const data = JSON.parse(JSON.stringify(doc));
+  console.info(data);
+  return {
+    name: data.CharityName || "",
+    address: data.Address || {},
+    postCode: ((data.Address || {}).Postcode || ""),
+    charityRoleName: ((data.ContactName || {}).CharityRoleName || "").toLowerCase(),
+    registeredCharityNumber: data.RegisteredCharityNumber || "",
+    registeredCompanyNumber: data.RegisteredCompanyNumber || "",
+    registrationHistory: ((data.RegistrationHistory || [])[0] || {}),
+    publicTelephoneNumber: data.PublicTelephoneNumber || "",
+    publicFaxNumber: data.PublicFaxNumber || "",
+    emailAddress: data.EmailAddress || "",
+    webSiteAddress: data.WebsiteAddress || "",
+    activities: data.Activities || "",
+    how: ((data.Classification || {}).How || []),
+    what: ((data.Classification || {}).What || []),
+    who: ((data.Classification || {}).Who || []),
+    areaOfBenefit: data.AreaOfBenefit || "",
+    areaOfOperation: data.AreaOfOperation || [],
+    assets: ((((data.Returns || [])[0] || {}).AssetsAndLiabilities || {}).Assets || {}),
+    funds: ((((data.Returns || [])[0] || {}).AssetsAndLiabilities || {}).Funds || {}),
+    incoming: ((((data.Returns || [])[0] || {}).Resources || {}).Incoming || {}),
+    expended: ((((data.Returns || [])[0] || {}).Resources || {}).Expended || {}),
+    accountListing: data.AccountListing || [],
+    submission: data.Submission || [],
+    employees: (((data.Returns || [])[0] || {}).Employees || { NoEmployees: "0", NoVolunteers: "0" }),
+    trustees: data.Trustees || []
+  };
+
+};
 
 // top 10 queries
 // export const topGrossIncomeQuery = Charities.find({
@@ -48,6 +81,8 @@
 //     fields: {_id:1, CharityName: 1, RegisteredCharityNumber: 1 }
 //   });
 
-// export const currentCharity = function(val) {
-//   return Charities.find({ "RegisteredCharityNumber": val })
-// }
+export const currentCharity = function(val) {
+  return Charities.find({ "RegisteredCharityNumber": val }, {
+    transform: transformer
+  })
+};

@@ -6,7 +6,7 @@ import './App.less';
 
 // components..
 import NavMenu from '../components/NavMenu'
-import SearchContainer from '../containers/SearchContainer';
+// import SearchContainer from '../containers/SearchContainer';
 
 export default class App extends React.Component {
 
@@ -25,6 +25,10 @@ export default class App extends React.Component {
         $('.ui.sidebar')
           .sidebar('attach events', '.toc.item');
       });
+  }
+
+  componentWillUnmount() {
+      $('.ui.sidebar').remove();
   }
 
   render() {

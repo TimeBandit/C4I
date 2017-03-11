@@ -113,10 +113,10 @@ const Submission = function Submission({ title, data, description, colours }) {
 
   let dataCopy = data.slice(0);
 
-  const labels = data.map(val => val.FyEnd);
+  const labels = dataCopy.map(val => val.FyEnd);
 
-  const grossIncomeValues = data.map(val => parseInt(val.GrossIncome));
-  const totalExpenditureValues = data.map(val => parseInt(val.TotalExpenditure));
+  const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
+  const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
   const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
 
   const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
@@ -184,20 +184,7 @@ const Submission = function Submission({ title, data, description, colours }) {
     return string.match(/[A-Z][a-z]+/g);
   };
 
-  const DisplayLegend = function DisplayLegend() {
-    return labels.map(function(label, index) {
-      return (
-        <div className="item legend-item" key={index}>
-            <a className="ui empty circular
-                label" style={{backgroundColor: colours[index]}}>
-            </a>
-                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
-        </div>
-      )
-    })
-  };
-
-  if (data === {}) {
+  if (labels.length === 0) {
     return (<span></span>);
   }
   return (
@@ -223,7 +210,6 @@ const Submission = function Submission({ title, data, description, colours }) {
 const Financial = function Financial({ title, data, description, colours }) {
 
   let dataCopy = Object.assign({}, data);
-  console.log(dataCopy);
   const total = (function getAndremoveTotal(d) {
     let res;
     if (d.hasOwnProperty('TotalFunds')) {
@@ -349,6 +335,25 @@ const WhoWhatHow = function WhoWhatHow({ classification }) {
   )
 };
 
+const CharityNotFound = function CharityNotFound() {
+  return (
+    <div className="ui vertical basic segment cto-group">
+        <div className="ui left aligned text container cto">
+            <h1 className="ui header">
+                Looking for a charity?
+                <div className="sub header">
+                    We could not find the charity you want to see. If you think
+                    it should be included then please consider contacting us.
+                </div>
+                </h1>
+            <button className="ui large green button">
+                Contact Us
+            </button>
+        </div>
+    </div>
+  )
+};
+
 export default class CharityPage extends React.Component {
 
   constructor(props) {
@@ -357,6 +362,10 @@ export default class CharityPage extends React.Component {
   };
 
   componentDidMount() {};
+
+  componentWillMount() {
+    $("#myChart").remove();
+  }
 
   render() {
 
@@ -373,6 +382,12 @@ export default class CharityPage extends React.Component {
     console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
 
+    if (charity === undefined) {
+      return (
+        <CharityNotFound />
+      );
+    };
+    
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">

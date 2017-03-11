@@ -26,14 +26,14 @@ Meteor.startup(function() {
   console.log(`Meteor started`);
   console.log(Charities.find().count());
 
-  if (Charities.find().count() === 0) {
+  if (Charities.find().count() < 50) {
     function scrapeCommission() {
       ccAPI.createClient(ccAPIUrl)
         .then(function(client) {
           // store the client on the function    
           scrapeCommission.client = client;
           // return a list of unique charity numbers
-          return GetCharitiesByKeywordList(scrapeCommission.client, { APIKey }, ["islam", "islamic", "masjid", "madrassa", "mosque", "jamaat", "ummah"]);
+          return GetCharitiesByKeywordList(scrapeCommission.client, { APIKey }, searchTerms);
           //  
         }).then(function(charityIds) {
           console.log(charityIds.res.length);
