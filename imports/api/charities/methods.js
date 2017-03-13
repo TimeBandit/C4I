@@ -22,7 +22,26 @@ Meteor.methods({
   //   })
   // },
 
+  searchTableData() {
+    const withSubmissionsOnly = function withSubmissionsOnly(x) {
+      return x.hasOwnProperty('Returns');
+    };
+    //charityName, city, gross income, employees
+    const res = Charities.find(hasReturns, {
+        fields: {
+          CharityName: 1,
+          RegisteredCharityNumber: 1,
+          "Address.Postcode": 1,
+          "Returns.Employees.NoEmployees": 1,
+          "Returns.Resources.Incoming.Total": 1
+        }
+      }).fetch()
+      .filter(withSubmissionsOnly);
 
+    // return res[10];
+    return res;
+
+  },
   topGrossIncome() {
 
     const withSubmissionsOnly = function withSubmissionsOnly(x) {
@@ -30,8 +49,19 @@ Meteor.methods({
     };
 
     function grossIncomeToInt(x) {
-      const lastSubmission = Array.from(x.Submission).pop();
-      const GrossIncome = lastSubmission.GrossIncome === '' ? 0 : parseInt(lastSubmission.GrossIncome);
+      const submission = Array.from(x.Submission);
+      let GrossIncome = "",
+        lastSubmission;
+
+      while (GrossIncome === "") {
+        lastSubmission = submission.pop();
+        if (lastSubmission.GrossIncome !== "") {
+          GrossIncome = parseInt(lastSubmission.GrossIncome);
+        };
+      };
+
+      // const lastSubmission = Array.from(x.Submission).pop();
+      // const GrossIncome = lastSubmission.GrossIncome === '' ? 0 : parseInt(lastSubmission.GrossIncome);
       const grossIncomeResult = {
         CharityName: x.CharityName,
         RegisteredCharityNumber: x.RegisteredCharityNumber,
@@ -50,7 +80,7 @@ Meteor.methods({
       return 0;
     };
 
-    const res = Charities.find(hasSubmission, {
+    const res = Charities.find(hasReturns, {
         fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 }
       }).fetch()
       .filter(withSubmissionsOnly)
@@ -66,8 +96,17 @@ Meteor.methods({
     };
 
     function totalExpenditureToInt(x) {
-      const lastSubmission = Array.from(x.Submission).pop();
-      const TotalExpenditure = lastSubmission.TotalExpenditure === '' ? 0 : parseInt(lastSubmission.TotalExpenditure);
+      const submission = Array.from(x.Submission);
+      let TotalExpenditure = "",
+        lastSubmission;
+
+      while (TotalExpenditure === "") {
+        lastSubmission = submission.pop();
+        if (lastSubmission.TotalExpenditure !== "") {
+          TotalExpenditure = parseInt(lastSubmission.TotalExpenditure);
+        };
+      };
+
       const res = {
         CharityName: x.CharityName,
         RegisteredCharityNumber: x.RegisteredCharityNumber,
@@ -87,7 +126,7 @@ Meteor.methods({
       return 0;
     }
 
-    const res = Charities.find(hasSubmission, {
+    const res = Charities.find(hasReturns, {
         fields: { CharityName: 1, RegisteredCharityNumber: 1, Submission: 1 }
       }).fetch()
       .filter(withSubmissionsOnly)

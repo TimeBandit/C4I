@@ -381,12 +381,6 @@ export default class CharityPage extends React.Component {
 
     console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
-
-    if (charity === undefined) {
-      return (
-        <CharityNotFound />
-      );
-    };
     
     if (loading) {
       return (
@@ -400,6 +394,12 @@ export default class CharityPage extends React.Component {
       )
     }
 
+    if (charity === undefined) {
+      return (
+        <CharityNotFound />
+      );
+    };
+    
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
