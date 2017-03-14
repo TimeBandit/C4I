@@ -513,7 +513,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">Activities</a>
                                                 <div className="description">
-                                                    {charity.Activities}
+                                                    {charity.activities}
                                                 </div>
                                             </div>
                                         </div>

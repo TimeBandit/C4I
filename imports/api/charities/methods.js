@@ -26,20 +26,21 @@ Meteor.methods({
     const withSubmissionsOnly = function withSubmissionsOnly(x) {
       return x.hasOwnProperty('Returns');
     };
-    //charityName, city, gross income, employees
+    //charityName, city, gross income, employeesyees
     const res = Charities.find(hasReturns, {
         fields: {
           CharityName: 1,
           RegisteredCharityNumber: 1,
           "Address.Postcode": 1,
           "Returns.Employees.NoEmployees": 1,
-          "Returns.Resources.Incoming.Total": 1
+          "Returns.Resources.Incoming.Total": 1,
+          RegistrationHistory: 1
         }
-      }).fetch()
-      .filter(withSubmissionsOnly);
+      }).fetch();
+      // .filter(withSubmissionsOnly);
 
     // return res[10];
-    return res;
+    return res.slice(0, 3);
 
   },
   topGrossIncome() {
