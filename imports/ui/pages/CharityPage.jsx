@@ -23,7 +23,7 @@ const NoData = function NoData({ text }) {
         {text}
     </div>
   );
-}
+};
 
 const CharityReports = function CharityReports({ accountListing }) {
 

@@ -27,20 +27,58 @@ Meteor.methods({
       return x.hasOwnProperty('Returns');
     };
     //charityName, city, gross income, employeesyees
-    const res = Charities.find(hasReturns, {
-        fields: {
-          CharityName: 1,
-          RegisteredCharityNumber: 1,
-          "Address.Postcode": 1,
-          "Returns.Employees.NoEmployees": 1,
-          "Returns.Resources.Incoming.Total": 1,
-          RegistrationHistory: 1
-        }
-      }).fetch();
-      // .filter(withSubmissionsOnly);
+    const res = Charities.find({hasReturns}, {
+      fields: {
+        CharityName: 1,
+        RegisteredCharityNumber: 1,
+        "Address.Postcode": 1,
+        "Returns.Employees.NoEmployees": 1,
+        "Returns.Resources.Incoming.Total": 1,
+        RegistrationHistory: 1
+      }
+    }).fetch();
+    // .filter(withSubmissionsOnly);
 
+    function swapDateWithMonth(dateString) {
+
+      let splitString = dateString.split("/");
+      // let r;
+      // r = 
+      // console.log(`Converted string: ${r}, ${r.length}`);
+      return splitString[1] + "/" + splitString[0] + "/" + splitString[2];
+    };
     // return res[10];
-    return res.slice(0, 3);
+    return res.map(x => {
+      let RemovalReason = (((x.RegistrationHistory || [])[0] || {}).RemovalReason || ""),
+        RegistrationDate = (((x.RegistrationHistory || [])[0] || {}).RegistrationDate || ""),
+        Established,
+        retIncoming = (((((x.Returns || [])[0] || {}).Resources || {}).Incoming || {}).Total || ""),
+        subIncoming = (((x.Submission || []).slice(-1) || {}).GrossIncome || "");
+        console.log(retIncoming, subIncoming);
+
+
+      if (RegistrationDate === "") {
+        Established = "";
+      } else {
+        // console.log("----------------");
+        // console.log(`RegistrationDate: ${RegistrationDate}`)
+        // let tmp = swapDateWithMonth(RegistrationDate);
+        // console.log(new Date(tmp));
+        Established = new Date(swapDateWithMonth(RegistrationDate));
+      };;
+
+      // console.log(`Established: ${Established.getFullYear()}`);
+
+      return {
+        Name: x.CharityName || "",
+        Number: x.RegisteredCharityNumber || "",
+        Established: Established.getFullYear(),
+        Active: RemovalReason === "" ? "Yes" : "No",
+        Incoming: retIncoming || subIncoming,
+        Employees: ((((x.Returns || [])[0] || {}).Employees || {}).NoEmployees || "0"),
+        Postcode: ((x.Address || {}).Postcode || ""),
+      }
+    });
 
   },
   topGrossIncome() {

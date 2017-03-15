@@ -10,7 +10,7 @@
     "babel-polyfill": "^6.13.0",
     "charity-commission-api": "^1.11.0",
     "chart.js": "^2.5.0",
-    "list.js": "^1.5.0",
+    "griddle-react": "^1.1.0",
     "meteor-node-stubs": "~0.2.0",
     "numeral": "^1.5.3",
     "react": "^15.2.1",
