@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import Griddle, { plugins } from 'griddle-react';
-import { RowDefinition } from 'griddle-react';
+import Griddle, { plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import { connect } from 'react-redux';
 
 
@@ -18,12 +17,29 @@ const CustomRowComponent = connect((state, props) => ({
 	      	</div>
 	    	</h4>
 	    </td>
+	    <td>{rowData.Number}</td>
 	    <td>{rowData.Established}</td>
+	    <td>{rowData.Active}</td>
 	    <td>{rowData.Incoming}</td>
 	    <td>{rowData.Employees}</td>
 	    <td>{rowData.Postcode}</td>
 	  </tr>
 ));
+
+const styleConfig = {
+  icons: {
+    TableHeadingCell: {
+      sortDescendingIcon: <small>(desc)</small>,
+      sortAscendingIcon: <small>(asc)</small>,
+    },
+  },
+  classNames: {
+    Table: 'ui very basic collapsing celled table',
+  },
+  styles: {
+    
+  }
+}
 
 export default class SearchPage extends Component {
   constructor(props) {
@@ -53,15 +69,17 @@ export default class SearchPage extends Component {
 		        <Griddle
 					    data={this.state.charities}
 					    plugins={[plugins.LocalPlugin]}
-					    components={{
-					      Row: CustomRowComponent
-					    }}>
+					    styleConfig={styleConfig}
+							// components={{
+							//   Row: CustomRowComponent
+							// }}>
+					    >
 					    <RowDefinition>
-						    <ColumnDefinition id="Name" title="Name" />
-						    <ColumnDefinition id="Established" title="Name" />
-						    <ColumnDefinition id="Incoming" title="Name" />
-						    <ColumnDefinition id="Employees" title="Name" />
-						    <ColumnDefinition id="Postcode" title="Name" />
+					      <ColumnDefinition id="Name" title="Name" />
+					      <ColumnDefinition id="Established" title="Established" />
+					      <ColumnDefinition id="Incoming" title="Incoming" />
+					      <ColumnDefinition id="Employees" title="Employees" />
+					      <ColumnDefinition id="Postcode" title="Postcode" />
 					    </RowDefinition>
 					  </Griddle>
 		    	</div>
@@ -72,6 +90,15 @@ export default class SearchPage extends Component {
     }
   }
 }
+/*							<RowDefinition>
+						    <ColumnDefinition id="Name" title="Name" />
+						    <ColumnDefinition id="Established" title="Established" />
+						    <ColumnDefinition id="Incoming" title="Incoming" />
+						    <ColumnDefinition id="Employees" title="Employees" />
+						    <ColumnDefinition id="Postcode" title="Postcode" />
+					    </RowDefinition>
+*/
+
 
 
 // <div className="ui cards">
