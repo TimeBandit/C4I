@@ -26,56 +26,46 @@ Meteor.methods({
     const withSubmissionsOnly = function withSubmissionsOnly(x) {
       return x.hasOwnProperty('Returns');
     };
-    //charityName, city, gross income, employeesyees
-    const res = Charities.find({hasReturns}, {
+
+    const res = Charities.find({}, {
       fields: {
         CharityName: 1,
         RegisteredCharityNumber: 1,
         "Address.Postcode": 1,
         "Returns.Employees.NoEmployees": 1,
         "Returns.Resources.Incoming.Total": 1,
+        Submission: 1,
         RegistrationHistory: 1
       }
     }).fetch();
-    // .filter(withSubmissionsOnly);
 
     function swapDateWithMonth(dateString) {
-
       let splitString = dateString.split("/");
-      // let r;
-      // r = 
-      // console.log(`Converted string: ${r}, ${r.length}`);
       return splitString[1] + "/" + splitString[0] + "/" + splitString[2];
     };
-    // return res[10];
+
     return res.map(x => {
-      let RemovalReason = (((x.RegistrationHistory || [])[0] || {}).RemovalReason || ""),
-        RegistrationDate = (((x.RegistrationHistory || [])[0] || {}).RegistrationDate || ""),
-        Established,
-        retIncoming = (((((x.Returns || [])[0] || {}).Resources || {}).Incoming || {}).Total || ""),
-        subIncoming = (((x.Submission || []).slice(-1) || {}).GrossIncome || "");
-        console.log(retIncoming, subIncoming);
+      const RemovalReason = (((x.RegistrationHistory || [])[0] || {}).RemovalReason || "");
+      let RegistrationDate = (((x.RegistrationHistory || [])[0] || {}).RegistrationDate || "");
+      let Established;
+      let retIncoming = (((((x.Returns || [])[0] || {}).Resources || {}).Incoming || {}).Total || 0);
+      let subIncoming = (((x.Submission || []).slice(-1)[0] || {}).GrossIncome || 0);
+      let Employees = ((((x.Returns || [])[0] || {}).Employees || {}).NoEmployees || "0");
 
 
       if (RegistrationDate === "") {
         Established = "";
       } else {
-        // console.log("----------------");
-        // console.log(`RegistrationDate: ${RegistrationDate}`)
-        // let tmp = swapDateWithMonth(RegistrationDate);
-        // console.log(new Date(tmp));
         Established = new Date(swapDateWithMonth(RegistrationDate));
-      };;
-
-      // console.log(`Established: ${Established.getFullYear()}`);
+      };
 
       return {
         Name: x.CharityName || "",
         Number: x.RegisteredCharityNumber || "",
         Established: Established.getFullYear(),
         Active: RemovalReason === "" ? "Yes" : "No",
-        Incoming: retIncoming || subIncoming,
-        Employees: ((((x.Returns || [])[0] || {}).Employees || {}).NoEmployees || "0"),
+        Incoming: parseInt(retIncoming || subIncoming),
+        Employees: parseInt(Employees),
         Postcode: ((x.Address || {}).Postcode || ""),
       }
     });

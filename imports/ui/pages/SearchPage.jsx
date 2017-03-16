@@ -1,6 +1,29 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import Griddle, { plugins } from 'griddle-react';
+import { RowDefinition } from 'griddle-react';
+import { connect } from 'react-redux';
+
+
+const CustomRowComponent = connect((state, props) => ({
+  rowData: plugins.LocalPlugin.selectors.rowDataSelector(state, props)
+}))(({ rowData }) => (
+  <tr>
+	    <td>
+	      <h4 className="ui header">
+	          <div className="content">
+	            {rowData.Name}
+	            <div className="sub header">{rowData.Number}
+	          </div>
+	      	</div>
+	    	</h4>
+	    </td>
+	    <td>{rowData.Established}</td>
+	    <td>{rowData.Incoming}</td>
+	    <td>{rowData.Employees}</td>
+	    <td>{rowData.Postcode}</td>
+	  </tr>
+));
 
 export default class SearchPage extends Component {
   constructor(props) {
@@ -30,12 +53,22 @@ export default class SearchPage extends Component {
 		        <Griddle
 					    data={this.state.charities}
 					    plugins={[plugins.LocalPlugin]}
-					  />
+					    components={{
+					      Row: CustomRowComponent
+					    }}>
+					    <RowDefinition>
+						    <ColumnDefinition id="Name" title="Name" />
+						    <ColumnDefinition id="Established" title="Name" />
+						    <ColumnDefinition id="Incoming" title="Name" />
+						    <ColumnDefinition id="Employees" title="Name" />
+						    <ColumnDefinition id="Postcode" title="Name" />
+					    </RowDefinition>
+					  </Griddle>
 		    	</div>
 	    	</div>
       );
-    }else{
-    	return ( <span></span>)
+    } else {
+      return (<span></span>)
     }
   }
 }
