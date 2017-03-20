@@ -27,7 +27,7 @@ Meteor.methods({
       return x.hasOwnProperty('Returns');
     };
 
-    const res = Charities.find(hasReturns, {
+    const res = Charities.find({}, {
       fields: {
         CharityName: 1,
         RegisteredCharityNumber: 1,
