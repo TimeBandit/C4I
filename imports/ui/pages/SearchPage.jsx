@@ -30,13 +30,9 @@ const CustomRowComponent = connect((state, props) => ({
 	  </tr>
   ));
 
-const NewLayout = ({ Table, Pagination, Filter, SettingsWrapper }) => (
-  <div>
-    <Filter />
-    <Pagination />
-    <Table />
-  </div>
-);
+const defaultSortOrder = {
+  sortProperties: [{ id: 'Incoming', sortDescending: true }]
+};
 
 const styleConfig = {
   icons: {
@@ -67,7 +63,7 @@ export default class SearchPage extends Component {
   componentWillMount() {
     const self = this;
     Meteor.call('searchTableData', function(error, result) {
-      console.log('method call ', result);
+      // console.log('method call ', result);
       if (result) {
         self.setState({ charities: result });
       }
@@ -82,11 +78,25 @@ export default class SearchPage extends Component {
     if (this.state.charities) {
       return (
         <div className="ui vertical segment">
+        	<div className="ui container">
+        		<div className="ui large header">
+						  <i className="search icon"></i>
+						  <div className="content">
+						  	Search
+							  <div className="sub header">
+						    	Search for any charity by typing your search terms into the box. 
+						    	You can also sort the list by clicking on any column heading.
+						    	Highlighted rows are charities that are no longer active.
+							  </div>
+						  </div>
+						</div>
+        	</div>
 		    	<div className="ui container">
 		        <Griddle
 					    data={this.state.charities}
 					    plugins={[plugins.LocalPlugin]}
 					    styleConfig={styleConfig}
+					    sortProperties={[{ id: 'Incoming', sortDescending: true }]}
 							components={{
 							  Row: CustomRowComponent
 							}}>
@@ -102,7 +112,16 @@ export default class SearchPage extends Component {
 	    	</div>
       );
     } else {
-      return (<span></span>)
+      return (
+        <div className="ui equal width stackable vertically divided grid container">
+            <div className="center aligned row">
+                <div className="column">
+                    <div className="ui active loader">Loading</div>
+                </div>
+            </div>
+        </div>
+      )
+
     }
   }
 };
