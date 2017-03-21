@@ -43,8 +43,8 @@ const styleConfig = {
   },
   classNames: {
     Table: 'ui very basic collapsing celled table',
-    SettingsToggle: 'ui button',
-    Filter: 'ui large input',
+    SettingsToggle: 'ui button search-settings',
+    Filter: 'ui large input search-input',
     NextButton: 'ui button',
     PreviousButton: 'ui button',
     PageDropdown: 'ui dropdown'
@@ -78,20 +78,20 @@ export default class SearchPage extends Component {
     if (this.state.charities) {
       return (
         <div className="ui vertical segment">
-        	<div className="ui container">
-        		<div className="ui large header">
-						  <i className="search icon"></i>
-						  <div className="content">
-						  	Search
-							  <div className="sub header">
-						    	Search for any charity by typing your search terms into the box. 
-						    	You can also sort the list by clicking on any column heading.
-						    	Highlighted rows are charities that are no longer active.
-							  </div>
-						  </div>
-						</div>
-        	</div>
-		    	<div className="ui container">
+          <div className="ui vertical basic segment cto-group">
+            <div className="ui left aligned text container cto">
+                <h1 className="ui header">
+                    Looking for a charity?
+                    <div className="sub header">
+                        Type your search terms into the box. 
+                        Click on a column heading to sort.
+                        Highlighted rows are charities 
+                        that are no longer active.
+                    </div>
+                </h1>
+              </div>
+          </div>
+		    	<div className="ui text container">
 		        <Griddle
 					    data={this.state.charities}
 					    plugins={[plugins.LocalPlugin]}
