@@ -11,6 +11,10 @@ const hasReturns = {
   "Returns": { $exists: true }
 };
 
+const withSubmissionsOnly = function withSubmissionsOnly(x) {
+  return x.hasOwnProperty('Submission');
+};
+
 Meteor.methods({
   // getSearchContent() {
   //   let cursor = Charities.find({}, { fields: { _id: 1, CharityName: 1, RegisteredCharityNumber: 1 } })
@@ -23,9 +27,6 @@ Meteor.methods({
   // },
 
   searchTableData() {
-    const withSubmissionsOnly = function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('Returns');
-    };
 
     const res = Charities.find({}, {
       fields: {
@@ -37,7 +38,7 @@ Meteor.methods({
         Submission: 1,
         RegistrationHistory: 1
       }
-    }).fetch();
+    });
 
     function swapDateWithMonth(dateString) {
       let splitString = dateString.split("/");
@@ -69,13 +70,8 @@ Meteor.methods({
         Postcode: ((x.Address || {}).Postcode || ""),
       }
     });
-
   },
   topGrossIncome() {
-
-    const withSubmissionsOnly = function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('Submission');
-    };
 
     function grossIncomeToInt(x) {
       const submission = Array.from(x.Submission);
@@ -119,10 +115,6 @@ Meteor.methods({
     return res[0];
   },
   topTotalExpenditure() {
-
-    function withSubmissionsOnly(x) {
-      return x.hasOwnProperty('Submission');
-    };
 
     function totalExpenditureToInt(x) {
       const submission = Array.from(x.Submission);

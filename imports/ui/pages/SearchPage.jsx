@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import { connect } from 'react-redux'
 import { currencyFormat } from '../helpers/helpers';
+import { Link } from 'react-router';
 
 
 const CustomRowComponent = connect((state, props) => ({
@@ -13,9 +14,9 @@ const CustomRowComponent = connect((state, props) => ({
 	    <td>
 	      <h4 className="ui header">
 	          <div className="content">
-	          	<a href={"/charity/" + rowData.Number}>
+	          	<Link to={"/charity/" + rowData.Number}>
 		            {rowData.Name}
-	          	</a>
+	          	</Link>
 	            <div className="sub header">{rowData.Number}
 	          </div>
 	      	</div>
@@ -63,13 +64,16 @@ export default class SearchPage extends Component {
   componentWillMount() {
     console.time("list loading");
     const self = this;
-    Meteor.call('searchTableData', function(error, result) {
-      // console.log('method call ', result);
-      if (result) {
-        self.setState({ charities: result });
-        console.timeEnd("list loading");
-      }
-    });
+    // Meteor.call('searchTableData', function(error, result) {
+    //   // console.log('method call ', result);
+    //   if (result) {
+    //     self.setState({ charities: result });
+    //     console.timeEnd("list loading");
+    //   }
+    // });
+    if (this.props.resultExists) {
+      self.setState({ charities: this.props.result });
+    }
   };
 
   componentWillUnmount() {
@@ -77,6 +81,8 @@ export default class SearchPage extends Component {
   };
 
   render() {
+    this.props.loading? console.time(`pub loading`) : console.timeEnd(`pub loading`);
+    console.log(this.props.result);
     if (this.state.charities) {
       return (
         <div className="ui vertical segment">
