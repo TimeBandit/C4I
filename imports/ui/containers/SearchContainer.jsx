@@ -1,17 +1,20 @@
 import { Meteor } from 'meteor/meteor';
-import { Charities } from '../../api/charities/charities'
+import { SubsCache } from 'meteor/ccorcos:subs-cache';
+
+import { CharityList } from '../../api/charities/client/CharityList'
 import { createContainer } from 'meteor/react-meteor-data';
-import { searchContent } from '../../api/charities/queries'
-import Search from '../components/Search'
-// creates a container around the app componenet
+import SearchPage from '../pages/SearchPage'
+// SearchPage
+let subsCache = new SubsCache(5, 10);
+console.log(subsCache)
 export default createContainer(() => {
-	// const handle = Meteor.subscribe('search.data');;;
- //  const loading = !handle.ready();
- //  const res = searchContent.fetch();
- //  const resultExists = !loading && !!res;
+  const handle = subsCache.subscribe('charity.list');
+  const loading = !subsCache.onReady();
+  const res = CharityList.find({}).fetch();
+  const resultExists = !loading && !!res;
   return {
-  	// loading,.
-   //  resultExists,
-   //  result: resultExists ? res : []
+    loading,
+    resultExists,
+    result: resultExists ? res : []
   };
-}, Search);
+}, SearchPage);

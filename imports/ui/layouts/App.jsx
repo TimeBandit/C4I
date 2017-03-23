@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 // import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 // css
@@ -6,7 +7,13 @@ import './App.less';
 
 // components..
 import NavMenu from '../components/NavMenu'
-import SearchContainer from '../containers/SearchContainer';
+// import SearchContainer from '../containers/SearchContainer';
+
+const NavLink = (props) => (
+  <a className="item">
+    <Link {...props} style={{ color: 'inherit' }}/>
+  </a>
+)
 
 export default class App extends React.Component {
 
@@ -27,16 +34,24 @@ export default class App extends React.Component {
       });
   }
 
+  componentWillUnmount() {
+      $('.ui.sidebar').remove();
+  }
+
   render() {
     return (
       <span>
         <div className="ui vertical basic segment menu-segment">
             <div className="ui container">
                 <nav className="ui large inverted borderless menu">
-                    <a className="active item">Home</a>
-                    <a className="item">About</a>
-                    <a className="item">Search</a>
-                    <a className="item">Contact</a>
+                    <Link className="item" to="/">Home</Link>
+                    <Link className="item" to="/about">About</Link>
+                    <Link className="item" to="/search">Search</Link>
+                    <Link className="item" to="/contact">Contact</Link>
+                    {/*<a className="active item">Home</a>
+                                        <a className="item">About</a>
+                                        <a className="item">Search</a>
+                                        <a className="item">Contact</a>*/}
                     <a className="toc item mini-title">
                                 Islamic Charity Book
                             </a>

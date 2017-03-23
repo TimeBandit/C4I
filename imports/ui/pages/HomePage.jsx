@@ -75,7 +75,10 @@ export default class HomePage extends React.Component {
                 <h1 className="ui header">
                             About this site
                             <div className="sub header">
-                                The Islamic Charity Book is a directory of Islamic Charities registered in the UK. All the data you see here is publicly available. Missing a charity? Suggestions?
+                                The Islamic Charity Book is a directory of 
+                                Islamic Charities registered in the UK. All the 
+                                data you see here is publicly available. Missing 
+                                a charity? Suggestions?
                             </div>
                         </h1>
                 <button className="ui large green button">

@@ -17,6 +17,14 @@ const grey = "#DCDDDE";
 const black = "#545454";
 const colours = [olive, green, teal, blue, violet, purple, pink];
 
+const NoData = function NoData({ text }) {
+  return (
+    <div className="ui large yellow label">
+        {text}
+    </div>
+  );
+};
+
 const CharityReports = function CharityReports({ accountListing }) {
 
   const Item = function Item({ listing }) {
@@ -105,10 +113,10 @@ const Submission = function Submission({ title, data, description, colours }) {
 
   let dataCopy = data.slice(0);
 
-  const labels = data.map(val => val.FyEnd);
+  const labels = dataCopy.map(val => val.FyEnd);
 
-  const grossIncomeValues = data.map(val => parseInt(val.GrossIncome));
-  const totalExpenditureValues = data.map(val => parseInt(val.TotalExpenditure));
+  const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
+  const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
   const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
 
   const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
@@ -176,20 +184,7 @@ const Submission = function Submission({ title, data, description, colours }) {
     return string.match(/[A-Z][a-z]+/g);
   };
 
-  const DisplayLegend = function DisplayLegend() {
-    return labels.map(function(label, index) {
-      return (
-        <div className="item legend-item" key={index}>
-            <a className="ui empty circular
-                label" style={{backgroundColor: colours[index]}}>
-            </a>
-                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
-        </div>
-      )
-    })
-  };
-
-  if (data === {}) {
+  if (labels.length === 0) {
     return (<span></span>);
   }
   return (
@@ -215,7 +210,6 @@ const Submission = function Submission({ title, data, description, colours }) {
 const Financial = function Financial({ title, data, description, colours }) {
 
   let dataCopy = Object.assign({}, data);
-
   const total = (function getAndremoveTotal(d) {
     let res;
     if (d.hasOwnProperty('TotalFunds')) {
@@ -271,7 +265,7 @@ const Financial = function Financial({ title, data, description, colours }) {
     })
   };
 
-  if (data === {}) {
+  if (labels.length === 0) {
     return (<span></span>);
   }
   return (
@@ -341,6 +335,25 @@ const WhoWhatHow = function WhoWhatHow({ classification }) {
   )
 };
 
+const CharityNotFound = function CharityNotFound() {
+  return (
+    <div className="ui vertical basic segment cto-group">
+        <div className="ui left aligned text container cto">
+            <h1 className="ui header">
+                Looking for a charity?
+                <div className="sub header">
+                    We could not find the charity you want to see. If you think
+                    it should be included then please consider contacting us.
+                </div>
+                </h1>
+            <button className="ui large green button">
+                Contact Us
+            </button>
+        </div>
+    </div>
+  )
+};
+
 export default class CharityPage extends React.Component {
 
   constructor(props) {
@@ -349,6 +362,10 @@ export default class CharityPage extends React.Component {
   };
 
   componentDidMount() {};
+
+  componentWillMount() {
+    $("#myChart").remove();
+  }
 
   render() {
 
@@ -364,7 +381,7 @@ export default class CharityPage extends React.Component {
 
     console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
-
+    
     if (loading) {
       return (
         <div className="ui equal width stackable vertically divided grid container">
@@ -377,6 +394,12 @@ export default class CharityPage extends React.Component {
       )
     }
 
+    if (charity === undefined) {
+      return (
+        <CharityNotFound />
+      );
+    };
+    
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
@@ -490,7 +513,7 @@ export default class CharityPage extends React.Component {
                                             <div className="content">
                                                 <a className="header">Activities</a>
                                                 <div className="description">
-                                                    {charity.Activities}
+                                                    {charity.activities}
                                                 </div>
                                             </div>
                                         </div>
@@ -590,31 +613,31 @@ export default class CharityPage extends React.Component {
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content ">
-                                                    Own Use Assets: {currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))}
+                                                    Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Long Term Investments: {currencyFormat(parseInt(charity.assets.FixedAssetInvestments))}
+                                                    Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Pension Scheme Asset Liability: {currencyFormat(parseInt(charity.assets.PensionFundAssets))}
+                                                    Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Other Assets: {currencyFormat(parseInt(charity.assets.TotalCurrentAssets))}
+                                                    Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                             <div className="item">
                                                 <i className="info circle icon"></i>
                                                 <div className="content">
-                                                    Total Liability: {currencyFormat(parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))}
+                                                    Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
                                                 </div>
                                             </div>
                                         </div>
