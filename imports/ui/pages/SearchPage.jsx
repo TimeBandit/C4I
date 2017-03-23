@@ -62,7 +62,6 @@ export default class SearchPage extends Component {
   };
 
   componentWillMount() {
-    console.time("list loading");
     const self = this;
     // Meteor.call('searchTableData', function(error, result) {
     //   // console.log('method call ', result);
@@ -72,7 +71,8 @@ export default class SearchPage extends Component {
     //   }
     // });
     if (this.props.resultExists) {
-      self.setState({ charities: this.props.result });
+      console.info("storing list in state");
+      // self.setState({ charities: this.props.result });
     }
   };
 
@@ -82,8 +82,9 @@ export default class SearchPage extends Component {
 
   render() {
     this.props.loading? console.time(`pub loading`) : console.timeEnd(`pub loading`);
-    console.log(this.props.result);
-    if (this.state.charities) {
+    const { loading, resultExists, result} = this.props;
+    console.log({loading, resultExists, result});
+    if (this.props.resultExists) {
       return (
         <div className="ui vertical segment">
           <div className="ui vertical basic segment cto-group">
@@ -101,7 +102,7 @@ export default class SearchPage extends Component {
           </div>
 		    	<div className="ui text container">
 		        <Griddle
-					    data={this.state.charities}
+					    data={this.props.result}
 					    plugins={[plugins.LocalPlugin]}
 					    styleConfig={styleConfig}
 					    sortProperties={[{ id: 'Incoming', sortDescending: true }]}
