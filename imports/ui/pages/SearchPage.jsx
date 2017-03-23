@@ -62,18 +62,6 @@ export default class SearchPage extends Component {
   };
 
   componentWillMount() {
-    const self = this;
-    // Meteor.call('searchTableData', function(error, result) {
-    //   // console.log('method call ', result);
-    //   if (result) {
-    //     self.setState({ charities: result });
-    //     console.timeEnd("list loading");
-    //   }
-    // });
-    if (this.props.resultExists) {
-      console.info("storing list in state");
-      // self.setState({ charities: this.props.result });
-    }
   };
 
   componentWillUnmount() {

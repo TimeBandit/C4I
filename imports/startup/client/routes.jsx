@@ -26,8 +26,9 @@ export const renderRoutes = () => (
       <Route path="/search" component={SearchContainer} />
       <Route path="/contact" component={ContactPage} />
       <Route path="/charity/:registeredCharityNumber" component={CharityPageContainer} />
-      <Route path="/myfavourites" component={MyFavouritesPage} />
-      <Route path="/legal" component={LegalPage} />
+      {/*<Route path="/myfavourites" component={MyFavouritesPage} />
+            <Route path="/legal" component={LegalPage} />*/}
+      {/*<Route path="*" component={NotFoundPage}/>*/}
     </Route>
   </Router>
 );
