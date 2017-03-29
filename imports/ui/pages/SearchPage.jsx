@@ -3,32 +3,32 @@ import React, { Component } from 'react';
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import { connect } from 'react-redux'
 import { currencyFormat } from '../helpers/helpers';
-import { Link } from 'react-router';
-
+import { Link } from 'react-router'
+import Loader from '../components/Loader';
 
 const CustomRowComponent = connect((state, props) => ({
     rowData: plugins.LocalPlugin.selectors.rowDataSelector(state, props)
   }))
   (({ rowData }) => (
     <tr className={rowData.Active === "No"? "error" : ""}>
-	    <td>
-	      <h4 className="ui header">
-	          <div className="content">
-	          	<Link to={"/charity/" + rowData.Number}>
-		            {rowData.Name}
-	          	</Link>
-	            <div className="sub header">{rowData.Number}
-	          </div>
-	      	</div>
-	    	</h4>
-	    </td>
-	    {/*<td>{rowData.Number}</td>*/}
-	    <td>{rowData.Established}</td>
-	    {/*<td>{rowData.Active}</td>*/}
-	    <td>{currencyFormat(rowData.Incoming)}</td>
-	    <td>{rowData.Employees}</td>
-	    <td>{rowData.Postcode}</td>
-	  </tr>
+      <td>
+        <h4 className="ui header">
+            <div className="content">
+              <Link to={"/charity/" + rowData.Number}>
+                {rowData.Name}
+              </Link>
+              <div className="sub header">{rowData.Number}
+            </div>
+          </div>
+        </h4>
+      </td>
+      {/*<td>{rowData.Number}</td>*/}
+      <td>{rowData.Established}</td>
+      {/*<td>{rowData.Active}</td>*/}
+      <td>{currencyFormat(rowData.Incoming)}</td>
+      <td>{rowData.Employees}</td>
+      <td>{rowData.Postcode}</td>
+    </tr>
   ));
 
 const defaultSortOrder = {
@@ -61,18 +61,16 @@ export default class SearchPage extends Component {
     this.state = {};
   };
 
-  componentWillMount() {
-  };
+  componentWillMount() {};
 
   componentWillUnmount() {
 
   };
 
   render() {
-    this.props.loading? console.time(`pub loading`) : console.timeEnd(`pub loading`);
-    const { loading, resultExists, result} = this.props;
-    console.log({loading, resultExists, result});
-    if (this.props.resultExists) {
+    this.props.loading ? console.time(`pub loading`) : console.timeEnd(`pub loading`);
+    const { loading, resultExists, result } = this.props;
+    if (this.props.result.length !== 0) {
       return (
         <div className="ui vertical segment">
           <div className="ui vertical basic segment cto-group">
@@ -88,37 +86,30 @@ export default class SearchPage extends Component {
                 </h1>
               </div>
           </div>
-		    	<div className="ui text container">
-		        <Griddle
-					    data={this.props.result}
-					    plugins={[plugins.LocalPlugin]}
-					    styleConfig={styleConfig}
-					    sortProperties={[{ id: 'Incoming', sortDescending: true }]}
-							components={{
-							  Row: CustomRowComponent
-							}}>
-					    <RowDefinition>
-					      <ColumnDefinition id="Name" title="Name" />
-					      <ColumnDefinition id="Established" title="Established" />
-					      <ColumnDefinition id="Incoming" title="Incoming" />
-					      <ColumnDefinition id="Employees" title="Employees" />
-					      <ColumnDefinition id="Postcode" title="Postcode" />
-					    </RowDefinition>
-					  </Griddle>
-		    	</div>
-	    	</div>
+          <div className="ui text container">
+            <Griddle
+              data={this.props.result}
+              plugins={[plugins.LocalPlugin]}
+              styleConfig={styleConfig}
+              sortProperties={[{ id: 'Incoming', sortDescending: true }]}
+              components={{
+                Row: CustomRowComponent
+              }}>
+              <RowDefinition>
+                <ColumnDefinition id="Name" title="Name" />
+                <ColumnDefinition id="Established" title="Established" />
+                <ColumnDefinition id="Incoming" title="Incoming" />
+                <ColumnDefinition id="Employees" title="Employees" />
+                <ColumnDefinition id="Postcode" title="Postcode" />
+              </RowDefinition>
+            </Griddle>
+          </div>
+        </div>
       );
     } else {
       return (
-        <div className="ui equal width stackable vertically divided grid container">
-            <div className="center aligned row">
-                <div className="column">
-                    <div className="ui active loader">Loading</div>
-                </div>
-            </div>
-        </div>
+        <Loader message="Loading table of Islamic Charities" />
       )
-
     }
   }
 };
