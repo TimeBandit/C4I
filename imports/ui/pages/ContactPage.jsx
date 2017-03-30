@@ -1,40 +1,44 @@
 import React from 'react';
 
-const ContactPage = () => (
-  <div className="ui middle aligned center aligned grid">
-	  <div className="column" style={{maxWidth: "450px"}}>
-	    <h2 className="ui teal image header">
-	      <img src="assets/images/logo.png" className="image"/>
-	      <div className="content">
-	        Log-in to your account
-	      </div>
-	    </h2>
-	    <form className="ui large form">
-	      <div className="ui stacked segment">
-	        <div className="field">
-	          <div className="ui left icon input">
-	            <i className="user icon"></i>
-	            <input type="text" name="email" placeholder="E-mail address"/>
+const ContactPage = () => {
+  function buttonPress(e) {
+    console.log(`button was pressed at: ${new Date()}`);
+  };
+
+  return (
+    <div className="ui middle aligned center aligned grid">
+		  <div className="column" style={{maxWidth: "450px", margin: "6rem auto"}}>
+		    <h1 className="ui header" style={{textAlign: "left", marginBottom: "2rem"}}>
+	          Contact us 👳
+	          <div className="sub header">
+	              Questions, comments or suggestions, we want to hear from you.
 	          </div>
-	        </div>
-	        <div className="field">
-	          <div className="ui left icon input">
-	            <i className="lock icon"></i>
-	            <input type="password" name="password" placeholder="Password"/>
-	          </div>
-	        </div>
-	        <div className="ui fluid large teal submit button">Login</div>
-	      </div>
-
-	      <div className="ui error message"></div>
-
-	    </form>
-
-	    <div className="ui message">
-	      New to us? <a href="#">Sign Up</a>
-	    </div>
-	  </div>
-	</div>
-);
+	      </h1>
+		    <form className="ui large form">
+		      <div className="ui stacked segment">
+		        <div className="field">
+		          <div className="ui left icon input">
+		            <i className="user icon"></i>
+		            <input type="text" name="name" placeholder="Name"/>
+		          </div>
+		        </div>
+		        <div className="field">
+		          <div className="ui left icon input">
+		            <i className="at icon"></i>
+		            <input type="text" name="email" placeholder="Email"/>
+		          </div>
+		        </div>
+		        <div className="field" style={{textAlign: "left"}}>
+					    <label>Message:</label>
+					    <textarea></textarea>
+					  </div>
+		        <div className="ui fluid large teal submit button" onClick={buttonPress}>Send</div>
+		      </div>
+		      <div className="ui error message"></div>
+		    </form>
+		  </div>
+		</div>
+  )
+};
 
 export default ContactPage;
