@@ -1,8 +1,18 @@
 import React from 'react';
 
+/*
+Server name: smtp-mail.outlook.com
+Port: 587
+Encryption method: STARTTLS
+*/
 const ContactPage = () => {
+  let name = null,
+    email = null,
+    message = null;
+
   function buttonPress(e) {
-    console.log(`button was pressed at: ${new Date()}`);
+    console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
+    Meteor.call('sendEmail', name.value, email.value, message.value);
   };
 
   return (
@@ -19,18 +29,18 @@ const ContactPage = () => {
 		        <div className="field">
 		          <div className="ui left icon input">
 		            <i className="user icon"></i>
-		            <input type="text" name="name" placeholder="Name"/>
+		            <input type="text" name="name" placeholder="Name" ref={(input) => { name = input; }}/>
 		          </div>
 		        </div>
 		        <div className="field">
 		          <div className="ui left icon input">
 		            <i className="at icon"></i>
-		            <input type="text" name="email" placeholder="Email"/>
+		            <input type="text" name="email" placeholder="Email" ref={(input) => { email = input; }}/>
 		          </div>
 		        </div>
 		        <div className="field" style={{textAlign: "left"}}>
 					    <label>Message:</label>
-					    <textarea></textarea>
+					    <textarea ref={(input) => { message = input; }}></textarea>
 					  </div>
 		        <div className="ui fluid large teal submit button" onClick={buttonPress}>Send</div>
 		      </div>

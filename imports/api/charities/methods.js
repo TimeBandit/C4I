@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Charities } from './charities';
+import * as emailjs from 'emailjs';
 
 const hasSubmission = {
   "RegistrationHistory.RemovalReason": { $eq: "" },
@@ -25,6 +26,24 @@ Meteor.methods({
   //     }
   //   })
   // },
+
+  sendEmail(name, email, message) {
+    var server = emailjs.server.connect({
+      user: "heptopod@outlook.com",
+      password: Meteor.settings.private.heptapod_pswd,
+      host: "smtp-mail.outlook.com",
+      port: "587",
+      tls: { ciphers: "SSLv3" }
+    });
+    server.send({
+      text: `Email: ${email},\nMessage: ${message}`,
+      from: "heptopod@outlook.com",
+      to: "imran.nazir@yahoo.co.uk",
+      cc: "",
+      subject: `c4i: ${name}`
+    }, function(err,
+      message) { console.log(err || message); });
+  },
 
   searchTableData() {
 
