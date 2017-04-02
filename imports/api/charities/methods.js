@@ -40,7 +40,7 @@ Meteor.methods({
       from: "heptopod@outlook.com",
       to: "imran.nazir@yahoo.co.uk",
       cc: "",
-      subject: `c4i: ${name}`
+      subject: `C4I : ${name}`
     }, function(err,
       message) { console.log(err || message); });
   },

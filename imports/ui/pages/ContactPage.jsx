@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router'
 
 /*
 Server name: smtp-mail.outlook.com
@@ -6,6 +7,7 @@ Port: 587
 Encryption method: STARTTLS
 */
 const ContactPage = () => {
+  // ref placeholders
   let name = null,
     email = null,
     message = null;
@@ -13,6 +15,15 @@ const ContactPage = () => {
   function buttonPress(e) {
     console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
     Meteor.call('sendEmail', name.value, email.value, message.value);
+  };
+
+  function submitForm(e) {
+    e.preventDefault()
+    console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
+    Meteor.call('sendEmail', name.value, email.value, message.value);
+    setTimeout(function() {
+      window.location.replace("/thankyou");
+    }, 2000);
   };
 
   return (
@@ -24,7 +35,7 @@ const ContactPage = () => {
 	              Questions, comments or suggestions, we want to hear from you.
 	          </div>
 	      </h1>
-		    <form className="ui large form">
+		    <form className="ui large form" onSubmit={submitForm}>
 		      <div className="ui stacked segment">
 		        <div className="field">
 		          <div className="ui left icon input">
@@ -42,7 +53,8 @@ const ContactPage = () => {
 					    <label>Message:</label>
 					    <textarea ref={(input) => { message = input; }}></textarea>
 					  </div>
-		        <div className="ui fluid large teal submit button" onClick={buttonPress}>Send</div>
+					  <button className="ui button ui fluid large teal submit button" type="submit">Send</button>
+		        {/*<div className="ui fluid large teal submit button" onClick={buttonPress}>Send</div>*/}
 		      </div>
 		      <div className="ui error message"></div>
 		    </form>

@@ -17,6 +17,7 @@ import LegalPage from '../../ui/pages/LegalPage'
 import MyFavouritesPage from '../../ui/pages/MyFavouritesPage'
 import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
+import ThankYou from '../../ui/pages/ThankYou'
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
@@ -25,6 +26,7 @@ export const renderRoutes = () => (
       <Route path="/about" component={AboutPage} />
       <Route path="/search" component={SearchContainer} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/thankyou" component={ThankYou} />
       <Route path="/charity/:registeredCharityNumber" component={CharityPageContainer} />
       {/*<Route path="/myfavourites" component={MyFavouritesPage} />
             <Route path="/legal" component={LegalPage} />*/}
