@@ -1,11 +1,28 @@
 import React from 'react';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 
 /*
 Server name: smtp-mail.outlook.com
 Port: 587
 Encryption method: STARTTLS
 */
+
+function sameDay() {
+  // console.info('Inside SameDay');
+  const currentVal = localStorage.getItem('emailSentDate'),
+    today = (new Date().getDate()).toString();
+
+  // console.table({currentVal, today});
+  if (currentVal) {
+    if (currentVal === today) {
+      console.info('its the same day');
+      return true;
+    }
+  }
+  console.info('its NOT the same day');
+  return false;
+};
+
 const ContactPage = () => {
   // ref placeholders
   let name = null,
@@ -19,11 +36,29 @@ const ContactPage = () => {
 
   function submitForm(e) {
     e.preventDefault()
-    console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
+    const todaysDate = new Date().getDate()
+      // console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
     Meteor.call('sendEmail', name.value, email.value, message.value);
     setTimeout(function() {
       window.location.replace("/thankyou");
     }, 2000);
+
+    localStorage.setItem('emailSentDate', todaysDate);
+    // console.info(localStorage.getItem('emailSentDate'));
+  };
+  // console.info(localStorage.getItem('emailSentDate'));
+  if (sameDay()) {
+    return (
+      <div className="ui center aligned container" style={{margin: "6em auto"}}>
+			  <h1 className="ui icon header">
+				  <i className="massive yellow frown icon"></i>
+				  <div className="content">
+				    Oops !
+				    <div className="sub header">Try again tomorrow</div>
+				  </div>
+				</h1>
+			</div>
+    );
   };
 
   return (
