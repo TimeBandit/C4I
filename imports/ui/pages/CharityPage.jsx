@@ -1,6 +1,7 @@
 import React from 'react'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Chart from 'chart.js'
+import Loader from '../components/Loader'
 /*---  Colors  ---*/
 const red = "#FF695E";
 const orange = "#FF851B";
@@ -90,7 +91,7 @@ const Trustees = function Trustees(props) {
     let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
     TrusteeName = TrusteeName.toLowerCase();
     const path = genderIconPath(trusteeObject);
-    console.table[index, TrusteeName, path];
+    console.table({index, TrusteeName, path});
     return (
       <Item 
             key={index} 
@@ -384,13 +385,7 @@ export default class CharityPage extends React.Component {
     
     if (loading) {
       return (
-        <div className="ui equal width stackable vertically divided grid container">
-            <div className="center aligned row">
-                <div className="column">
-                    <div className="ui active loader">Loading</div>
-                </div>
-            </div>
-        </div>
+        <Loader message="Loading charity..." />
       )
     }
 

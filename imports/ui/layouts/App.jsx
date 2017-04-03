@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { NavLink } from 'react-router-dom';
 // import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 // css
@@ -9,11 +10,11 @@ import './App.less';
 import NavMenu from '../components/NavMenu'
 // import SearchContainer from '../containers/SearchContainer';
 
-const NavLink = (props) => (
-  <a className="item">
-    <Link {...props} style={{ color: 'inherit' }}/>
-  </a>
-)
+// const NavLink = (props) => (
+//   <a className="item">
+//     <Link {...props} style={{ color: 'inherit' }}/>
+//   </a>
+// )
 
 export default class App extends React.Component {
 
@@ -41,26 +42,22 @@ export default class App extends React.Component {
   render() {
     return (
       <span>
-        <div className="ui vertical basic segment menu-segment">
-            <div className="ui container">
-                <nav className="ui large inverted borderless menu">
-                    <Link className="item" to="/">Home</Link>
-                    <Link className="item" to="/about">About</Link>
-                    <Link className="item" to="/search">Search</Link>
-                    <Link className="item" to="/contact">Contact</Link>
-                    {/*<a className="active item">Home</a>
-                                        <a className="item">About</a>
-                                        <a className="item">Search</a>
-                                        <a className="item">Contact</a>*/}
-                    <a className="toc item mini-title">
-                                Islamic Charity Book
+        {/*<div className="ui vertical basic segment menu-segment">
+                    <div className="ui container">
+                        <nav className="ui large inverted borderless menu">
+                            <NavLink activeClassName="active" className="item" to="/">Home</NavLink>
+                            <NavLink activeClassName="active" className="item" to="/about">About</NavLink>
+                            <NavLink activeClassName="active" className="item" to="/search">Search</NavLink>
+                            <NavLink activeClassName="active" className="item" to="/contact">Contact</NavLink>
+                            <a className="toc item mini-title">
+                                        Islamic Charity Book
+                                    </a>
+                            <a className="toc right item">
+                                <i className="white sidebar big icon"></i>
                             </a>
-                    <a className="toc right item">
-                        <i className="white sidebar big icon"></i>
-                    </a>
-                </nav>
-            </div>
-        </div>
+                        </nav>
+                    </div>
+                </div>*/}
         {this.props.children}
         <div className="ui inverted vertical footer segment">
             <div className="ui container">
