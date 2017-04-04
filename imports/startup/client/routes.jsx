@@ -1,6 +1,6 @@
 // import ;
 import React from 'react';
-import { Router, Route, browserHistory, IndexRoute, Link } from 'react-router';
+import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 // layout
@@ -20,39 +20,28 @@ import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 import ThankYou from '../../ui/pages/ThankYou'
 
+const Charity = React.createClass({
+  render() {
+    return (
+      <div>
+        <h2>Charity</h2>
+        {this.props.children || "Welcome to your Charity"}
+      </div>
+    )
+  }
+})
+
 export const renderRoutes = () => (
   <Router history={browserHistory}>
-    <div className="ui vertical basic segment menu-segment">
-    'bla bla bla'
-      <div className="ui container">
-          <nav className="ui large inverted borderless menu">
-              <NavLink activeClassName="active" className="item" to="/">Home</NavLink>
-              <NavLink activeClassName="active" className="item" to="/about">About</NavLink>
-              <NavLink activeClassName="active" className="item" to="/search">Search</NavLink>
-              <NavLink activeClassName="active" className="item" to="/contact">Contact</NavLink>
-              {/*<a className="active item">Home</a>
-                                  <a className="item">About</a>
-                                  <a className="item">Search</a>
-                                  <a className="item">Contact</a>*/}
-              <a className="toc item mini-title">
-                          Islamic Charity Book
-                      </a>
-              <a className="toc right item">
-                  <i className="white sidebar big icon"></i>
-              </a>
-          </nav>
-      </div>
-    </div>
     <Route path="/" component={App}>
       <IndexRoute component={HomePageContainer} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/search" component={SearchContainer} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/thankyou" component={ThankYou} />
-      <Route path="/charity/:registeredCharityNumber" component={CharityPageContainer} />
-      {/*<Route path="/myfavourites" component={MyFavouritesPage} />
-            <Route path="/legal" component={LegalPage} />*/}
-      {/*<Route path="*" component={NotFoundPage}/>*/}
+      <Route path="about" component={AboutPage} />
+      <Route path="search" component={SearchContainer} />
+      <Route path="contact" component={ContactPage} />
+      <Route path="thankyou" component={ThankYou} />
+      <Route path="charity" component={Charity}>
+        <Route path=":registeredCharityNumber" component={CharityPageContainer} />
+      </Route>
     </Route>
   </Router>
 );

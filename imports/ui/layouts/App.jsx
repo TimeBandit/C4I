@@ -42,22 +42,22 @@ export default class App extends React.Component {
   render() {
     return (
       <span>
-        {/*<div className="ui vertical basic segment menu-segment">
-                    <div className="ui container">
-                        <nav className="ui large inverted borderless menu">
-                            <NavLink activeClassName="active" className="item" to="/">Home</NavLink>
-                            <NavLink activeClassName="active" className="item" to="/about">About</NavLink>
-                            <NavLink activeClassName="active" className="item" to="/search">Search</NavLink>
-                            <NavLink activeClassName="active" className="item" to="/contact">Contact</NavLink>
-                            <a className="toc item mini-title">
-                                        Islamic Charity Book
-                                    </a>
-                            <a className="toc right item">
-                                <i className="white sidebar big icon"></i>
+        <div className="ui vertical basic segment menu-segment">
+            <div className="ui container">
+                <nav className="ui large inverted borderless menu">
+                    <Link activeClassName="active" className="item" to="/">Home</Link>
+                    <Link activeClassName="active" className="item" to="/about">About</Link>
+                    <Link activeClassName="active" className="item" to="/search">Search</Link>
+                    <Link activeClassName="active" className="item" to="/contact">Contact</Link>
+                    <a className="toc item mini-title">
+                                Islamic Charity Book
                             </a>
-                        </nav>
-                    </div>
-                </div>*/}
+                    <a className="toc right item">
+                        <i className="white sidebar big icon"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
         {this.props.children}
         <div className="ui inverted vertical footer segment">
             <div className="ui container">
