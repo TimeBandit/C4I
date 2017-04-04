@@ -91,7 +91,7 @@ const Trustees = function Trustees(props) {
     let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
     TrusteeName = TrusteeName.toLowerCase();
     const path = genderIconPath(trusteeObject);
-    console.table({index, TrusteeName, path});
+    // console.table({index, TrusteeName, path});
     return (
       <Item 
             key={index} 
