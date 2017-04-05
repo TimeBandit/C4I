@@ -59,13 +59,13 @@ export default class SearchPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  };
+  }
 
   componentWillMount() {};
 
   componentWillUnmount() {
 
-  };
+  }
 
   render() {
     this.props.loading ? console.time(`pub loading`) : console.timeEnd(`pub loading`);

@@ -54,7 +54,10 @@ import { Charities } from '../charities'
 
 Meteor.publish('current.charity', function(registeredCharityNumber) {
   const res = Charities.find({ "RegisteredCharityNumber": registeredCharityNumber });
-  console.info(`PUBLISHING DATA FOR ${registeredCharityNumber}`);
+  const date = new Date();
+  console.log(`|===⛩===|`);
+  console.log(`PUBLISHING ${registeredCharityNumber}`);
+  console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
   return res;
 });
 

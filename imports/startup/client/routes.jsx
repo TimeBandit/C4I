@@ -20,28 +20,26 @@ import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 import ThankYou from '../../ui/pages/ThankYou'
 
-const Charity = React.createClass({
-  render() {
-    return (
-      <div>
-        <h2>Charity</h2>
-        {this.props.children || "Welcome to your Charity"}
-      </div>
-    )
-  }
-})
+// const Charity = React.createClass({
+//   render() {
+//     return (
+//       <div>
+//         <h2>Charity</h2>
+//         {this.props.children || "Welcome to your Charity"}
+//       </div>
+//     )
+//   }
+// })
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePageContainer} />
       <Route path="about" component={AboutPage} />
-      <Route path="search" component={SearchContainer} />
       <Route path="contact" component={ContactPage} />
       <Route path="thankyou" component={ThankYou} />
-      <Route path="charity" component={Charity}>
-        <Route path=":registeredCharityNumber" component={CharityPageContainer} />
-      </Route>
+      <Route path="search" component={SearchContainer} />
+      <Route path="charity/:registeredCharityNumber" component={CharityPageContainer} />
     </Route>
   </Router>
 );
