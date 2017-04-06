@@ -65,8 +65,6 @@ export default class App extends React.Component {
             </div>
         </div>
         {this.props.children}
-        {/*clonedChildren*/}
-        {console.log(this.props)}
         <div className="ui inverted vertical footer segment">
             <div className="ui container">
                 <div className="ui stackable inverted divided equal height stackable grid">

@@ -20,16 +20,16 @@ import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 import ThankYou from '../../ui/pages/ThankYou'
 
-// const Charity = React.createClass({
-//   render() {
-//     return (
-//       <div>
-//         <h2>Charity</h2>
-//         {this.props.children || "Welcome to your Charity"}
-//       </div>
-//     )
-//   }
-// })
+const Charity = React.createClass({
+  render() {
+    return (
+      <div>
+        <h2>Charity</h2>
+        {this.props.params.registeredCharityNumber}
+      </div>
+    )
+  }
+})
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>

@@ -402,297 +402,297 @@ export default class CharityPage extends React.Component {
 
     return (
       <span>
-            <div className="ui vertical basic segment charity-main">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment test" style={mapStyle}>
-                                    <div className="ui basic inverted segment">
-                                        <h1 className="ui inverted header masthead">
-                                        {charity.name}                              
+          <div className="ui vertical basic segment charity-main">
+              <div className="ui container">
+                  <div className="ui equal width stackable grid">
+                      <div className="ui stretched row">
+                          <div className="eleven wide column">
+                              <div className="ui basic segment test" style={mapStyle}>
+                                  <div className="ui basic inverted segment">
+                                      <h1 className="ui inverted header masthead">
+                                      {charity.name}                              
+                                      </h1>
+                                  </div>
+                              </div>
+                          </div>
+                          <div className="column">
+                              <div className="ui inverted segment charity-main-sidebar">
+                                  <div className="ui basic segment">
+                                          <div className="ui small inverted header">
+                                              <i className="info icon"></i>
+                                              CHARITY INFO
+                                          </div>
+                                      <div className="ui list address" style={humanizeText}>
+                                          <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.postCode}</div>
+                                      </div>
+                                      <div className="ui mini horizontal inverted statistic">
+                                          <div className="value">
+                                          </div>
+                                          <div className="label">
+                                              
+                                          </div>
+                                      </div>
+                                      <div className="ui list contact">
+                                        <div className="item" style={humanizeText}>
+                                          <i className="user icon"></i>
+                                          <div className="content">
+                                            {charity.charityRoleName}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <i className="phone icon"></i>
+                                          <div className="content">
+                                            {charity.publicTelephoneNumber}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <i className="fax icon"></i>
+                                          <div className="content">
+                                            {charity.publicFaxNumber}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <div className="content">
+                                              <EmailButton emailAddress={charity.emailAddress} />
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <div className="content">
+                                              <WebsiteButton webSiteAddress={charity.webSiteAddress} />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="ui mini horizontal inverted statistic">
+                                          <div className="value">
+                                          </div>
+                                          <div className="label">
+                                          </div>
+                                      </div>
+                                      <div className="ui mini list numbers">
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content ">
+                                                  Charity Number: {charity.registeredCharityNumber}
+                                              </div>
+                                          </div>
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content">
+                                                  Company Number: {charity.registeredCompanyNumber}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div className="ui vertical basic segment">
+              <div className="ui container">
+                  <div className="ui equal width stackable grid">
+                      <div className="ui stretched row">
+                          <div className="eleven wide column">
+                              <div className="ui basic segment">
+                                  <h1 className="ui header overview">
+                                  Overview
+                              </h1>
+                                  <div className="ui divided items">
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">Activities</a>
+                                              <div className="description">
+                                                  {charity.activities}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">Who We Serve</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.who} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">What we do</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.what} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">How we work</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.how} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div className="column">
+                              <div className="ui inverted segment charity-main-sidebar">
+                                  <div className="ui basic segment">
+                                      <div className="ui mini list numbers">
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content ">
+                                                  Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
+                                              </div>
+                                          </div>
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content">
+                                                  Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div className="ui vertical basic segment">
+                        <div className="ui container">
+                            <div className="ui equal width stackable grid">
+                                <div className="ui stretched row">
+                                    <div className="eleven wide column">
+                                        <div className="ui basic segment">
+                                            <h1 className="ui header overview">
+                                            Financials
                                         </h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                            <div className="ui small inverted header">
-                                                <i className="info icon"></i>
-                                                CHARITY INFO
-                                            </div>
-                                        <div className="ui list address" style={humanizeText}>
-                                            <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.postCode}</div>
-                                        </div>
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                            </div>
-                                            <div className="label">
-                                                
-                                            </div>
-                                        </div>
-                                        <div className="ui list contact">
-                                          <div className="item" style={humanizeText}>
-                                            <i className="user icon"></i>
-                                            <div className="content">
-                                              {charity.charityRoleName}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <i className="phone icon"></i>
-                                            <div className="content">
-                                              {charity.publicTelephoneNumber}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <i className="fax icon"></i>
-                                            <div className="content">
-                                              {charity.publicFaxNumber}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <div className="content">
-                                                <EmailButton emailAddress={charity.emailAddress} />
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <div className="content">
-                                                <WebsiteButton webSiteAddress={charity.webSiteAddress} />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                            </div>
-                                            <div className="label">
-                                            </div>
-                                        </div>
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Charity Number: {charity.registeredCharityNumber}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Company Number: {charity.registeredCompanyNumber}
-                                                </div>
+                                            
+                                            <div className="ui divided items">
+                                                <Financial 
+                                                    title={"Income"} 
+                                                    data={charity.incoming}
+                                                    description={"Income for the previous financial year"}
+                                                    colours={colours} 
+                                                />
+                                               <Financial 
+                                                    title={"Expenditure"} 
+                                                    data={charity.expended}
+                                                    description={"What money was spent on during the previous financial year"}
+                                                    colours={colours} 
+                                                />
+                                                 <Financial 
+                                                    title={"Funds"} 
+                                                    data={charity.funds}
+                                                    description={"Funds"}
+                                                    colours={colours} 
+                                                />
+                                                <Submission 
+                                                    title={"History"} 
+                                                    data={charity.submission}
+                                                    description={"Histroical Income v Spending"}
+                                                    colours={colours} 
+                                                />{/**/}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Overview
-                                </h1>
-                                    <div className="ui divided items">
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">Activities</a>
-                                                <div className="description">
-                                                    {charity.activities}
+                                    <div className="column">
+                                          <div className="ui inverted segment charity-main-sidebar">
+                                            <div className="ui basic segment">
+                                              <div className="ui mini list numbers">
+                                                  <div className="item">
+                                                    <i className="info circle icon"></i>
+                                                    <div className="content ">
+                                                      Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                                                    </div>
+                                                  </div>
+                                                  <div className="item">
+                                                    <i className="info circle icon"></i>
+                                                    <div className="content">
+                                                      Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">Who We Serve</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.who} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">What we do</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.what} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">How we work</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.how} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Financials
-                                </h1>
-                                    
-                                    <div className="ui divided items">
-                                        <Financial 
-                                            title={"Income"} 
-                                            data={charity.incoming}
-                                            description={"Income for the previous financial year"}
-                                            colours={colours} 
-                                        />
-                                        <Financial 
-                                            title={"Expenditure"} 
-                                            data={charity.expended}
-                                            description={"What money was spent on during the previous financial year"}
-                                            colours={colours} 
-                                        />
-                                        <Financial 
-                                            title={"Funds"} 
-                                            data={charity.funds}
-                                            description={"Funds"}
-                                            colours={colours} 
-                                        />
-                                        <Submission 
-                                            title={"History"} 
-                                            data={charity.submission}
-                                            description={"Histroical Income v Spending"}
-                                            colours={colours} 
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
                                                     Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
+                                                  </div>
                                                 </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
                                                     Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
+                                                  </div>
+                                                </div>
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
+                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          <div className="ui vertical basic segment">
+                        <div className="ui container">
+                            <div className="ui equal width stackable grid">
+                                <div className="ui stretched row">
+                                    <div className="eleven wide column">
+                                        <div className="ui basic segment">
+                                            <h1 className="ui header overview">
+                                            Governance
+                                        </h1>
+                                            <Trustees trustees={charity.trustees} />
+                                        </div>
+                                    </div>
+                                    <div className="column">
+                                        <div className="ui inverted segment charity-main-sidebar">
+                                            <div className="ui basic segment">
+                                                <div className="ui mini list numbers">
+                                                    <div className="item">
+                                                        <i className="info circle icon"></i>
+                                                        <div className="content ">
+                                                            Employees: {charity.employees.NoEmployees}
+                                                        </div>
+                                                    </div>
+                                                    <div className="item">
+                                                        <i className="info circle icon"></i>
+                                                        <div className="content">
+                                                            Volunteers: {charity.employees.NoVolunteers}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
-                                                </div>
+                                            <div className="ui inverted horizontal divider">
+                                                🌙
+                                            </div>
+                                            <div className="ui basic segment">
+                                                <h4 className="ui inverted header">
+                                                    Download Reports
+                                                        <div className="sub header">
+                                                            As submitted by the charity 
+                                                            to the Charity Commission
+                                                        </div>
+                                                </h4>
+                                                <CharityReports accountListing={charity.accountListing} />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Governance
-                                </h1>
-                                    <Trustees trustees={charity.trustees} />
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Employees: {charity.employees.NoEmployees}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Volunteers: {charity.employees.NoVolunteers}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="ui inverted horizontal divider">
-                                        🌙
-                                    </div>
-                                    <div className="ui basic segment">
-                                        <h4 className="ui inverted header">
-                                            Download Reports
-                                                <div className="sub header">
-                                                    As submitted by the charity 
-                                                    to the Charity Commission
-                                                </div>
-                                        </h4>
-                                        <CharityReports accountListing={charity.accountListing} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </span>
+          </div>
+      </span>
     )
   }
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import { browserHistory } from 'react-router';
 
 /*
 Server name: smtp-mail.outlook.com
@@ -40,7 +41,8 @@ const ContactPage = () => {
       // console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
     Meteor.call('sendEmail', name.value, email.value, message.value);
     setTimeout(function() {
-      window.location.replace("/thankyou");
+    	browserHistory.push('/thankyou');
+      // window.location.replace("/thankyou");
     }, 2000);
 
     localStorage.setItem('emailSentDate', todaysDate);
