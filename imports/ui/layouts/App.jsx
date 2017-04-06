@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, IndexLink } from 'react-router-dom';
 // import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 // css
@@ -40,15 +40,21 @@ export default class App extends React.Component {
   }
 
   render() {
+
+    // const { children } = this.props;
+    // const clonedChildren = children && React.cloneElement(children, {
+    //   key: location.pathname,
+    // });
+
     return (
       <span>
         <div className="ui vertical basic segment menu-segment">
             <div className="ui container">
                 <nav className="ui large inverted borderless menu">
-                    <Link activeClassName="active" className="item" to="/">Home</Link>
-                    <Link activeClassName="active" className="item" to="/about">About</Link>
-                    <Link activeClassName="active" className="item" to="/search">Search</Link>
-                    <Link activeClassName="active" className="item" to="/contact">Contact</Link>
+                    <Link className="item" to="/">Home</Link>
+                    <Link className="item" to="/about">About</Link>
+                    <Link className="item" to="/search">Search</Link>
+                    <Link className="item" to="/contact">Contact</Link>
                     <a className="toc item mini-title">
                                 Islamic Charity Book
                             </a>
@@ -59,6 +65,7 @@ export default class App extends React.Component {
             </div>
         </div>
         {this.props.children}
+        {/*clonedChildren*/}
         {console.log(this.props)}
         <div className="ui inverted vertical footer segment">
             <div className="ui container">

@@ -35,11 +35,11 @@ export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePageContainer} />
+      <Route path="charity/:registeredCharityNumber" component={CharityPageContainer} />
       <Route path="about" component={AboutPage} />
       <Route path="contact" component={ContactPage} />
       <Route path="thankyou" component={ThankYou} />
       <Route path="search" component={SearchContainer} />
-      <Route path="charity/:registeredCharityNumber" component={CharityPageContainer} />
     </Route>
   </Router>
 );
