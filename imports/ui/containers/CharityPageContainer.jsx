@@ -10,7 +10,7 @@ export default createContainer(( { params: { registeredCharityNumber }} ) => {
 	
   const charNum = parseInt(registeredCharityNumber);
   const subscriptionHandle = Meteor.subscribe('current.charity', charNum);
-  console.log('CHARITY OBJECT ',currentCharity(charNum).fetch()[0]);
+  // console.log('CHARITY OBJECT ',currentCharity(charNum).fetch()[0]);
   const loading = !subscriptionHandle.ready();
   return {
     subscriptionHandle,

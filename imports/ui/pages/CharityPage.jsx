@@ -181,13 +181,14 @@ const Submission = function Submission({ title, data, description, colours }) {
     });
   };
 
-  const splitStingAtCapitals = function splitStingAtCapitals(string) {
-    return string.match(/[A-Z][a-z]+/g);
-  };
+  // const splitStingAtCapitals = function splitStingAtCapitals(string) {
+  //   return string.match(/[A-Z][a-z]+/g);
+  // };
 
   if (labels.length === 0) {
     return (<span></span>);
   }
+
   return (
     <div className="item">
         <div className="content">
@@ -197,7 +198,7 @@ const Submission = function Submission({ title, data, description, colours }) {
             </div>
             <div className="description">
                 <div className="ui fluid image">
-                    <canvas id="myChart" ref={displayChart} width="66%"></canvas>
+                    <canvas id="myChart" className="history" ref={displayChart}></canvas>
                 </div>
             </div>
             <div className="extra">
@@ -365,7 +366,13 @@ export default class CharityPage extends React.Component {
   componentDidMount() {};
 
   componentWillMount() {
-    $("#myChart").remove();
+  }
+
+  componentWillUnmount() {
+    // const $charts = $('[id="myChart"]');
+    // console.log($charts);
+    // $charts.each(function(){this.remove()})
+    // $charts.remove();    
   }
 
   render() {
@@ -595,7 +602,7 @@ export default class CharityPage extends React.Component {
                                                 <Submission 
                                                     title={"History"} 
                                                     data={charity.submission}
-                                                    description={"Histroical Income v Spending"}
+                                                    description={"Historical Income v Spending"}
                                                     colours={colours} 
                                                 />{/**/}
                                             </div>
