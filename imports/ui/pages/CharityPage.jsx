@@ -1,4 +1,4 @@
-import React from 'react'
+import React , { Component } from 'react'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Chart from 'chart.js'
 import Loader from '../components/Loader'
@@ -110,103 +110,216 @@ const Trustees = function Trustees(props) {
   )
 }
 
-const Submission = function Submission({ title, data, description, colours }) {
+// const Submission = function Submission({ title, data, description, colours }) {
 
-  let dataCopy = data.slice(0);
+//   let dataCopy = data.slice(0);
 
-  const labels = dataCopy.map(val => val.FyEnd);
+//   const labels = dataCopy.map(val => val.FyEnd);
 
-  const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
-  const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
-  const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
+//   const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
+//   const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
+//   const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
 
-  const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
-  const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
-  const netIncomeColour = "#FF695E";
+//   const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
+//   const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
+//   const netIncomeColour = "#FF695E";
 
-  const chartData = {
-    labels: labels,
-    datasets: [{
-      type: 'bar',
-      label: "Income",
-      backgroundColor: incomeColour,
-      borderColor: incomeColour,
-      borderWidth: 1,
-      data: grossIncomeValues,
-    }, {
-      type: 'bar',
-      label: "Spending",
-      backgroundColor: expenditureColour,
-      borderColor: expenditureColour,
-      borderWidth: 1,
-      data: totalExpenditureValues,
-    }, {
-      type: 'bar',
-      label: "Net Income",
-      backgroundColor: netIncomeColour,
-      borderColor: netIncomeColour,
-      borderWidth: 1,
-      data: netIncomeValues
-    }]
-  };
+//   const chartData = {
+//     labels: labels,
+//     datasets: [{
+//       type: 'bar',
+//       label: "Income",
+//       backgroundColor: incomeColour,
+//       borderColor: incomeColour,
+//       borderWidth: 1,
+//       data: grossIncomeValues,
+//     }, {
+//       type: 'bar',
+//       label: "Spending",
+//       backgroundColor: expenditureColour,
+//       borderColor: expenditureColour,
+//       borderWidth: 1,
+//       data: totalExpenditureValues,
+//     }, {
+//       type: 'bar',
+//       label: "Net Income",
+//       backgroundColor: netIncomeColour,
+//       borderColor: netIncomeColour,
+//       borderWidth: 1,
+//       data: netIncomeValues
+//     }]
+//   };
 
-  const displayChart = function displayChart(dom) {
-    const myChart = new Chart(dom, {
-      type: 'bar',
-      data: chartData,
-      options: {
-        legend: {
-          display: true,
-          position: 'bottom'
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              // Create scientific notation labels
-              callback: function(value, index, values) {
-                return currencyFormat(value);
-              }
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              // Create scientific notation labels
-              callback: function(value, index, values) {
-                return new Date(value).getFullYear();
-              }
-            }
-          }]
-        }
-      }
-    });
-  };
+//   const displayChart = function displayChart(dom1) {
+//     const myChart = new Chart(dom1, {
+//       type: 'bar',
+//       data: chartData,
+//       options: {
+//         legend: {
+//           display: true,
+//           position: 'bottom'
+//         },
+//         scales: {
+//           yAxes: [{
+//             ticks: {
+//               // Create scientific notation labels
+//               callback: function(value, index, values) {
+//                 return currencyFormat(value);
+//               }
+//             }
+//           }],
+//           xAxes: [{
+//             ticks: {
+//               // Create scientific notation labels
+//               callback: function(value, index, values) {
+//                 return new Date(value).getFullYear();
+//               }
+//             }
+//           }]
+//         }
+//       }
+//     });
+//   };
 
-  // const splitStingAtCapitals = function splitStingAtCapitals(string) {
-  //   return string.match(/[A-Z][a-z]+/g);
-  // };
+//   const splitStingAtCapitals = function splitStingAtCapitals(string) {
+//     return string.match(/[A-Z][a-z]+/g);
+//   };
 
-  if (labels.length === 0) {
-    return (<span></span>);
+//   if (labels.length === 0) {
+//     return (<span></span>);
+//   }
+
+//   return (
+//     <div className="item">
+//         <div className="content">
+//             <a className="header">title</a>
+//             <div className="meta">
+//                 <span>description</span>
+//             </div>
+//             <div className="description">
+//                 <div className="ui fluid image">
+//                     <canvas id="myChart" className="history" ref={displayChart} width="66%"></canvas>
+//                 </div>
+//             </div>
+//             <div className="extra">
+//                 Additional Details
+//             </div>
+//         </div>
+//     </div>
+//   )
+// };
+
+class Submission extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
-  return (
-    <div className="item">
+  componentWillMount() {
+    const { title, data, description, colours } = this.props;
+    let dataCopy = data.slice(0);
+    this.labels = dataCopy.map(val => val.FyEnd);
+
+    const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
+    const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
+    const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
+
+    const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
+    const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
+    const netIncomeColour = "#FF695E";
+
+    this.chartData = {
+      labels: this.labels,
+      datasets: [{
+        type: 'bar',
+        label: "Income",
+        backgroundColor: incomeColour,
+        borderColor: incomeColour,
+        borderWidth: 1,
+        data: grossIncomeValues,
+      }, {
+        type: 'bar',
+        label: "Spending",
+        backgroundColor: expenditureColour,
+        borderColor: expenditureColour,
+        borderWidth: 1,
+        data: totalExpenditureValues,
+      }, {
+        type: 'bar',
+        label: "Net Income",
+        backgroundColor: netIncomeColour,
+        borderColor: netIncomeColour,
+        borderWidth: 1,
+        data: netIncomeValues
+      }]
+    };
+  };
+
+  componentDidMount() {
+    const self = this;
+    const displayChart = function displayChart() {
+      const myChart = new Chart(self.submissionChart, {
+        type: 'bar',
+        data: self.chartData,
+        options: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                // Create scientific notation labels
+                callback: function(value, index, values) {
+                  return currencyFormat(value);
+                }
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                // Create scientific notation labels
+                callback: function(value, index, values) {
+                  return new Date(value).getFullYear();
+                }
+              }
+            }]
+          }
+        }
+      });
+    };
+    displayChart(this.submissionChart);
+  };
+
+  componentWillUnmount() {
+    $(this.submissionChart).remove();
+  };
+
+
+  render() {
+
+    if (this.labels.length === 0) {
+      return (<span></span>);
+    }
+
+    return (
+      <div className="item">
         <div className="content">
-            <a className="header">{title}</a>
-            <div className="meta">
-                <span>{description}</span>
-            </div>
-            <div className="description">
-                <div className="ui fluid image">
-                    <canvas id="myChart" className="history" ref={displayChart}></canvas>
-                </div>
-            </div>
-            <div className="extra">
-                Additional Details
-            </div>
+          <a className="header">title</a>
+          <div className="meta">
+              <span>description</span>
+          </div>
+          <div className="description">
+              <div className="ui fluid image">
+                  <canvas id="myChart" className="history" ref={(input) => { this.submissionChart = input; }} width="66%"></canvas>
+              </div>
+          </div>
+          <div className="extra">
+              Additional Details
+          </div>
         </div>
-    </div>
-  )
+      </div>
+    )
+  };
 };
 
 const Financial = function Financial({ title, data, description, colours }) {
@@ -365,15 +478,14 @@ export default class CharityPage extends React.Component {
 
   componentDidMount() {};
 
-  componentWillMount() {
-  }
+  componentWillMount() {};
 
   componentWillUnmount() {
     // const $charts = $('[id="myChart"]');
     // console.log($charts);
     // $charts.each(function(){this.remove()})
     // $charts.remove();    
-  }
+  };
 
   render() {
 
@@ -581,7 +693,7 @@ export default class CharityPage extends React.Component {
                                         </h1>
                                             
                                             <div className="ui divided items">
-                                                <Financial 
+                                                {/*<Financial 
                                                     title={"Income"} 
                                                     data={charity.incoming}
                                                     description={"Income for the previous financial year"}
@@ -598,7 +710,7 @@ export default class CharityPage extends React.Component {
                                                     data={charity.funds}
                                                     description={"Funds"}
                                                     colours={colours} 
-                                                />
+                                                />*/}
                                                 <Submission 
                                                     title={"History"} 
                                                     data={charity.submission}

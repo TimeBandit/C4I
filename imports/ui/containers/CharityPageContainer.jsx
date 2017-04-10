@@ -6,8 +6,8 @@ import { currentCharity } from '../../api/charities/queries';
 
 // creates a container around the app componenet
 // & feeds in all the data sources
-export default createContainer(( { params: { registeredCharityNumber }} ) => {
-	
+export default createContainer(({ params: { registeredCharityNumber } }) => {
+
   const charNum = parseInt(registeredCharityNumber);
   const subscriptionHandle = Meteor.subscribe('current.charity', charNum);
   // console.log('CHARITY OBJECT ',currentCharity(charNum).fetch()[0]);
