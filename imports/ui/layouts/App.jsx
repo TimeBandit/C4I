@@ -8,13 +8,6 @@ import './App.less';
 
 // components..
 import NavMenu from '../components/NavMenu'
-// import SearchContainer from '../containers/SearchContainer';
-
-// const NavLink = (props) => (
-//   <a className="item">
-//     <Link {...props} style={{ color: 'inherit' }}/>
-//   </a>
-// )
 
 export default class App extends React.Component {
 
@@ -36,15 +29,10 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-      $('.ui.sidebar').remove();;
+    $('.ui.sidebar').remove();
   }
 
   render() {
-
-    // const { children } = this.props;
-    // const clonedChildren = children && React.cloneElement(children, {
-    //   key: location.pathname,
-    // });
 
     return (
       <span>
@@ -71,10 +59,10 @@ export default class App extends React.Component {
                     <div className="three wide column">
                         <h4 className="ui inverted header">🌙</h4>
                         <div className="ui inverted link list">
-                            <a href="#" className="item">Home</a>
-                            <a href="#" className="item">About</a>
-                            <a href="#" className="item">Search</a>
-                            <a href="#" className="item">Contact</a>
+                            <Link className="item" to="/">Home</Link>
+                            <Link className="item" to="/about">About</Link>
+                            <Link className="item" to="/search">Search</Link>
+                            <Link className="item" to="/contact">Contact</Link>
                         </div>
                     </div>
                     <div className="three wide computer tablet only column">
