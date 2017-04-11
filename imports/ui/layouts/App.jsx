@@ -46,7 +46,7 @@ export default class App extends React.Component {
                     <a className="toc item mini-title">
                                 Islamic Charity Book
                             </a>
-                    <a className="toc right item">
+                    <a id="burger" className="toc right item">
                         <i className="white sidebar big icon"></i>
                     </a>
                 </nav>
