@@ -1,6 +1,7 @@
 // import ;
 import React from 'react';
-import { Router, Route, browserHistory, IndexRoute, Link } from 'react-router';
+import { Router, Route, IndexRoute, Link, hashHistory, browserHistory } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 // layout
 // keep file extension
@@ -17,18 +18,28 @@ import LegalPage from '../../ui/pages/LegalPage'
 import MyFavouritesPage from '../../ui/pages/MyFavouritesPage'
 import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
+import ThankYou from '../../ui/pages/ThankYou'
+
+const Charity = React.createClass({
+  render() {
+    return (
+      <div>
+        <h2>Charity</h2>
+        {this.props.params.registeredCharityNumber}
+      </div>
+    )
+  }
+})
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePageContainer} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/search" component={SearchContainer} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/charity/:registeredCharityNumber" component={CharityPageContainer} />
-      {/*<Route path="/myfavourites" component={MyFavouritesPage} />
-            <Route path="/legal" component={LegalPage} />*/}
-      {/*<Route path="*" component={NotFoundPage}/>*/}
+      <Route path="charity/:registeredCharityNumber" component={CharityPageContainer} />
+      <Route path="about" component={AboutPage} />
+      <Route path="contact" component={ContactPage} />
+      <Route path="thankyou" component={ThankYou} />
+      <Route path="search" component={SearchContainer} />
     </Route>
   </Router>
 );

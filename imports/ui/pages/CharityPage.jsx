@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Chart from 'chart.js'
+import Loader from '../components/Loader'
 /*---  Colors  ---*/
 const red = "#FF695E";
 const orange = "#FF851B";
@@ -90,7 +91,7 @@ const Trustees = function Trustees(props) {
     let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
     TrusteeName = TrusteeName.toLowerCase();
     const path = genderIconPath(trusteeObject);
-    console.table[index, TrusteeName, path];
+    // console.table({index, TrusteeName, path});
     return (
       <Item 
             key={index} 
@@ -109,178 +110,219 @@ const Trustees = function Trustees(props) {
   )
 }
 
-const Submission = function Submission({ title, data, description, colours }) {
-
-  let dataCopy = data.slice(0);
-
-  const labels = dataCopy.map(val => val.FyEnd);
-
-  const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
-  const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
-  const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
-
-  const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
-  const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
-  const netIncomeColour = "#FF695E";
-
-  const chartData = {
-    labels: labels,
-    datasets: [{
-      type: 'bar',
-      label: "Income",
-      backgroundColor: incomeColour,
-      borderColor: incomeColour,
-      borderWidth: 1,
-      data: grossIncomeValues,
-    }, {
-      type: 'bar',
-      label: "Spending",
-      backgroundColor: expenditureColour,
-      borderColor: expenditureColour,
-      borderWidth: 1,
-      data: totalExpenditureValues,
-    }, {
-      type: 'bar',
-      label: "Net Income",
-      backgroundColor: netIncomeColour,
-      borderColor: netIncomeColour,
-      borderWidth: 1,
-      data: netIncomeValues
-    }]
-  };
-
-  const displayChart = function displayChart(dom) {
-    const myChart = new Chart(dom, {
-      type: 'bar',
-      data: chartData,
-      options: {
-        legend: {
-          display: true,
-          position: 'bottom'
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              // Create scientific notation labels
-              callback: function(value, index, values) {
-                return currencyFormat(value);
-              }
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              // Create scientific notation labels
-              callback: function(value, index, values) {
-                return new Date(value).getFullYear();
-              }
-            }
-          }]
-        }
-      }
-    });
-  };
-
-  const splitStingAtCapitals = function splitStingAtCapitals(string) {
-    return string.match(/[A-Z][a-z]+/g);
-  };
-
-  if (labels.length === 0) {
-    return (<span></span>);
+class Submission extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
-  return (
-    <div className="item">
+
+  componentWillMount() {
+    const { title, data, description, colours } = this.props;
+    this.title = title, this.description = description;
+    let dataCopy = data.slice(0);
+    this.labels = dataCopy.map(val => val.FyEnd);
+
+    const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
+    const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
+    const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
+
+    const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
+    const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
+    const netIncomeColour = "#FF695E";
+
+    this.chartData = {
+      labels: this.labels,
+      datasets: [{
+        type: 'bar',
+        label: "Income",
+        backgroundColor: incomeColour,
+        borderColor: incomeColour,
+        borderWidth: 1,
+        data: grossIncomeValues,
+      }, {
+        type: 'bar',
+        label: "Spending",
+        backgroundColor: expenditureColour,
+        borderColor: expenditureColour,
+        borderWidth: 1,
+        data: totalExpenditureValues,
+      }, {
+        type: 'bar',
+        label: "Net Income",
+        backgroundColor: netIncomeColour,
+        borderColor: netIncomeColour,
+        borderWidth: 1,
+        data: netIncomeValues
+      }]
+    };
+  };
+
+  componentDidMount() {
+    const self = this;
+    const displayChart = function displayChart() {
+      const myChart = new Chart(self.submissionChart, {
+        type: 'bar',
+        data: self.chartData,
+        options: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                // Create scientific notation labels
+                callback: function(value, index, values) {
+                  return currencyFormat(value);
+                }
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                // Create scientific notation labels
+                callback: function(value, index, values) {
+                  return new Date(value).getFullYear();
+                }
+              }
+            }]
+          }
+        }
+      });
+    };
+    displayChart(this.submissionChart);
+  };
+
+  componentWillUnmount() {
+    $(this.submissionChart).remove();
+  };
+
+
+  render() {
+
+    if (this.labels.length === 0) {
+      return (<span></span>);
+    }
+
+    return (
+      <div className="item">
         <div className="content">
-            <a className="header">{title}</a>
-            <div className="meta">
-                <span>{description}</span>
-            </div>
-            <div className="description">
-                <div className="ui fluid image">
-                    <canvas id="myChart" ref={displayChart} width="66%"></canvas>
-                </div>
-            </div>
-            <div className="extra">
-                Additional Details
-            </div>
+          <a className="header">{this.title}</a>
+          <div className="meta">
+              <span>{this.description}</span>
+          </div>
+          <div className="description">
+              <div className="ui fluid image">
+                  <canvas id="myChart" className="history" ref={(input) => { this.submissionChart = input; }} width="66%"></canvas>
+              </div>
+          </div>
+          <div className="extra">
+              Additional Details
+          </div>
         </div>
-    </div>
-  )
+      </div>
+    )
+  };
 };
 
-const Financial = function Financial({ title, data, description, colours }) {
-
-  let dataCopy = Object.assign({}, data);
-  const total = (function getAndremoveTotal(d) {
-    let res;
-    if (d.hasOwnProperty('TotalFunds')) {
-      res = parseInt(data.TotalFunds);
-      delete d.TotalFunds;
-    } else {
-      res = parseInt(data.Total);
-      delete d.Total;
-    }
-    return res;
-  })(dataCopy);
-
-  const labels = Object.keys(dataCopy);
-  const values = Object.values(dataCopy).map(x => parseInt(x));
-
-  const chartData = {
-    labels: labels,
-    datasets: [{
-      label: 'Income',
-      data: values,
-      backgroundColor: colours,
-      hoverBackgroundColor: colours
-    }]
+class Financial extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.splitStingAtCapitals = this.splitStingAtCapitals.bind(this);
+    this.displayLegend = this.displayLegend.bind(this);
   };
 
-  const displayChart = function displayChart(dom) {
-    const myChart = new Chart(dom, {
-      type: 'pie',
-      data: chartData,
-      options: {
-        legend: {
-          display: false,
-          position: 'right'
-        }
-      }
-    });
-  };
-
-  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+  splitStingAtCapitals(string) {
     return string.match(/[A-Z][a-z]+/g);
   };
 
-  const DisplayLegend = function DisplayLegend() {
-    return labels.map(function(label, index) {
+  displayLegend() {
+    const self = this;
+    return this.labels.map(function(label, index) {
       return (
         <div className="item legend-item" key={index}>
             <a className="ui empty circular
                 label" style={{backgroundColor: colours[index]}}>
             </a>
-                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+                {`${self.splitStingAtCapitals(label).join(" ")}: ${currencyFormat(self.values[index])}`}
         </div>
       )
     })
   };
 
-  if (labels.length === 0) {
-    return (<span></span>);
-  }
-  return (
-    <div className="item">
+  componentWillMount() {
+    const { title, data, description, colours } = this.props;
+    let dataCopy = Object.assign({}, data);
+
+    this.title = title;
+    this.total = (function getAndremoveTotal(d) {
+      let res;
+      if (d.hasOwnProperty('TotalFunds')) {
+        res = parseInt(data.TotalFunds);
+        delete d.TotalFunds;
+      } else {
+        res = parseInt(data.Total);
+        delete d.Total;
+      }
+      return res;
+    })(dataCopy);
+
+    this.labels = Object.keys(dataCopy);
+    this.values = Object.values(dataCopy).map(x => parseInt(x));
+
+    this.chartData = {
+      labels: this.labels,
+      datasets: [{
+        label: 'Income',
+        data: this.values,
+        backgroundColor: colours,
+        hoverBackgroundColor: colours
+      }]
+    };
+  };
+
+  componentDidMount() {
+    const self = this;
+
+    const displayChart = function displayChart(dom) {
+      const myChart = new Chart(dom, {
+        type: 'pie',
+        data: self.chartData,
+        options: {
+          legend: {
+            display: false,
+            position: 'right'
+          }
+        }
+      });
+    };
+
+
+
+    displayChart(this.financialChart);
+  };
+
+  componentWillUnmount() {
+    $(this.financialChart).remove();
+  };
+
+  render() {
+    if (this.labels.length === 0) {
+      return (<span></span>);
+    }
+    return (
+      <div className="item">
         <div className="ui small image">
-            <canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>
+            <canvas id="myChart" ref={(input) => { this.financialChart = input; }} width="350" height="350"></canvas>
         </div>
         <div className="content">
-            <a className="header">{`${title}: ${currencyFormat(total)}`}</a>
+            <a className="header">{`${this.title}: ${currencyFormat(this.total)}`}</a>
             <div className="meta">
-                <span>{description}</span>
+                <span>{this.description}</span>
             </div>
             <div className="description">
                 <div className="ui divided selection list">
-                    {DisplayLegend()}
+                    {this.displayLegend()}
                 </div>
             </div>
             <div className="extra">
@@ -288,7 +330,8 @@ const Financial = function Financial({ title, data, description, colours }) {
             </div>
         </div>
     </div>
-  )
+    )
+  };
 };
 
 const EmailButton = function EmailButton({ emailAddress }) {
@@ -363,9 +406,9 @@ export default class CharityPage extends React.Component {
 
   componentDidMount() {};
 
-  componentWillMount() {
-    $("#myChart").remove();
-  }
+  componentWillMount() {};
+
+  componentWillUnmount() {};
 
   render() {
 
@@ -381,16 +424,10 @@ export default class CharityPage extends React.Component {
 
     console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
-    
+
     if (loading) {
       return (
-        <div className="ui equal width stackable vertically divided grid container">
-            <div className="center aligned row">
-                <div className="column">
-                    <div className="ui active loader">Loading</div>
-                </div>
-            </div>
-        </div>
+        <Loader message="Loading charity..." />
       )
     }
 
@@ -399,7 +436,7 @@ export default class CharityPage extends React.Component {
         <CharityNotFound />
       );
     };
-    
+
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
@@ -407,297 +444,296 @@ export default class CharityPage extends React.Component {
 
     return (
       <span>
-            <div className="ui vertical basic segment charity-main">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment test" style={mapStyle}>
-                                    <div className="ui basic inverted segment">
-                                        <h1 className="ui inverted header masthead">
-                                        {charity.name}                              
+          <div className="ui vertical basic segment charity-main">
+              <div className="ui container">
+                  <div className="ui equal width stackable grid">
+                      <div className="ui stretched row">
+                          <div className="eleven wide column">
+                              <div className="ui basic segment test" style={mapStyle}>
+                                  <div className="ui basic inverted segment">
+                                      <h1 className="ui inverted header masthead">
+                                      {charity.name}                              
+                                      </h1>
+                                  </div>
+                              </div>
+                          </div>
+                          <div className="column">
+                              <div className="ui inverted segment charity-main-sidebar">
+                                  <div className="ui basic segment">
+                                          <div className="ui small inverted header">
+                                              <i className="info icon"></i>
+                                              CHARITY INFO
+                                          </div>
+                                      <div className="ui list address" style={humanizeText}>
+                                          <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
+                                          <div className="item">{charity.postCode}</div>
+                                      </div>
+                                      <div className="ui mini horizontal inverted statistic">
+                                          <div className="value">
+                                          </div>
+                                          <div className="label">
+                                              
+                                          </div>
+                                      </div>
+                                      <div className="ui list contact">
+                                        <div className="item" style={humanizeText}>
+                                          <i className="user icon"></i>
+                                          <div className="content">
+                                            {charity.charityRoleName}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <i className="phone icon"></i>
+                                          <div className="content">
+                                            {charity.publicTelephoneNumber}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <i className="fax icon"></i>
+                                          <div className="content">
+                                            {charity.publicFaxNumber}
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <div className="content">
+                                              <EmailButton emailAddress={charity.emailAddress} />
+                                          </div>
+                                        </div>
+                                        <div className="item">
+                                          <div className="content">
+                                              <WebsiteButton webSiteAddress={charity.webSiteAddress} />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="ui mini horizontal inverted statistic">
+                                          <div className="value">
+                                          </div>
+                                          <div className="label">
+                                          </div>
+                                      </div>
+                                      <div className="ui mini list numbers">
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content ">
+                                                  Charity Number: {charity.registeredCharityNumber}
+                                              </div>
+                                          </div>
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content">
+                                                  Company Number: {charity.registeredCompanyNumber}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div className="ui vertical basic segment">
+              <div className="ui container">
+                  <div className="ui equal width stackable grid">
+                      <div className="ui stretched row">
+                          <div className="eleven wide column">
+                              <div className="ui basic segment">
+                                  <h1 className="ui header overview">
+                                  Overview
+                              </h1>
+                                  <div className="ui divided items">
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">Activities</a>
+                                              <div className="description">
+                                                  {charity.activities}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">Who We Serve</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.who} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">What we do</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.what} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div className="item">
+                                          <div className="content">
+                                              <a className="header">How we work</a>
+                                              <div className="description">
+                                                  <WhoWhatHow classification={charity.how} />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div className="column">
+                              <div className="ui inverted segment charity-main-sidebar">
+                                  <div className="ui basic segment">
+                                      <div className="ui mini list numbers">
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content ">
+                                                  Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
+                                              </div>
+                                          </div>
+                                          <div className="item">
+                                              <i className="info circle icon"></i>
+                                              <div className="content">
+                                                  Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div className="ui vertical basic segment">
+                        <div className="ui container">
+                            <div className="ui equal width stackable grid">
+                                <div className="ui stretched row">
+                                    <div className="eleven wide column">
+                                        <div className="ui basic segment">
+                                            <h1 className="ui header overview">
+                                            Financials
                                         </h1>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                            <div className="ui small inverted header">
-                                                <i className="info icon"></i>
-                                                CHARITY INFO
-                                            </div>
-                                        <div className="ui list address" style={humanizeText}>
-                                            <div className="item">{charity.address.Line1 ? charity.address.Line1.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line2 ? charity.address.Line2.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line3 ? charity.address.Line3.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line4 ? charity.address.Line4.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.address.Line5 ? charity.address.Line5.toLowerCase() : ""}</div>
-                                            <div className="item">{charity.postCode}</div>
-                                        </div>
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                            </div>
-                                            <div className="label">
-                                                
-                                            </div>
-                                        </div>
-                                        <div className="ui list contact">
-                                          <div className="item" style={humanizeText}>
-                                            <i className="user icon"></i>
-                                            <div className="content">
-                                              {charity.charityRoleName}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <i className="phone icon"></i>
-                                            <div className="content">
-                                              {charity.publicTelephoneNumber}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <i className="fax icon"></i>
-                                            <div className="content">
-                                              {charity.publicFaxNumber}
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <div className="content">
-                                                <EmailButton emailAddress={charity.emailAddress} />
-                                            </div>
-                                          </div>
-                                          <div className="item">
-                                            <div className="content">
-                                                <WebsiteButton webSiteAddress={charity.webSiteAddress} />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="ui mini horizontal inverted statistic">
-                                            <div className="value">
-                                            </div>
-                                            <div className="label">
-                                            </div>
-                                        </div>
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Charity Number: {charity.registeredCharityNumber}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Company Number: {charity.registeredCompanyNumber}
-                                                </div>
+                                            <div className="ui divided items">
+                                                <Financial 
+                                                    title={"Income"} 
+                                                    data={charity.incoming}
+                                                    description={"Income for the previous financial year"}
+                                                    colours={colours} 
+                                                />
+                                               <Financial 
+                                                    title={"Expenditure"} 
+                                                    data={charity.expended}
+                                                    description={"What money was spent on during the previous financial year"}
+                                                    colours={colours} 
+                                                />
+                                                 <Financial 
+                                                    title={"Funds"} 
+                                                    data={charity.funds}
+                                                    description={"Funds"}
+                                                    colours={colours} 
+                                                />
+                                                <Submission 
+                                                    title={"History"} 
+                                                    data={charity.submission}
+                                                    description={"Historical Income v Spending"}
+                                                    colours={colours} 
+                                                />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Overview
-                                </h1>
-                                    <div className="ui divided items">
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">Activities</a>
-                                                <div className="description">
-                                                    {charity.activities}
+                                    <div className="column">
+                                          <div className="ui inverted segment charity-main-sidebar">
+                                            <div className="ui basic segment">
+                                              <div className="ui mini list numbers">
+                                                  <div className="item">
+                                                    <i className="info circle icon"></i>
+                                                    <div className="content ">
+                                                      Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                                                    </div>
+                                                  </div>
+                                                  <div className="item">
+                                                    <i className="info circle icon"></i>
+                                                    <div className="content">
+                                                      Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">Who We Serve</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.who} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">What we do</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.what} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="item">
-                                            <div className="content">
-                                                <a className="header">How we work</a>
-                                                <div className="description">
-                                                    <WhoWhatHow classification={charity.how} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Area Of Benefit: {charity.areaOfBenefit[0] + charity.areaOfBenefit.slice(1).toLowerCase()}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Area Of Operation: {charity.areaOfOperation.map((x) => {return x[0] + x.slice(1).toLowerCase()}).join(', ')}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Financials
-                                </h1>
-                                    
-                                    <div className="ui divided items">
-                                        <Financial 
-                                            title={"Income"} 
-                                            data={charity.incoming}
-                                            description={"Income for the previous financial year"}
-                                            colours={colours} 
-                                        />
-                                        <Financial 
-                                            title={"Expenditure"} 
-                                            data={charity.expended}
-                                            description={"What money was spent on during the previous financial year"}
-                                            colours={colours} 
-                                        />
-                                        <Financial 
-                                            title={"Funds"} 
-                                            data={charity.funds}
-                                            description={"Funds"}
-                                            colours={colours} 
-                                        />
-                                        <Submission 
-                                            title={"History"} 
-                                            data={charity.submission}
-                                            description={"Histroical Income v Spending"}
-                                            colours={colours} 
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
                                                     Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
+                                                  </div>
                                                 </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
                                                     Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
+                                                  </div>
+                                                </div>
+                                                <div className="item">
+                                                  <i className="info circle icon"></i>
+                                                  <div className="content">
+                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          <div className="ui vertical basic segment">
+                        <div className="ui container">
+                            <div className="ui equal width stackable grid">
+                                <div className="ui stretched row">
+                                    <div className="eleven wide column">
+                                        <div className="ui basic segment">
+                                            <h1 className="ui header overview">
+                                            Governance
+                                        </h1>
+                                            <Trustees trustees={charity.trustees} />
+                                        </div>
+                                    </div>
+                                    <div className="column">
+                                        <div className="ui inverted segment charity-main-sidebar">
+                                            <div className="ui basic segment">
+                                                <div className="ui mini list numbers">
+                                                    <div className="item">
+                                                        <i className="info circle icon"></i>
+                                                        <div className="content ">
+                                                            Employees: {charity.employees.NoEmployees}
+                                                        </div>
+                                                    </div>
+                                                    <div className="item">
+                                                        <i className="info circle icon"></i>
+                                                        <div className="content">
+                                                            Volunteers: {charity.employees.NoVolunteers}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
-                                                </div>
+                                            <div className="ui inverted horizontal divider">
+                                                🌙
+                                            </div>
+                                            <div className="ui basic segment">
+                                                <h4 className="ui inverted header">
+                                                    Download Reports
+                                                        <div className="sub header">
+                                                            As submitted by the charity 
+                                                            to the Charity Commission
+                                                        </div>
+                                                </h4>
+                                                <CharityReports accountListing={charity.accountListing} />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div className="ui vertical basic segment">
-                <div className="ui container">
-                    <div className="ui equal width stackable grid">
-                        <div className="ui stretched row">
-                            <div className="eleven wide column">
-                                <div className="ui basic segment">
-                                    <h1 className="ui header overview">
-                                    Governance
-                                </h1>
-                                    <Trustees trustees={charity.trustees} />
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className="ui inverted segment charity-main-sidebar">
-                                    <div className="ui basic segment">
-                                        <div className="ui mini list numbers">
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content ">
-                                                    Employees: {charity.employees.NoEmployees}
-                                                </div>
-                                            </div>
-                                            <div className="item">
-                                                <i className="info circle icon"></i>
-                                                <div className="content">
-                                                    Volunteers: {charity.employees.NoVolunteers}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="ui inverted horizontal divider">
-                                        🌙
-                                    </div>
-                                    <div className="ui basic segment">
-                                        <h4 className="ui inverted header">
-                                            Download Reports
-                                                <div className="sub header">
-                                                    As submitted by the charity 
-                                                    to the Charity Commission
-                                                </div>
-                                        </h4>
-                                        <CharityReports accountListing={charity.accountListing} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </span>
+          </div>
+      </span>
     )
   }
 };
