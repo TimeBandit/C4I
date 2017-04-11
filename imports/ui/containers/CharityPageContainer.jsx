@@ -18,3 +18,4 @@ export default createContainer(({ params: { registeredCharityNumber } }) => {
     charity: currentCharity(charNum).fetch()[0]
   };
 }, CharityPage);
+

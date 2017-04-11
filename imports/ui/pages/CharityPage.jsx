@@ -1,4 +1,4 @@
-import React , { Component } from 'react'
+import React, { Component } from 'react'
 import { parseAdressObject, currencyFormat } from '../helpers/helpers'
 import Chart from 'chart.js'
 import Loader from '../components/Loader'
@@ -110,105 +110,6 @@ const Trustees = function Trustees(props) {
   )
 }
 
-// const Submission = function Submission({ title, data, description, colours }) {
-
-//   let dataCopy = data.slice(0);
-
-//   const labels = dataCopy.map(val => val.FyEnd);
-
-//   const grossIncomeValues = dataCopy.map(val => parseInt(val.GrossIncome));
-//   const totalExpenditureValues = dataCopy.map(val => parseInt(val.TotalExpenditure));
-//   const netIncomeValues = grossIncomeValues.map((val, index) => val - totalExpenditureValues[index])
-
-//   const incomeColour = new Array(grossIncomeValues.length).fill("#54C8FF");
-//   const expenditureColour = new Array(totalExpenditureValues.length).fill("#FFE21F");
-//   const netIncomeColour = "#FF695E";
-
-//   const chartData = {
-//     labels: labels,
-//     datasets: [{
-//       type: 'bar',
-//       label: "Income",
-//       backgroundColor: incomeColour,
-//       borderColor: incomeColour,
-//       borderWidth: 1,
-//       data: grossIncomeValues,
-//     }, {
-//       type: 'bar',
-//       label: "Spending",
-//       backgroundColor: expenditureColour,
-//       borderColor: expenditureColour,
-//       borderWidth: 1,
-//       data: totalExpenditureValues,
-//     }, {
-//       type: 'bar',
-//       label: "Net Income",
-//       backgroundColor: netIncomeColour,
-//       borderColor: netIncomeColour,
-//       borderWidth: 1,
-//       data: netIncomeValues
-//     }]
-//   };
-
-//   const displayChart = function displayChart(dom1) {
-//     const myChart = new Chart(dom1, {
-//       type: 'bar',
-//       data: chartData,
-//       options: {
-//         legend: {
-//           display: true,
-//           position: 'bottom'
-//         },
-//         scales: {
-//           yAxes: [{
-//             ticks: {
-//               // Create scientific notation labels
-//               callback: function(value, index, values) {
-//                 return currencyFormat(value);
-//               }
-//             }
-//           }],
-//           xAxes: [{
-//             ticks: {
-//               // Create scientific notation labels
-//               callback: function(value, index, values) {
-//                 return new Date(value).getFullYear();
-//               }
-//             }
-//           }]
-//         }
-//       }
-//     });
-//   };
-
-//   const splitStingAtCapitals = function splitStingAtCapitals(string) {
-//     return string.match(/[A-Z][a-z]+/g);
-//   };
-
-//   if (labels.length === 0) {
-//     return (<span></span>);
-//   }
-
-//   return (
-//     <div className="item">
-//         <div className="content">
-//             <a className="header">title</a>
-//             <div className="meta">
-//                 <span>description</span>
-//             </div>
-//             <div className="description">
-//                 <div className="ui fluid image">
-//                     <canvas id="myChart" className="history" ref={displayChart} width="66%"></canvas>
-//                 </div>
-//             </div>
-//             <div className="extra">
-//                 Additional Details
-//             </div>
-//         </div>
-//     </div>
-//   )
-// };
-
 class Submission extends Component {
   constructor(props) {
     super(props);
@@ -217,6 +118,7 @@ class Submission extends Component {
 
   componentWillMount() {
     const { title, data, description, colours } = this.props;
+    this.title = title, this.description = description;
     let dataCopy = data.slice(0);
     this.labels = dataCopy.map(val => val.FyEnd);
 
@@ -304,9 +206,9 @@ class Submission extends Component {
     return (
       <div className="item">
         <div className="content">
-          <a className="header">title</a>
+          <a className="header">{this.title}</a>
           <div className="meta">
-              <span>description</span>
+              <span>{this.description}</span>
           </div>
           <div className="description">
               <div className="ui fluid image">
@@ -322,80 +224,105 @@ class Submission extends Component {
   };
 };
 
-const Financial = function Financial({ title, data, description, colours }) {
-
-  let dataCopy = Object.assign({}, data);
-  const total = (function getAndremoveTotal(d) {
-    let res;
-    if (d.hasOwnProperty('TotalFunds')) {
-      res = parseInt(data.TotalFunds);
-      delete d.TotalFunds;
-    } else {
-      res = parseInt(data.Total);
-      delete d.Total;
-    }
-    return res;
-  })(dataCopy);
-
-  const labels = Object.keys(dataCopy);
-  const values = Object.values(dataCopy).map(x => parseInt(x));
-
-  const chartData = {
-    labels: labels,
-    datasets: [{
-      label: 'Income',
-      data: values,
-      backgroundColor: colours,
-      hoverBackgroundColor: colours
-    }]
+class Financial extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.splitStingAtCapitals = this.splitStingAtCapitals.bind(this);
+    this.displayLegend = this.displayLegend.bind(this);
   };
 
-  const displayChart = function displayChart(dom) {
-    const myChart = new Chart(dom, {
-      type: 'pie',
-      data: chartData,
-      options: {
-        legend: {
-          display: false,
-          position: 'right'
-        }
-      }
-    });
-  };
-
-  const splitStingAtCapitals = function splitStingAtCapitals(string) {
+  splitStingAtCapitals(string) {
     return string.match(/[A-Z][a-z]+/g);
   };
 
-  const DisplayLegend = function DisplayLegend() {
-    return labels.map(function(label, index) {
+  displayLegend() {
+    const self = this;
+    return this.labels.map(function(label, index) {
       return (
         <div className="item legend-item" key={index}>
             <a className="ui empty circular
                 label" style={{backgroundColor: colours[index]}}>
             </a>
-                {`${splitStingAtCapitals(label).join(" ")}: ${currencyFormat(values[index])}`}
+                {`${self.splitStingAtCapitals(label).join(" ")}: ${currencyFormat(self.values[index])}`}
         </div>
       )
     })
   };
 
-  if (labels.length === 0) {
-    return (<span></span>);
-  }
-  return (
-    <div className="item">
+  componentWillMount() {
+    const { title, data, description, colours } = this.props;
+    let dataCopy = Object.assign({}, data);
+
+    this.title = title;
+    this.total = (function getAndremoveTotal(d) {
+      let res;
+      if (d.hasOwnProperty('TotalFunds')) {
+        res = parseInt(data.TotalFunds);
+        delete d.TotalFunds;
+      } else {
+        res = parseInt(data.Total);
+        delete d.Total;
+      }
+      return res;
+    })(dataCopy);
+
+    this.labels = Object.keys(dataCopy);
+    this.values = Object.values(dataCopy).map(x => parseInt(x));
+
+    this.chartData = {
+      labels: this.labels,
+      datasets: [{
+        label: 'Income',
+        data: this.values,
+        backgroundColor: colours,
+        hoverBackgroundColor: colours
+      }]
+    };
+  };
+
+  componentDidMount() {
+    const self = this;
+
+    const displayChart = function displayChart(dom) {
+      const myChart = new Chart(dom, {
+        type: 'pie',
+        data: self.chartData,
+        options: {
+          legend: {
+            display: false,
+            position: 'right'
+          }
+        }
+      });
+    };
+
+
+
+    displayChart(this.financialChart);
+  };
+
+  componentWillUnmount() {
+    $(this.financialChart).remove();
+  };
+
+  render() {
+    if (this.labels.length === 0) {
+      return (<span></span>);
+    }
+    return (
+      <div className="item">
         <div className="ui small image">
-            <canvas id="myChart" ref={displayChart} width="350" height="350"></canvas>
+            <canvas id="myChart" ref={(input) => { this.financialChart = input; }} width="350" height="350"></canvas>
         </div>
         <div className="content">
-            <a className="header">{`${title}: ${currencyFormat(total)}`}</a>
+            <a className="header">{`${this.title}: ${currencyFormat(this.total)}`}</a>
             <div className="meta">
-                <span>{description}</span>
+                <span>{this.description}</span>
             </div>
             <div className="description">
                 <div className="ui divided selection list">
-                    {DisplayLegend()}
+                    {this.displayLegend()}
                 </div>
             </div>
             <div className="extra">
@@ -403,7 +330,8 @@ const Financial = function Financial({ title, data, description, colours }) {
             </div>
         </div>
     </div>
-  )
+    )
+  };
 };
 
 const EmailButton = function EmailButton({ emailAddress }) {
@@ -480,12 +408,7 @@ export default class CharityPage extends React.Component {
 
   componentWillMount() {};
 
-  componentWillUnmount() {
-    // const $charts = $('[id="myChart"]');
-    // console.log($charts);
-    // $charts.each(function(){this.remove()})
-    // $charts.remove();    
-  };
+  componentWillUnmount() {};
 
   render() {
 
@@ -501,7 +424,7 @@ export default class CharityPage extends React.Component {
 
     console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
-    
+
     if (loading) {
       return (
         <Loader message="Loading charity..." />
@@ -513,7 +436,7 @@ export default class CharityPage extends React.Component {
         <CharityNotFound />
       );
     };
-    
+
     const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${charity.postCode.replace(" ", "")}&zoom=14&size=500x500&key=%20AIzaSyB3Lx8yogEqNp8VB4l2tH88qTQwh8s2gGQ`;
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
@@ -691,9 +614,8 @@ export default class CharityPage extends React.Component {
                                             <h1 className="ui header overview">
                                             Financials
                                         </h1>
-                                            
                                             <div className="ui divided items">
-                                                {/*<Financial 
+                                                <Financial 
                                                     title={"Income"} 
                                                     data={charity.incoming}
                                                     description={"Income for the previous financial year"}
@@ -710,13 +632,13 @@ export default class CharityPage extends React.Component {
                                                     data={charity.funds}
                                                     description={"Funds"}
                                                     colours={colours} 
-                                                />*/}
+                                                />
                                                 <Submission 
                                                     title={"History"} 
                                                     data={charity.submission}
                                                     description={"Historical Income v Spending"}
                                                     colours={colours} 
-                                                />{/**/}
+                                                />
                                             </div>
                                         </div>
                                     </div>
