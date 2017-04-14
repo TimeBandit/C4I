@@ -19,7 +19,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    // fix menu when passed
     $(document)
       .ready(function() {
         // create sidebar and attach to menu open

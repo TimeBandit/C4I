@@ -673,7 +673,7 @@ export default class CharityPage extends React.Component {
                                                 <div className="item">
                                                   <i className="info circle icon"></i>
                                                   <div className="content">
-                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
+                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? currencyFormat((parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))) : <NoData text={"No Data"} />}
                                                   </div>
                                                 </div>
                                               </div>
