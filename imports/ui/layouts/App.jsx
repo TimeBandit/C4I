@@ -38,11 +38,11 @@ export default class App extends React.Component {
         <div className="ui vertical basic segment menu-segment">
             <div className="ui container">
                 <nav className="ui large inverted borderless menu">
-                    <Link className="item" to="/">Home</Link>
-                    <Link className="item" to="/about">About</Link>
-                    <Link className="item" to="/search">Search</Link>
-                    <Link className="item" to="/contact">Contact</Link>
-                    <a className="toc item mini-title">
+                    {/*<Link className="item" to="/">Home</Link>
+                        <Link className="item" to="/about">About</Link>
+                        <Link className="item" to="/search">Search</Link>
+                        <Link className="item" to="/contact">Contact</Link>*/}
+                    <a id="mini-title" className="toc item">
                                 Islamic Charity Book
                             </a>
                     <a id="burger" className="toc right item">

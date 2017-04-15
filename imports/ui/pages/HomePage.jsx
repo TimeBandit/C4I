@@ -27,11 +27,14 @@ export default class HomePage extends React.Component {
         <div className="ui vertical basic segment box overlay green-filter masthead">
             <div className="ui container">
                 <h1 className="header home-page-title">
-                    🕌<br/>
+                     🕌
+                 </h1>
+                {/*<h1 className="header home-page-title">
+                   <br/>
                     Islamic Charity
                     <br/>
                     Book
-                </h1>
+                </h1>*/}
                 <h2 className="motto">
                     The #1 resource on all Islamic <br/>
                     Charities registered in the UK
@@ -68,9 +71,9 @@ export default class HomePage extends React.Component {
                         and managed
                     </div>
                 </h1>
-                <button className="ui large green button">
+                <Link className="ui large green button" to="/search">
                     Search Now
-                </button>
+                </Link>
                 <h3 className="ui horizontal header divider">🕌</h3>
                 <h1 className="ui header">
                             About this site
@@ -81,9 +84,9 @@ export default class HomePage extends React.Component {
                                 a charity? Suggestions?
                             </div>
                         </h1>
-                <button className="ui large green button">
+                <Link className="ui large green button" to="/contact">
                     Contact Us
-                </button>
+                </Link>
             </div>
         </div>        
       </span>
