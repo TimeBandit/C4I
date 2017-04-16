@@ -17,7 +17,7 @@ export default class TopTotalExpenditureList extends React.Component {
     updateResult() {
       let self = this;
       Meteor.call('topTotalExpenditure', function(error, result) {
-        console.log('method call ', result);
+        // console.log('method call ', result);
         if (result.hasOwnProperty('CharityName')) {
           self.setState({ charity: result });
         };

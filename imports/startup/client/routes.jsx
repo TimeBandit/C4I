@@ -6,10 +6,6 @@ import { NavLink } from 'react-router-dom';
 // layout
 // keep file extension
 import App from '../../ui/layouts/App.jsx'
-// import AppContainer from '/imports/ui/containers/AppContainer.jsx';
-// 
-// route components
-// import HomePage from '../../ui/pages/HomePage'
 import AboutPage from '../../ui/pages/AboutPage'
 import SearchPage from '../../ui/pages/SearchPage'
 import SearchContainer from '../../ui/containers/SearchContainer'

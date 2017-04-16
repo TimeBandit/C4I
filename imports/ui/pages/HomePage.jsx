@@ -29,12 +29,6 @@ export default class HomePage extends React.Component {
                 <h1 className="header home-page-title">
                      🕌
                  </h1>
-                {/*<h1 className="header home-page-title">
-                   <br/>
-                    Islamic Charity
-                    <br/>
-                    Book
-                </h1>*/}
                 <h2 className="motto">
                     The #1 resource on all Islamic <br/>
                     Charities registered in the UK

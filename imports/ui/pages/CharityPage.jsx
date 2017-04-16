@@ -91,7 +91,6 @@ const Trustees = function Trustees(props) {
     let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
     TrusteeName = TrusteeName.toLowerCase();
     const path = genderIconPath(trusteeObject);
-    // console.table({index, TrusteeName, path});
     return (
       <Item 
             key={index} 
@@ -422,7 +421,6 @@ export default class CharityPage extends React.Component {
       textTransform: 'capitalize'
     }
 
-    console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
 
     if (loading) {

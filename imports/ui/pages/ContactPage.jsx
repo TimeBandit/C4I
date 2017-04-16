@@ -16,11 +16,11 @@ function sameDay() {
   // console.table({currentVal, today});
   if (currentVal) {
     if (currentVal === today) {
-      console.info('its the same day');
+      // console.info('its the same day');
       return true;
     }
   }
-  console.info('its NOT the same day');
+  // console.info('its NOT the same day');
   return false;
 };
 
@@ -31,7 +31,7 @@ const ContactPage = () => {
     message = null;
 
   function buttonPress(e) {
-    console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
+    // console.log(`form elements: ${name.value}, ${email.value}, ${message.value}`);
     Meteor.call('sendEmail', name.value, email.value, message.value);
   };
 

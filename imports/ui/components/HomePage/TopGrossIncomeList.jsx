@@ -18,7 +18,7 @@ export default class TopGrossIncomeList extends React.Component {
   updateResult() {
     let self = this;
     Meteor.call('topGrossIncome', function(error, result) {
-      console.log('method call ', result);
+      // console.log('method call ', result);
       if (result.hasOwnProperty('CharityName')) {
         self.setState({ charity: result });
       };

@@ -68,7 +68,7 @@ export default class SearchPage extends Component {
   }
 
   render() {
-    this.props.loading ? console.time(`pub loading`) : console.timeEnd(`pub loading`);
+    // this.props.loading ? console.time(`pub loading`) : console.timeEnd(`pub loading`);
     const { loading, resultExists, result } = this.props;
     if (this.props.result.length !== 0) {
       return (
