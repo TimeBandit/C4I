@@ -19,6 +19,7 @@ import MyFavouritesPage from '../../ui/pages/MyFavouritesPage'
 import HomePageContainer from '../../ui/containers/HomePageContainer'
 import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 import ThankYou from '../../ui/pages/ThankYou'
+import PageNotFound from '../../ui/pages/PageNotFound'
 
 export const renderRoutes = () => (
   <Router history={browserHistory}>
@@ -29,6 +30,7 @@ export const renderRoutes = () => (
       <Route path="contact" component={ContactPage} />
       <Route path="thankyou" component={ThankYou} />
       <Route path="search" component={SearchContainer} />
+      <Route path="*" component={PageNotFound}/>
     </Route>
   </Router>
 );
