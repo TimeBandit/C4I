@@ -5,7 +5,7 @@ import { Charities } from './charities';
 
 const transformer = function transformer(doc) {
   const data = JSON.parse(JSON.stringify(doc));
-  console.info(data);
+  // console.info(data);
   return {
     name: data.CharityName || "",
     address: data.Address || {},
