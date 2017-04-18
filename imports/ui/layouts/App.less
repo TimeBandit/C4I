@@ -33,9 +33,9 @@
     margin-bottom: 0;
     background-color: rgba(0, 0, 0, 0) !important;
     display: flex;
-    .toc.item {
-        display: none !important;
-    }
+    // #burger {
+    //     display: none !important;
+    // }
 }
 
 * {
@@ -124,6 +124,7 @@
         /* http://bit.ly/2jRvLen*/
         font-size: ~"calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
         font-size: ~"-moz-calc( 16px + (24 - 16) * ( 100vw - 320px) / ( 960 - 320))";
+        padding-bottom: 2rem;
     }
 }
 
@@ -131,6 +132,7 @@
     display: none !important;
     .header {
         color: @bgColor;
+        text-align: center;
     }
 }
 
@@ -181,20 +183,19 @@ button {
     }
 }
 
+#mini-title {
+    font-weight: 900 !important;
+    padding-left: 2rem !important;
+    font-family: 'Pacifico', cursive;
+    padding-top: 1.5rem;
+    font-size: ~"calc( 16px + (32 - 16) * ( 100vw - 320px) / ( 960 - 320))" !important;
+                font-size: ~"-moz-calc( 16px + (32 - 16) * ( 100vw - 320px) / ( 960 - 320))" !important;
+    // display: block;
+}
+
 @media only screen and (max-width: 700px) {
-    .ui.large.menu {
-        .item {
-            display: none;
-        }
-        .toc.item {
-            display: block !important;
-        }
-        .mini-title {
-            font-weight: 900 !important;
-            padding-left: 2rem !important;
-            // font-family: "Raleway" !important;
-            padding-top: 1.5rem;
-        }
+    #burger {
+        display: block !important;
     }
     .masthead {
         display: none;
@@ -305,8 +306,9 @@ button {
     width: 66%;
     height: 3rem;
     font-size: 2rem;
-};
+}
 
+;
 .search-settings {
     display: none !important;
 }

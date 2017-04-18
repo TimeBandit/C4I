@@ -91,7 +91,6 @@ const Trustees = function Trustees(props) {
     let { RelatedCharitiesCount, TrusteeName, TrusteeNumber } = trusteeObject;
     TrusteeName = TrusteeName.toLowerCase();
     const path = genderIconPath(trusteeObject);
-    // console.table({index, TrusteeName, path});
     return (
       <Item 
             key={index} 
@@ -422,7 +421,6 @@ export default class CharityPage extends React.Component {
       textTransform: 'capitalize'
     }
 
-    console.log('CHARITY PAGE ', this.props)
     const { charity, loading } = this.props;
 
     if (loading) {
@@ -673,7 +671,7 @@ export default class CharityPage extends React.Component {
                                                 <div className="item">
                                                   <i className="info circle icon"></i>
                                                   <div className="content">
-                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? (parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors)) : <NoData text={"No Data"} />}
+                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? currencyFormat((parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))) : <NoData text={"No Data"} />}
                                                   </div>
                                                 </div>
                                               </div>

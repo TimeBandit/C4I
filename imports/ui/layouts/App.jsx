@@ -8,13 +8,6 @@ import './App.less';
 
 // components..
 import NavMenu from '../components/NavMenu'
-// import SearchContainer from '../containers/SearchContainer';
-
-// const NavLink = (props) => (
-//   <a className="item">
-//     <Link {...props} style={{ color: 'inherit' }}/>
-//   </a>
-// )
 
 export default class App extends React.Component {
 
@@ -26,7 +19,6 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    // fix menu when passed
     $(document)
       .ready(function() {
         // create sidebar and attach to menu open
@@ -36,29 +28,24 @@ export default class App extends React.Component {
   }
 
   componentWillUnmount() {
-      $('.ui.sidebar').remove();;
+    $('.ui.sidebar').remove();
   }
 
   render() {
-
-    // const { children } = this.props;
-    // const clonedChildren = children && React.cloneElement(children, {
-    //   key: location.pathname,
-    // });
 
     return (
       <span>
         <div className="ui vertical basic segment menu-segment">
             <div className="ui container">
                 <nav className="ui large inverted borderless menu">
-                    <Link className="item" to="/">Home</Link>
-                    <Link className="item" to="/about">About</Link>
-                    <Link className="item" to="/search">Search</Link>
-                    <Link className="item" to="/contact">Contact</Link>
-                    <a className="toc item mini-title">
+                    {/*<Link className="item" to="/">Home</Link>
+                        <Link className="item" to="/about">About</Link>
+                        <Link className="item" to="/search">Search</Link>
+                        <Link className="item" to="/contact">Contact</Link>*/}
+                    <a id="mini-title" className="toc item">
                                 Islamic Charity Book
                             </a>
-                    <a className="toc right item">
+                    <a id="burger" className="toc right item">
                         <i className="white sidebar big icon"></i>
                     </a>
                 </nav>
@@ -71,10 +58,10 @@ export default class App extends React.Component {
                     <div className="three wide column">
                         <h4 className="ui inverted header">🌙</h4>
                         <div className="ui inverted link list">
-                            <a href="#" className="item">Home</a>
-                            <a href="#" className="item">About</a>
-                            <a href="#" className="item">Search</a>
-                            <a href="#" className="item">Contact</a>
+                            <Link className="item" to="/">Home</Link>
+                            <Link className="item" to="/about">About</Link>
+                            <Link className="item" to="/search">Search</Link>
+                            <Link className="item" to="/contact">Contact</Link>
                         </div>
                     </div>
                     <div className="three wide computer tablet only column">
