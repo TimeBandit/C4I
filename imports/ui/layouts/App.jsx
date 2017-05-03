@@ -43,7 +43,7 @@ export default class App extends React.Component {
                         <Link className="item" to="/search">Search</Link>
                         <Link className="item" to="/contact">Contact</Link>*/}
                     <a id="mini-title" className="toc item">
-                                Islamic Charity Book
+                                islamiccharities.org.uk
                             </a>
                     <a id="burger" className="toc right item">
                         <i className="white sidebar big icon"></i>
