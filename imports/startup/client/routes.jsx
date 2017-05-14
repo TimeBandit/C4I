@@ -17,8 +17,16 @@ import CharityPageContainer from '../../ui/containers/CharityPageContainer'
 import ThankYou from '../../ui/pages/ThankYou'
 import PageNotFound from '../../ui/pages/PageNotFound'
 
+import * as ReactGA from 'react-ga';
+ReactGA.initialize('UA-39390892-9');
+
+function logPageView() {
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+}
+
 export const renderRoutes = () => (
-  <Router history={browserHistory}>
+  <Router history={browserHistory} onUpdate={logPageView}>
     <Route path="/" component={App}>
       <IndexRoute component={HomePageContainer} />
       <Route path="charity/:registeredCharityNumber" component={CharityPageContainer} />

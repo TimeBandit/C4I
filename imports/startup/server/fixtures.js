@@ -2,7 +2,7 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/charities/charities.js';
-import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, sleep, getCharityByRegisteredCharityNumber } from '../../api/charities/server/core';
+import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, sleep, getCharityByRegisteredCharityNumber} from '../../api/charities/server/core';
 // 
 const searchTerms = Meteor.settings.private.search_terms;
 const settings = Meteor.settings;
@@ -12,31 +12,7 @@ const APIKey = settings.private.charity_commission.api_key;
 // 
 import { Mongo } from 'meteor/mongo';
 // 
-const Tasks = new Mongo.Collection('tasks');
-Tasks.insert({ text: "1", createdAt: new Date() });
-// Tasks.insert({ text: "2", createdAt: new Date() });
-// Tasks.insert({ text: "3", createdAt: new Date() });
-// Tasks.insert({ text: "4", createdAt: new Date() });
-// Charities.insert({ text: "5", createdAt: new Date() });
-// 
-
 Meteor.startup(function() {
-
-  // google analytics tracking
-  (function(i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
-    i[r] = i[r] || function() {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-  ga('create', 'UA-39390892-9', 'auto');
-  ga('send', 'pageview');
 
   // init the db here...
   console.log(`Meteor started`);

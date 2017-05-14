@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
-import { parseAdressObject, currencyFormat } from '../helpers/helpers'
-import Chart from 'chart.js'
-import Loader from '../components/Loader'
+import React, { Component } from 'react';
+import { parseAdressObject, currencyFormat } from '../helpers/helpers';
+import Chart from 'chart.js';
+import Loader from '../components/Loader';
+import ReactDisqusComments from 'react-disqus-comments';
+// var ReactDisqusComments = require('react-disqus-comments');
+console.log(ReactDisqusComments);
 /*---  Colors  ---*/
 const red = "#FF695E";
 const orange = "#FF851B";
@@ -396,6 +399,30 @@ const CharityNotFound = function CharityNotFound() {
   )
 };
 
+const Comments = function Comments({ charity }) {
+
+  const handleNewComment = function handleNewComment(comment) {
+    console.log(comment.text);
+  };
+  
+  console.log(
+    typeof charity.registeredCharityNumber.toString(),
+    typeof charity.name,
+    typeof `https://www.islamiccharities.org.uk/charity/${charity.registeredCharityNumber}`
+  )
+
+  return (
+    <ReactDisqusComments
+        shortname="http-islamiccharities-org-uk"
+        identifier={charity.registeredCharityNumber.toString()}
+        title={charity.name}
+        url={`https://www.islamiccharities.org.uk/charity/${charity.registeredCharityNumber}`}
+        category_id=""
+        onNewComment={handleNewComment}
+    />
+  )
+};
+
 export default class CharityPage extends React.Component {
 
   constructor(props) {
@@ -439,6 +466,8 @@ export default class CharityPage extends React.Component {
     const mapStyle = {
       backgroundImage: `url(${mapUrl})`
     };
+
+
 
     return (
       <span>
@@ -681,7 +710,7 @@ export default class CharityPage extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+          </div>
           <div className="ui vertical basic segment">
                         <div className="ui container">
                             <div className="ui equal width stackable grid">
@@ -730,6 +759,11 @@ export default class CharityPage extends React.Component {
                                 </div>
                             </div>
                         </div>
+          </div>
+          <div className="ui vertical basic segment">
+            <div className="ui container">
+              <Comments charity={charity}/>
+            </div>
           </div>
       </span>
     )
