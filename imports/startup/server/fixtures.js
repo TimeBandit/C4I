@@ -3,6 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 import { Charities, RegistrationHistorySchema, AddressSchema, TrusteesSchema } from '../../api/charities/charities.js';
 import { GetCharitiesByKeywordList, buildCharNumList, fetchAllCharities, sleep, getCharityByRegisteredCharityNumber} from '../../api/charities/server/core';
+// const rspec = Charities.find({EmailAddress:{$ne:""}},{EmailAddress:1, CharityNumber:1, _id:0}).fetch()
+// console.log(rspec)
 // 
 const searchTerms = Meteor.settings.private.search_terms;
 const settings = Meteor.settings;

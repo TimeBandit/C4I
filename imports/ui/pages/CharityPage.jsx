@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 import Loader from '../components/Loader';
 import ReactDisqusComments from 'react-disqus-comments';
 // var ReactDisqusComments = require('react-disqus-comments');
-console.log(ReactDisqusComments);
+// console.log(ReactDisqusComments);
 /*---  Colors  ---*/
 const red = "#FF695E";
 const orange = "#FF851B";
@@ -404,12 +404,12 @@ const Comments = function Comments({ charity }) {
   const handleNewComment = function handleNewComment(comment) {
     console.log(comment.text);
   };
-  
-  console.log(
-    typeof charity.registeredCharityNumber.toString(),
-    typeof charity.name,
-    typeof `https://www.islamiccharities.org.uk/charity/${charity.registeredCharityNumber}`
-  )
+
+  // console.log(
+  //   typeof charity.registeredCharityNumber.toString(),
+  //   typeof charity.name,
+  //   typeof `https://www.islamiccharities.org.uk/charity/${charity.registeredCharityNumber}`
+  // )
 
   return (
     <ReactDisqusComments
@@ -633,83 +633,83 @@ export default class CharityPage extends React.Component {
               </div>
           </div>
           <div className="ui vertical basic segment">
-                        <div className="ui container">
-                            <div className="ui equal width stackable grid">
-                                <div className="ui stretched row">
-                                    <div className="eleven wide column">
-                                        <div className="ui basic segment">
-                                            <h1 className="ui header overview">
-                                            Financials
-                                        </h1>
-                                            <div className="ui divided items">
-                                                <Financial 
-                                                    title={"Income"} 
-                                                    data={charity.incoming}
-                                                    description={"Income for the previous financial year"}
-                                                    colours={colours} 
-                                                />
-                                               <Financial 
-                                                    title={"Expenditure"} 
-                                                    data={charity.expended}
-                                                    description={"What money was spent on during the previous financial year"}
-                                                    colours={colours} 
-                                                />
-                                                 <Financial 
-                                                    title={"Funds"} 
-                                                    data={charity.funds}
-                                                    description={"Funds"}
-                                                    colours={colours} 
-                                                />
-                                                <Submission 
-                                                    title={"History"} 
-                                                    data={charity.submission}
-                                                    description={"Historical Income v Spending"}
-                                                    colours={colours} 
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="column">
-                                          <div className="ui inverted segment charity-main-sidebar">
-                                            <div className="ui basic segment">
-                                              <div className="ui mini list numbers">
-                                                  <div className="item">
-                                                    <i className="info circle icon"></i>
-                                                    <div className="content ">
-                                                      Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                    </div>
-                                                  </div>
-                                                  <div className="item">
-                                                    <i className="info circle icon"></i>
-                                                    <div className="content">
-                                                      Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
-                                                    </div>
-                                                </div>
-                                                <div className="item">
-                                                  <i className="info circle icon"></i>
-                                                  <div className="content">
-                                                    Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
-                                                  </div>
-                                                </div>
-                                                <div className="item">
-                                                  <i className="info circle icon"></i>
-                                                  <div className="content">
-                                                    Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
-                                                  </div>
-                                                </div>
-                                                <div className="item">
-                                                  <i className="info circle icon"></i>
-                                                  <div className="content">
-                                                      Total Liability: {Object.keys(charity.assets).length !== 0 ? currencyFormat((parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))) : <NoData text={"No Data"} />}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                      </div>
-                                </div>
+            <div className="ui container">
+              <div className="ui equal width stackable grid">
+                <div className="ui stretched row">
+                  <div className="eleven wide column">
+                    <div className="ui basic segment">
+                        <h1 className="ui header overview">
+                        Financials
+                    </h1>
+                      <div className="ui divided items">
+                        <Financial 
+                            title={"Income"} 
+                            data={charity.incoming}
+                            description={"Income for the previous financial year"}
+                            colours={colours} 
+                        />
+                       <Financial 
+                            title={"Expenditure"} 
+                            data={charity.expended}
+                            description={"What money was spent on during the previous financial year"}
+                            colours={colours} 
+                        />
+                         <Financial 
+                            title={"Funds"} 
+                            data={charity.funds}
+                            description={"Funds"}
+                            colours={colours} 
+                        />
+                        <Submission 
+                            title={"History"} 
+                            data={charity.submission}
+                            description={"Historical Income v Spending"}
+                            colours={colours} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column">
+                    <div className="ui inverted segment charity-main-sidebar">
+                      <div className="ui basic segment">
+                        <div className="ui mini list numbers">
+                            <div className="item">
+                              <i className="info circle icon"></i>
+                              <div className="content ">
+                                Own Use Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalFixedAssets) + parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                              </div>
                             </div>
+                            <div className="item">
+                              <i className="info circle icon"></i>
+                              <div className="content">
+                                Long Term Investments: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.FixedAssetInvestments))) : <NoData text={"No Data"} />}
+                              </div>
+                          </div>
+                          <div className="item">
+                            <i className="info circle icon"></i>
+                            <div className="content">
+                              Pension Scheme Asset Liability: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.PensionFundAssets))) : <NoData text={"No Data"} />}
+                            </div>
+                          </div>
+                          <div className="item">
+                            <i className="info circle icon"></i>
+                            <div className="content">
+                              Other Assets: {Object.keys(charity.assets).length !== 0 ? (currencyFormat(parseInt(charity.assets.TotalCurrentAssets))) : <NoData text={"No Data"} />}
+                            </div>
+                          </div>
+                          <div className="item">
+                            <i className="info circle icon"></i>
+                            <div className="content">
+                                Total Liability: {Object.keys(charity.assets).length !== 0 ? currencyFormat((parseInt(charity.assets.CreditorsDueWithinOneYear) + parseInt(charity.assets.LongTermCreditors))) : <NoData text={"No Data"} />}
+                            </div>
+                          </div>
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="ui vertical basic segment">
                         <div className="ui container">
