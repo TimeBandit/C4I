@@ -66,10 +66,10 @@ export default class App extends React.Component {
                     </div>
                     <div className="seven wide column">
                         <div id="mc_embed_signup" style={{ clear: "left"}}>
-                            <form action="//islamiccharities.us15.list-manage.com/subscribe/post?u=ad50935f54185f564616bf36c&amp;id=e6ccff54c8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate ui form" target="_blank" noValidate>
+                            <form action="//islamiccharities.us15.list-manage.com/subscribe/post?u=ad50935f54185f564616bf36c&amp;id=e6ccff54c8" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="ui form validate" target="_blank" noValidate>
                                 <div id="mc_embed_signup_scroll">
                                     <label htmlFor="mce-EMAIL">Subscribe to our mailing list</label>
-                                    <input type="email" value="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="email address" required />
+                                    <input type="email" defaultValue="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="email address" required />
                                     <div style={{position: 'absolute', left: '-5000px'}} aria-hidden="true">
                                         <input type="text" name="b_ad50935f54185f564616bf36c_e6ccff54c8" tabIndex="-1" value="" />
                                     </div>

@@ -17,16 +17,26 @@ const withSubmissionsOnly = function withSubmissionsOnly(x) {
 };
 
 Meteor.methods({
-  // getSearchContent() {
-  //   let cursor = Charities.find({}, { fields: { _id: 1, CharityName: 1, RegisteredCharityNumber: 1 } })
-  //   return cursor.fetch().map(function(el, idx, arr) {
-  //     return {
-  //       title: el.CharityName,
-  //       description: (el.RegisteredCharityNumber).toString()
-  //     }
-  //   })
-  // },
+  hi(){
+    console.log('Howdy Doody');
+    return 2;
+  },
+// const rspec = Charities.find({EmailAddress:{$ne:""}},{EmailAddress:1, CharityNumber:1, _id:0}).fetch()  
+  getCharityContacts(num){
+    const res = Charities.find({EmailAddress:{$ne:""}}, {
+      fields: {
+        "ContactName.CharityRoleName":1, 
+        EmailAddress:1, 
+        CharityNumber:1,
+        _id:0}
+    }).fetch();
 
+    if (num) {
+      return res.slice(0,num);
+    };
+    return res;
+
+  },
   sendEmail(name, email, message) {
     var server = emailjs.server.connect({
       user: "heptopod@outlook.com",
@@ -44,7 +54,6 @@ Meteor.methods({
     }, function(err,
       message) { console.log(err || message); });
   },
-
   searchTableData() {
 
     const res = Charities.find({}, {
